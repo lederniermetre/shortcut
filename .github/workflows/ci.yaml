@@ -1,0 +1,38 @@
+---
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Golang
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: "go.mod"
+      - name: Prepare
+        run: |
+          download_url=$(curl -s https://api.github.com/repos/go-swagger/go-swagger/releases/latest | \
+            jq -r '.assets[] | select(.name | contains("'"$(uname | tr '[:upper:]' '[:lower:]')"'_amd64")) | .browser_download_url')
+          sudo curl -o /usr/local/bin/swagger -L'#' "$download_url"
+          sudo chmod +x /usr/local/bin/swagger
+          swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
+      - name: Build
+        run: |
+          CGO_ENABLED=0 go build -ldflags="-s -w" -installsuffix nocgo -o bin/shortchut cmd/cli/main.go
