@@ -1,6 +1,6 @@
 module github.com/lederniermetre/shortcut
 
-go 1.21.0
+go 1.21
 
 require (
 	github.com/go-openapi/errors v0.20.4
