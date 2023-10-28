@@ -100,7 +100,7 @@ func main() {
 		)
 
 		if len(it.OwnerIds) == 0 {
-			slog.Warn(fmt.Sprintf("Story has no owners"), slog.String("name", *it.Name))
+			slog.Warn("Story has no owners", slog.String("name", *it.Name))
 			continue
 		}
 
