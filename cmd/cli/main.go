@@ -95,7 +95,7 @@ func main() {
 		estimate := *it.Estimate
 		if len(it.OwnerIds) > 1 {
 			slog.Debug("Story shared, split estimate", slog.String("name", *it.Name))
-			estimate = estimate / 2
+			estimate = estimate / int64(len(it.OwnerIds))
 		}
 
 		for _, ownedId := range it.OwnerIds {
