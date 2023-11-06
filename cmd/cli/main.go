@@ -11,17 +11,13 @@ import (
 
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
+	"github.com/lederniermetre/shortcut/pkg/shortcut"
 	apiclient "github.com/lederniermetre/shortcut/pkg/shortcut/gen/client"
 	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/client/operations"
 	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/models"
 
 	"gitlab.com/greyxor/slogor"
 )
-
-type StoryPostponed struct {
-	count int
-	url   string
-}
 
 func main() {
 	iterationName := flag.String("iteration", "Ops", "Iteration title you are looking for")
@@ -92,7 +88,7 @@ func main() {
 	}
 
 	ownersUUID := map[strfmt.UUID]int64{}
-	postponedStories := map[string]StoryPostponed{}
+	postponedStories := map[string]shortcut.StoryPostponed{}
 	for _, it := range allStories.Payload {
 		if it.Estimate == nil {
 			slog.Warn(fmt.Sprintf("OMG no estimate on story: %s", *it.Name))
@@ -127,7 +123,7 @@ func main() {
 		}
 
 		if len(it.PreviousIterationIds) > 0 {
-			postponedStories[*it.Name] = StoryPostponed{count: len(it.PreviousIterationIds), url: *it.AppURL}
+			postponedStories[*it.Name] = shortcut.StoryPostponed{Count: len(it.PreviousIterationIds), Url: *it.AppURL}
 		}
 	}
 
@@ -156,12 +152,12 @@ func main() {
 	}
 
 	sort.SliceStable(keys, func(i, j int) bool {
-		return postponedStories[keys[i]].count > postponedStories[keys[j]].count
+		return postponedStories[keys[i]].Count > postponedStories[keys[j]].Count
 	})
 
 	for _, k := range keys {
-		slog.Info(fmt.Sprintf("%s has been postponed", k), slog.Int("count", postponedStories[k].count))
-		slog.Debug("access story", slog.String("url", postponedStories[k].url))
+		slog.Info(fmt.Sprintf("%s has been postponed", k), slog.Int("count", postponedStories[k].Count))
+		slog.Debug("access story", slog.String("url", postponedStories[k].Url))
 	}
 
 }
