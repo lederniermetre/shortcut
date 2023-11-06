@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"sort"
 	"time"
 
 	httptransport "github.com/go-openapi/runtime/client"
@@ -16,6 +17,11 @@ import (
 
 	"gitlab.com/greyxor/slogor"
 )
+
+type StoryPostponed struct {
+	count int
+	url   string
+}
 
 func main() {
 	iterationName := flag.String("iteration", "Ops", "Iteration title you are looking for")
@@ -86,6 +92,7 @@ func main() {
 	}
 
 	ownersUUID := map[strfmt.UUID]int64{}
+	postponedStories := map[string]StoryPostponed{}
 	for _, it := range allStories.Payload {
 		if it.Estimate == nil {
 			slog.Warn(fmt.Sprintf("OMG no estimate on story: %s", *it.Name))
@@ -118,7 +125,13 @@ func main() {
 				ownersUUID[ownedId] = estimate
 			}
 		}
+
+		if len(it.PreviousIterationIds) > 0 {
+			postponedStories[*it.Name] = StoryPostponed{count: len(it.PreviousIterationIds), url: *it.AppURL}
+		}
 	}
+
+	slog.Info("===== Load by members =====")
 
 	for ownerUUID, load := range ownersUUID {
 		getMemberParams := &operations.GetMemberParams{
@@ -134,4 +147,21 @@ func main() {
 
 		slog.Info(fmt.Sprintf("%s has %d of load", *ownerInfo.Payload.Profile.Name, load))
 	}
+
+	slog.Info("===== Stories postponed =====")
+
+	keys := make([]string, 0, len(postponedStories))
+	for key := range postponedStories {
+		keys = append(keys, key)
+	}
+
+	sort.SliceStable(keys, func(i, j int) bool {
+		return postponedStories[keys[i]].count > postponedStories[keys[j]].count
+	})
+
+	for _, k := range keys {
+		slog.Info(fmt.Sprintf("%s has been postponed", k), slog.Int("count", postponedStories[k].count))
+		slog.Debug("access story", slog.String("url", postponedStories[k].url))
+	}
+
 }
