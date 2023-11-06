@@ -9,12 +9,11 @@ import (
 	"sort"
 	"time"
 
-	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 	"github.com/lederniermetre/shortcut/pkg/shortcut"
-	apiclient "github.com/lederniermetre/shortcut/pkg/shortcut/gen/client"
 	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/client/operations"
 	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/models"
+	"github.com/lederniermetre/shortcut/pkg/utils"
 
 	"gitlab.com/greyxor/slogor"
 )
@@ -24,21 +23,10 @@ func main() {
 	debug := flag.Bool("debug", false, "Display debug logs")
 	flag.Parse()
 
-	logLevel := slog.LevelInfo
-	if *debug {
-		logLevel = slog.LevelDebug
-	}
+	utils.SetLogger(*debug)
 
-	slog.SetDefault(slog.New(slogor.NewHandler(os.Stderr, &slogor.Options{
-		TimeFormat: time.Stamp,
-		Level:      logLevel,
-		ShowSource: true,
-	})))
-
-	// create the transport
-	transport := httptransport.New("api.app.shortcut.com", "", nil)
-	clientSC := apiclient.New(transport, strfmt.Default)
-	apiKeyHeaderAuth := httptransport.APIKeyAuth("Shortcut-Token", "header", os.Getenv("SHORTCUT_API_TOKEN"))
+	clientSC := shortcut.GetClient()
+	apiKeyHeaderAuth := shortcut.GetAuth()
 
 	searchIterationsParams := &operations.SearchIterationsParams{}
 	search := &models.Search{
@@ -54,9 +42,6 @@ func main() {
 	}
 
 	searchIterationsParams.Search = search
-
-	// Hack to parse end_date "2023-01-19"
-	strfmt.DateTimeFormats = append(strfmt.DateTimeFormats, time.DateOnly)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 2000*time.Millisecond)
 	defer cancel()
