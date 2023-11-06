@@ -43,7 +43,7 @@ func main() {
 
 	searchIterationsParams.Search = search
 
-	ctx, cancel := context.WithTimeout(context.Background(), 2000*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), 5000*time.Millisecond)
 	defer cancel()
 
 	searchIterationsParams.SetContext(ctx)
