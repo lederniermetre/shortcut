@@ -7,6 +7,7 @@ Small helper for missing features on shortcut.com
 ## Features
 
 - Allow to get by users the addition of estimate
+- Display stories not finish in the previous iteration
 
 ## Usage
 
