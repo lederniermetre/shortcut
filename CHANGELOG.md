@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.1](https://github.com/lederniermetre/shortcut/compare/v1.0.0...v1.0.1) (2023-11-07)
+
+
+### 🐞 Bug Fixes
+
+* **goreleaser:** handle go version ([6cea703](https://github.com/lederniermetre/shortcut/commit/6cea703adcbf0c6b0a562c3cb71a9ccb49fc7865))
+
+
+### 🧰 Other
+
+* handling specific section for refactor ([106e321](https://github.com/lederniermetre/shortcut/commit/106e321f598647c9a00f14c5e56094f2dc32c457))
+
 ## 1.0.0 (2023-11-07)
 
 
