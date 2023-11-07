@@ -12,19 +12,19 @@ Small helper for missing features on shortcut.com
 ## Usage
 
 ```bash
-go run cmd/cli/main.go -iteration "Iteration name" -debug
+shortcut help
 ```
 
 Parameters
 
-- `-iterration` is a search pattern.
-- `-debug` set Debug level on logger
+- `--iteration` is a search pattern.
+- `--debug` set Debug level on logger
 - `SHORTCUT_API_TOKEN` environment variable
 
 ## Example
 
 ```bash
-go run cmd/cli/main.go -iteration "Ops 61" -debug
+shortcut iteration stats members
 Oct 29 11:48:19 INFO  cmd/cli/main.go:75 Retrieve iteration informations name="#61 OPS"
 Oct 29 11:48:19 DEBUG cmd/cli/main.go:95 Compute story name="[IaC] Includes defaults in provider" owners="0" estimate="3"
 Oct 29 11:48:19 WARN  cmd/cli/main.go:103 Story has no owners name="[IaC] Includes defaults in provider"
