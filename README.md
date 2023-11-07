@@ -9,6 +9,10 @@ Small helper for missing features on shortcut.com
 - Allow to get by users the addition of estimate
 - Display stories not finish in the previous iteration
 
+## Installation
+
+Get latest version from [release page](https://github.com/lederniermetre/shortcut/releases) or run `curl https://raw.githubusercontent.com/lederniermetre/shortcut/main/install.sh | bash`.
+
 ## Usage
 
 ```bash
