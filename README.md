@@ -19,6 +19,7 @@ Parameters
 
 - `-iterration` is a search pattern.
 - `-debug` set Debug level on logger
+- `SHORTCUT_API_TOKEN` environment variable
 
 ## Example
 
