@@ -22,7 +22,7 @@ jobs:
               {"type":"revert","section":"🐞 Bug Fixes","hidden":false},
               {"type":"security","section":"🐞 Bug Fixes","hidden":false},
               {"type":"perf","section":"✨ Polish","hidden":false},
-              {"type":"refactor","section":"✨ Polish","hidden":false},
+              {"type":"refactor","section":"🛠️ Refactor","hidden":false},
               {"type":"style","section":"✨ Polish","hidden":false},
               {"type":"build","section":"🧰 Other","hidden":false},
               {"type":"chore","section":"🧰 Other","hidden":false},
