@@ -1,14 +1,20 @@
 package stats
 
 import (
+	"log/slog"
+
 	"github.com/spf13/cobra"
+	"gitlab.com/greyxor/slogor"
 )
 
 var statsCmd = &cobra.Command{
 	Use:   "stats",
 	Short: "Compute statistics for dedicated iteration",
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Usage()
+		err := cmd.Usage()
+		if err != nil {
+			slog.Error("Can not display usage", slogor.Err(err))
+		}
 	},
 }
 
