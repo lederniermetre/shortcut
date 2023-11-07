@@ -8,10 +8,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/go-openapi/strfmt"
 	"github.com/lederniermetre/shortcut/pkg/shortcut"
 	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/client/operations"
-	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/models"
 	"github.com/spf13/cobra"
 	"gitlab.com/greyxor/slogor"
 )
@@ -34,56 +32,21 @@ var storiesCmd = &cobra.Command{
 		clientSC := shortcut.GetClient()
 		apiKeyHeaderAuth := shortcut.GetAuth()
 
-		searchIterationsParams := &operations.SearchIterationsParams{}
-		search := &models.Search{
-			Detail:   "slim",
-			Query:    &iterationName,
-			PageSize: 1,
-		}
-
-		err := search.Validate(strfmt.Default)
-		if err != nil {
-			slog.Error("Search is invalid", slogor.Err(err))
-			os.Exit(1)
-		}
-
-		searchIterationsParams.Search = search
-
 		ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 		defer cancel()
 
-		searchIterationsParams.SetContext(ctx)
+		iteration := shortcut.RetrieveIteration(iterationName)
 
-		searchResult, err := clientSC.Operations.SearchIterations(searchIterationsParams, apiKeyHeaderAuth)
-		if err != nil {
-			slog.Error("Can not retrieve search", slogor.Err(err), slog.String("name", iterationName))
-			os.Exit(1)
-		}
+		slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 
-		if len(searchResult.Payload.Data) < 1 {
-			slog.Error("Search has retrieve no result", slog.String("name", iterationName))
-			os.Exit(1)
-		}
-
-		slog.Info("Work on iteration", slog.String("name", *searchResult.Payload.Data[0].Name))
-
-		listIterationStoriesParams := &operations.ListIterationStoriesParams{
-			IterationPublicID: *searchResult.Payload.Data[0].ID,
-		}
-		listIterationStoriesParams.SetContext(ctx)
-
-		allStories, err := clientSC.Operations.ListIterationStories(listIterationStoriesParams, apiKeyHeaderAuth)
-		if err != nil {
-			slog.Error("Can not retrieve iteration", slogor.Err(err))
-			os.Exit(1)
-		}
+		allStories := shortcut.StoriesByIteration(*iteration.ID)
 
 		postponedStories := map[string]shortcut.StoryPostponed{}
 		epicsStats := map[int64]shortcut.EpicsStats{}
 		workflowStates := map[int64]string{}
 		var totalEstimate int64 = 0
 
-		for _, story := range allStories.Payload {
+		for _, story := range allStories {
 			epicID := *story.EpicID
 			workflowID := *story.WorkflowID
 			workflowStateID := *story.WorkflowStateID
@@ -168,7 +131,7 @@ var storiesCmd = &cobra.Command{
 
 		slog.Info("===== Global stats =====")
 
-		slog.Info("Number of stories", slog.Int("count", len(allStories.Payload)))
+		slog.Info("Number of stories", slog.Int("count", len(allStories)))
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 
 		slog.Info("===== Epics =====")
