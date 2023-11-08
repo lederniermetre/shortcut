@@ -61,7 +61,6 @@ func RetrieveIteration(name string) models.IterationSlim {
 
 	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
-
 	searchIterationsParams.SetContext(ctx)
 
 	searchResult, err := GetClient().Operations.SearchIterations(searchIterationsParams, GetAuth())
@@ -97,7 +96,6 @@ func StoriesByIteration(iterationID int64) []*models.StorySlim {
 }
 
 func GetMember(uuid strfmt.UUID) models.Member {
-
 	getMemberParams := &operations.GetMemberParams{
 		MemberPublicID: uuid,
 	}
