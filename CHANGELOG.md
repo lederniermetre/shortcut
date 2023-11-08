@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.1.0](https://github.com/lederniermetre/shortcut/compare/v1.0.2...v1.1.0) (2023-11-08)
+
+
+### 🚀 Features
+
+* add bash install ([7eb4b05](https://github.com/lederniermetre/shortcut/commit/7eb4b0586ab514df84624c9309adff58a065eb54))
+
+
+### 🛠️ Refactor
+
+* **shortcut:** start to mutualize code ([85e45bc](https://github.com/lederniermetre/shortcut/commit/85e45bca1a2206f4932f61b01113d9f167b16b0c))
+* **shortcut:** use global CONST ([b6ceb65](https://github.com/lederniermetre/shortcut/commit/b6ceb65f274a39d2fef93a9d3074ffbef0db4fe4))
+
+
+### 🧰 Other
+
+* **shortcut:** trim spaces ([02371ca](https://github.com/lederniermetre/shortcut/commit/02371ca565cfead3ee9e19ac77a4ce5e5da862c2))
+* **tools:** add taskfile ([085a076](https://github.com/lederniermetre/shortcut/commit/085a0769b8266017625bf4248acad13dfd9980fc))
+
+
+### 📚 Documentation
+
+* **README:** add installation instruction ([cb1278b](https://github.com/lederniermetre/shortcut/commit/cb1278b4cf1a3c7e6e2803bc95882367dfa6608b))
+* **README:** update with cobra migration ([22edbde](https://github.com/lederniermetre/shortcut/commit/22edbdecd2d9afced8c927a739bd8b02eb663bd7))
+
 ## [1.0.2](https://github.com/lederniermetre/shortcut/compare/v1.0.1...v1.0.2) (2023-11-07)
 
 
