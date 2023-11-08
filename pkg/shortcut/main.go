@@ -16,6 +16,8 @@ import (
 	"gitlab.com/greyxor/slogor"
 )
 
+const CTX_TIMEOUT = 5000 * time.Millisecond
+
 var clientSC *apiclient.ShortcutAPI
 
 func GetClient() *apiclient.ShortcutAPI {
@@ -57,7 +59,7 @@ func RetrieveIteration(name string) models.IterationSlim {
 
 	searchIterationsParams.Search = search
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5000*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
 
 	searchIterationsParams.SetContext(ctx)
@@ -81,7 +83,7 @@ func StoriesByIteration(iterationID int64) []*models.StorySlim {
 		IterationPublicID: iterationID,
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5000*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
 	listIterationStoriesParams.SetContext(ctx)
 
@@ -100,7 +102,7 @@ func GetMember(uuid strfmt.UUID) models.Member {
 		MemberPublicID: uuid,
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5000*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
 	getMemberParams.SetContext(ctx)
 

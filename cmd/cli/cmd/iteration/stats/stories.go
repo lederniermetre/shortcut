@@ -6,15 +6,12 @@ import (
 	"log/slog"
 	"os"
 	"sort"
-	"time"
 
 	"github.com/lederniermetre/shortcut/pkg/shortcut"
 	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/client/operations"
 	"github.com/spf13/cobra"
 	"gitlab.com/greyxor/slogor"
 )
-
-const CTX_TIMEOUT = 25000 * time.Millisecond
 
 var storiesCmd = &cobra.Command{
 	Use:   "stories",
@@ -32,7 +29,7 @@ var storiesCmd = &cobra.Command{
 		clientSC := shortcut.GetClient()
 		apiKeyHeaderAuth := shortcut.GetAuth()
 
-		ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
+		ctx, cancel := context.WithTimeout(context.Background(), shortcut.CTX_TIMEOUT)
 		defer cancel()
 
 		iteration := shortcut.RetrieveIteration(iterationName)
