@@ -31,7 +31,7 @@ var storiesCmd = &cobra.Command{
 
 		postponedStories := map[string]shortcut.StoryPostponed{}
 		epicsStats := map[int64]shortcut.EpicsStats{}
-		workflowStates := map[int64]string{}
+		workflowStates := map[int64]shortcut.WorflowInfo{}
 		var totalEstimate int64 = 0
 
 		for _, story := range allStories {
@@ -51,7 +51,7 @@ var storiesCmd = &cobra.Command{
 				for _, wfStates := range workflow.States {
 					if *wfStates.ID == workflowStateID {
 						slog.Debug("Worflow states", slog.String("worfklow", *workflow.Name), slog.String("name", *wfStates.Type))
-						workflowStates[workflowStateID] = *wfStates.Name
+						workflowStates[workflowStateID] = shortcut.WorflowInfo{Name: *wfStates.Name, Type: *wfStates.Type}
 					}
 				}
 			}
@@ -96,7 +96,7 @@ var storiesCmd = &cobra.Command{
 				postponedStories[*story.Name] = shortcut.StoryPostponed{
 					Count:  len(story.PreviousIterationIds),
 					Url:    *story.AppURL,
-					Status: workflowStates[workflowStateID],
+					Status: workflowStates[workflowStateID].Name,
 				}
 			}
 		}
@@ -111,7 +111,7 @@ var storiesCmd = &cobra.Command{
 		for _, v := range epicsStats {
 			for _, wfState := range v.WorkflowID {
 				for wfStateID, stateCount := range wfState {
-					slog.Info("Epic stats", slog.String("name", v.Name), slog.String("state", workflowStates[wfStateID]), slog.Int("count", stateCount.Count))
+					slog.Info("Epic stats", slog.String("name", v.Name), slog.String("state", workflowStates[wfStateID].Name), slog.Int("count", stateCount.Count))
 				}
 			}
 		}

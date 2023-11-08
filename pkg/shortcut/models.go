@@ -14,3 +14,8 @@ type EpicsStats struct {
 type WorkflowStats struct {
 	Count int
 }
+
+type WorflowInfo struct {
+	Name string
+	Type string
+}
