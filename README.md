@@ -48,9 +48,10 @@ Oct 29 11:48:19 INFO  cmd/cli/main.go:135 Michel Paul has 2 of load
 
 - [Swagger cli](https://goswagger.io/install.html)
 - Golang
+- [task](https://taskfile.dev/installation/)
 
-## Init
+## Help
 
 ```bash
-swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
+task --list-all
 ```
