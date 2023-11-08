@@ -112,3 +112,39 @@ func GetMember(uuid strfmt.UUID) models.Member {
 
 	return *ownerInfo.Payload
 }
+
+func GetWorkflow(id int64) models.Workflow {
+	getWorkflowParams := &operations.GetWorkflowParams{
+		WorkflowPublicID: id,
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
+	defer cancel()
+	getWorkflowParams.SetContext(ctx)
+
+	workflow, err := GetClient().Operations.GetWorkflow(getWorkflowParams, GetAuth())
+	if err != nil {
+		slog.Error("Can not retrieve workflow", slogor.Err(err))
+		os.Exit(1)
+	}
+
+	return *workflow.Payload
+}
+
+func GetEpic(id int64) models.Epic {
+	getEpicParams := &operations.GetEpicParams{
+		EpicPublicID: id,
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
+	defer cancel()
+	getEpicParams.SetContext(ctx)
+
+	epic, err := GetClient().Operations.GetEpic(getEpicParams, GetAuth())
+	if err != nil {
+		slog.Error("Can not retrieve epic", slogor.Err(err))
+		os.Exit(1)
+	}
+
+	return *epic.Payload
+}

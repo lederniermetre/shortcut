@@ -1,16 +1,13 @@
 package stats
 
 import (
-	"context"
 	"fmt"
 	"log/slog"
 	"os"
 	"sort"
 
 	"github.com/lederniermetre/shortcut/pkg/shortcut"
-	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/client/operations"
 	"github.com/spf13/cobra"
-	"gitlab.com/greyxor/slogor"
 )
 
 var storiesCmd = &cobra.Command{
@@ -25,12 +22,6 @@ var storiesCmd = &cobra.Command{
 
 		iterationName := iterationFlag.Value.String()
 		slog.Debug("Search iteration", slog.String("name", iterationName))
-
-		clientSC := shortcut.GetClient()
-		apiKeyHeaderAuth := shortcut.GetAuth()
-
-		ctx, cancel := context.WithTimeout(context.Background(), shortcut.CTX_TIMEOUT)
-		defer cancel()
 
 		iteration := shortcut.RetrieveIteration(iterationName)
 
@@ -55,20 +46,11 @@ var storiesCmd = &cobra.Command{
 			)
 
 			if _, ok := workflowStates[workflowStateID]; !ok {
-				getWorkflowParams := &operations.GetWorkflowParams{
-					WorkflowPublicID: workflowID,
-				}
-				getWorkflowParams.SetContext(ctx)
+				workflow := shortcut.GetWorkflow(workflowID)
 
-				workflow, err := clientSC.Operations.GetWorkflow(getWorkflowParams, apiKeyHeaderAuth)
-				if err != nil {
-					slog.Error("Can not retrieve workflow", slogor.Err(err))
-					os.Exit(1)
-				}
-
-				for _, wfStates := range workflow.Payload.States {
+				for _, wfStates := range workflow.States {
 					if *wfStates.ID == workflowStateID {
-						slog.Debug("Worflow states", slog.String("worfklow", *workflow.Payload.Name), slog.String("name", *wfStates.Type))
+						slog.Debug("Worflow states", slog.String("worfklow", *workflow.Name), slog.String("name", *wfStates.Type))
 						workflowStates[workflowStateID] = *wfStates.Name
 					}
 				}
@@ -76,18 +58,11 @@ var storiesCmd = &cobra.Command{
 
 			if _, ok := epicsStats[epicID]; !ok {
 				slog.Debug("Epic stats does not exists", slog.Int64("epicID", epicID))
-				getEpicParams := &operations.GetEpicParams{
-					EpicPublicID: epicID,
-				}
-				getEpicParams.SetContext(ctx)
-				epic, err := clientSC.Operations.GetEpic(getEpicParams, apiKeyHeaderAuth)
-				if err != nil {
-					slog.Error("Can not retrieve epic", slogor.Err(err))
-					os.Exit(1)
-				}
+
+				epic := shortcut.GetEpic(epicID)
 
 				epicsStats[epicID] = shortcut.EpicsStats{
-					Name:       *epic.Payload.Name,
+					Name:       *epic.Name,
 					WorkflowID: make(map[int64]map[int64]shortcut.WorkflowStats),
 				}
 
