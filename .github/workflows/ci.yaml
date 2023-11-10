@@ -33,9 +33,18 @@ jobs:
           sudo curl -o /usr/local/bin/swagger -L'#' "$download_url"
           sudo chmod +x /usr/local/bin/swagger
           swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Tests
         run: |
-          go test ./...
-      - name: Build
-        run: |
-          CGO_ENABLED=0 go build -ldflags="-s -w" -installsuffix nocgo -o bin/shortchut cmd/cli/main.go
+          task tests
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean --snapshot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
