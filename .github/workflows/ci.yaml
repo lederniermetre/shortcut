@@ -33,6 +33,9 @@ jobs:
           sudo curl -o /usr/local/bin/swagger -L'#' "$download_url"
           sudo chmod +x /usr/local/bin/swagger
           swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
+      - name: Tests
+        run: |
+          go test ./...
       - name: Build
         run: |
           CGO_ENABLED=0 go build -ldflags="-s -w" -installsuffix nocgo -o bin/shortchut cmd/cli/main.go

@@ -83,8 +83,9 @@ var storiesCmd = &cobra.Command{
 					}
 					epicsStats[epicID].WorkflowID[workflowID][workflowStateID] = ws
 				}
-
 			}
+
+			epicsStats[epicID] = shortcut.IncreaseEpicsCounter(workflowStates[workflowStateID], epicsStats[epicID])
 
 			if story.Estimate == nil {
 				slog.Warn("Story with no estimate", slog.String("name", *story.Name))
@@ -109,11 +110,17 @@ var storiesCmd = &cobra.Command{
 		slog.Info("===== Epics =====")
 
 		for _, v := range epicsStats {
+			slog.Info("===== Epic", slog.String("name", v.Name))
+			v = shortcut.SummaryEpicStat(v)
+			slog.Info("global (absolute)", slog.Int("Unstarted", v.Unstarted), slog.Int("Started", v.Started), slog.Int("Done", v.Done))
+			slog.Info("global (percent.)", slog.Int("Unstarted", v.UnstartedPercent), slog.Int("Started", v.StartedPercent), slog.Int("Done", v.DonePercent))
+
 			for _, wfState := range v.WorkflowID {
 				for wfStateID, stateCount := range wfState {
-					slog.Info("Epic stats", slog.String("name", v.Name), slog.String("state", workflowStates[wfStateID].Name), slog.Int("count", stateCount.Count))
+					slog.Info("steps", slog.String("state", workflowStates[wfStateID].Name), slog.Int("count", stateCount.Count))
 				}
 			}
+			slog.Info("====")
 		}
 
 		slog.Info("===== Postponed stories =====")
