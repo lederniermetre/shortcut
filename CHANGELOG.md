@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0](https://github.com/lederniermetre/shortcut/compare/v1.1.0...v1.2.0) (2023-11-10)
+
+
+### 🚀 Features
+
+* **stories:** add epics statistics ([f2264e5](https://github.com/lederniermetre/shortcut/commit/f2264e5bec90a0714a0a220827c6cc36f7d4ad12))
+
+
+### 🛠️ Refactor
+
+* **shortcut:** move to dedicated package ([40ef793](https://github.com/lederniermetre/shortcut/commit/40ef793da571fc6e2bc4e0f30395785871b927ca))
+* **stories:** add more information for workflow states ([3654b66](https://github.com/lederniermetre/shortcut/commit/3654b66627b1848c62f830c3565855663dbf6e48))
+
 ## [1.1.0](https://github.com/lederniermetre/shortcut/compare/v1.0.2...v1.1.0) (2023-11-08)
 
 
