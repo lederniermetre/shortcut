@@ -7,7 +7,9 @@ import (
 	"sort"
 
 	"github.com/lederniermetre/shortcut/pkg/shortcut"
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
+	"gitlab.com/greyxor/slogor"
 )
 
 var storiesCmd = &cobra.Command{
@@ -88,7 +90,7 @@ var storiesCmd = &cobra.Command{
 			epicsStats[epicID] = shortcut.IncreaseEpicsCounter(workflowStates[workflowStateID], epicsStats[epicID])
 
 			if story.Estimate == nil {
-				slog.Warn("Story with no estimate", slog.String("name", *story.Name))
+				pterm.Warning.Printfln("Story with no estimate: %s", *story.Name)
 			} else {
 				totalEstimate = totalEstimate + *story.Estimate
 			}
@@ -102,28 +104,31 @@ var storiesCmd = &cobra.Command{
 			}
 		}
 
-		slog.Info("===== Global stats =====")
+		pterm.DefaultHeader.WithFullWidth().Println("Global iteration stats")
 
 		slog.Info("Number of stories", slog.Int("count", len(allStories)))
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 
-		slog.Info("===== Epics =====")
+		pterm.DefaultHeader.WithFullWidth().Println("Epics")
+		epicsTableData := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
 
 		for _, v := range epicsStats {
-			slog.Info("===== Epic", slog.String("name", v.Name))
 			v = shortcut.SummaryEpicStat(v)
-			slog.Info("global (absolute)", slog.Int("Unstarted", v.Unstarted), slog.Int("Started", v.Started), slog.Int("Done", v.Done))
-			slog.Info("global (percent.)", slog.Int("Unstarted", v.UnstartedPercent), slog.Int("Started", v.StartedPercent), slog.Int("Done", v.DonePercent))
+			epicsTableData = append(epicsTableData, []string{v.Name, fmt.Sprintf("%d (%d %%)", v.Unstarted, v.UnstartedPercent), fmt.Sprintf("%d (%d %%)", v.Started, v.StartedPercent), fmt.Sprintf("%d (%d %%)", v.Done, v.DonePercent)})
 
 			for _, wfState := range v.WorkflowID {
 				for wfStateID, stateCount := range wfState {
-					slog.Info("steps", slog.String("state", workflowStates[wfStateID].Name), slog.Int("count", stateCount.Count))
+					slog.Debug("steps", slog.String("state", workflowStates[wfStateID].Name), slog.Int("count", stateCount.Count))
 				}
 			}
-			slog.Info("====")
 		}
 
-		slog.Info("===== Postponed stories =====")
+		err := pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsTableData).Render()
+		if err != nil {
+			slog.Error("Rendering epics table", slogor.Err(err))
+		}
+
+		pterm.DefaultHeader.WithFullWidth().Println("Postponed stories")
 
 		keys := make([]string, 0, len(postponedStories))
 		for key := range postponedStories {
@@ -134,9 +139,14 @@ var storiesCmd = &cobra.Command{
 			return postponedStories[keys[i]].Count > postponedStories[keys[j]].Count
 		})
 
+		storiesTableData := pterm.TableData{{"Story Name", "Status", "Nb reported"}}
 		for _, k := range keys {
-			slog.Info(fmt.Sprintf("%s has been postponed", k), slog.Int("count", postponedStories[k].Count), slog.String("status", postponedStories[k].Status))
-			slog.Debug("access story", slog.String("url", postponedStories[k].Url))
+			storiesTableData = append(storiesTableData, []string{k, fmt.Sprint(postponedStories[k].Status), fmt.Sprint(postponedStories[k].Count)})
+		}
+
+		err = pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(storiesTableData).Render()
+		if err != nil {
+			slog.Error("Rendering stories table", slogor.Err(err))
 		}
 	},
 }

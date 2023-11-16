@@ -7,7 +7,9 @@ import (
 
 	"github.com/go-openapi/strfmt"
 	"github.com/lederniermetre/shortcut/pkg/shortcut"
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
+	"gitlab.com/greyxor/slogor"
 )
 
 var ownersCmd = &cobra.Command{
@@ -36,7 +38,7 @@ Estimate is divided by number of owners when multi-tenancy`,
 		ownersUUID := map[strfmt.UUID]int64{}
 		for _, story := range allStories {
 			if story.Estimate == nil {
-				slog.Warn("Story assign but not estimated", slog.String("name", *story.Name))
+				pterm.Warning.Printfln("Story assign but not estimated: %s", *story.Name)
 				continue
 			}
 
@@ -48,7 +50,7 @@ Estimate is divided by number of owners when multi-tenancy`,
 			)
 
 			if len(story.OwnerIds) == 0 {
-				slog.Warn("Story has no owners", slog.String("name", *story.Name))
+				pterm.Warning.Printfln("Story has no owners: %s", *story.Name)
 				continue
 			}
 
@@ -68,10 +70,19 @@ Estimate is divided by number of owners when multi-tenancy`,
 			}
 		}
 
-		slog.Info("===== Load by owners =====")
+		pterm.DefaultHeader.WithFullWidth().Println("Load by owners")
+
+		var ptermBar []pterm.Bar
 
 		for ownerUUID, load := range ownersUUID {
-			slog.Info(fmt.Sprintf("%s has %d of load", *shortcut.GetMember(ownerUUID).Profile.Name, load))
+			memberName := *shortcut.GetMember(ownerUUID).Profile.Name
+			slog.Debug(fmt.Sprintf("%s has %d of load", memberName, load))
+			ptermBar = append(ptermBar, pterm.Bar{Label: memberName, Value: int(load)})
+		}
+
+		err := pterm.DefaultBarChart.WithHorizontal().WithBars(ptermBar).WithWidth(15).WithShowValue().Render()
+		if err != nil {
+			slog.Error("Rendering epics table", slogor.Err(err))
 		}
 	},
 }

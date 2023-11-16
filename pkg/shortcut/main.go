@@ -165,7 +165,7 @@ func IncreaseEpicsCounter(storyWorkflowState WorflowInfo, epicsStats EpicsStats)
 		return epicsStats
 	}
 
-	slog.Warn("Worfklow state type unknown", slog.String("name", storyWorkflowState.Type), slog.String("type", storyWorkflowState.Name))
+	slog.Error("Worfklow state type unknown", slog.String("name", storyWorkflowState.Type), slog.String("type", storyWorkflowState.Name))
 
 	return epicsStats
 }
