@@ -1,5 +1,7 @@
 package shortcut
 
+import "github.com/go-openapi/strfmt"
+
 type StoryPostponed struct {
 	Count  int
 	Url    string
@@ -24,4 +26,9 @@ type WorkflowStats struct {
 type WorflowInfo struct {
 	Name string
 	Type string
+}
+
+type OwnerStats struct {
+	UUID strfmt.UUID
+	Load int64
 }

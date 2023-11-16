@@ -3,6 +3,7 @@ package shortcut
 import (
 	"context"
 	"os"
+	"sort"
 	"time"
 
 	"log/slog"
@@ -177,4 +178,22 @@ func SummaryEpicStat(epic EpicsStats) EpicsStats {
 	epic.StartedPercent = epic.Started * 100 / totalEpicsStories
 
 	return epic
+}
+
+func OrdererOwnersUUID(ownersUUID map[strfmt.UUID]int64) []OwnerStats {
+	var ordererOwnersUUID []OwnerStats
+
+	for k, v := range ownersUUID {
+		ordererOwnersUUID = append(ordererOwnersUUID, struct {
+			UUID strfmt.UUID
+			Load int64
+		}{k, v})
+	}
+
+	// Sort the slice by values in descending order
+	sort.Slice(ordererOwnersUUID, func(i, j int) bool {
+		return ordererOwnersUUID[i].Load > ordererOwnersUUID[j].Load
+	})
+
+	return ordererOwnersUUID
 }

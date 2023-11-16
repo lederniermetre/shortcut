@@ -1,7 +1,10 @@
 package shortcut
 
 import (
+	"reflect"
 	"testing"
+
+	"github.com/go-openapi/strfmt"
 )
 
 func TestSummaryEpicStat(t *testing.T) {
@@ -80,5 +83,26 @@ func TestIncreaseEpicsCounterMultiType(t *testing.T) {
 				t.Errorf("For %s, Expected no change, but got %+v", tc.worflowInfo.Type, result)
 			}
 		}
+	}
+}
+
+func TestOrdererOwnersUUID(t *testing.T) {
+	ownersUUID := map[strfmt.UUID]int64{
+		strfmt.UUID("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"): 5,
+		strfmt.UUID("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"): 3,
+		strfmt.UUID("cccccccc-cccc-cccc-cccc-cccccccccccc"): 8,
+	}
+
+	expectedResult := []OwnerStats{
+		{strfmt.UUID("cccccccc-cccc-cccc-cccc-cccccccccccc"), 8},
+		{strfmt.UUID("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), 5},
+		{strfmt.UUID("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), 3},
+	}
+
+	result := OrdererOwnersUUID(ownersUUID)
+
+	// Check if the result matches the expected result
+	if !reflect.DeepEqual(result, expectedResult) {
+		t.Errorf("Expected: %v, Got: %v", expectedResult, result)
 	}
 }

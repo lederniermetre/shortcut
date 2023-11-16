@@ -72,12 +72,13 @@ Estimate is divided by number of owners when multi-tenancy`,
 
 		pterm.DefaultHeader.WithFullWidth().Println("Load by owners")
 
+		ordererOwnersUUID := shortcut.OrdererOwnersUUID(ownersUUID)
 		var ptermBar []pterm.Bar
 
-		for ownerUUID, load := range ownersUUID {
-			memberName := *shortcut.GetMember(ownerUUID).Profile.Name
-			slog.Debug(fmt.Sprintf("%s has %d of load", memberName, load))
-			ptermBar = append(ptermBar, pterm.Bar{Label: memberName, Value: int(load)})
+		for _, owner := range ordererOwnersUUID {
+			memberName := *shortcut.GetMember(owner.UUID).Profile.Name
+			slog.Debug(fmt.Sprintf("%s has %d of load", memberName, owner.Load))
+			ptermBar = append(ptermBar, pterm.Bar{Label: memberName, Value: int(owner.Load)})
 		}
 
 		err := pterm.DefaultBarChart.WithHorizontal().WithBars(ptermBar).WithWidth(15).WithShowValue().Render()
