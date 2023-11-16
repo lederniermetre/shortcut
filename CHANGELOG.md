@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/lederniermetre/shortcut/compare/v1.2.1...v1.3.0) (2023-11-16)
+
+
+### 🚀 Features
+
+* add pterm displaying ([6552e72](https://github.com/lederniermetre/shortcut/commit/6552e721a8477188c79b673b89573c6567592af5))
+* **stats/owners:** ensure ordering ([e5a7169](https://github.com/lederniermetre/shortcut/commit/e5a7169e3052f684a4eb7e3306ff0be55e082752))
+
 ## [1.2.1](https://github.com/lederniermetre/shortcut/compare/v1.2.0...v1.2.1) (2023-11-13)
 
 
