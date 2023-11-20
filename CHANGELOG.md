@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/lederniermetre/shortcut/compare/v1.3.0...v1.4.0) (2023-11-20)
+
+
+### 🚀 Features
+
+* **stats/stories:** add table epics completion by estimate ([76ab290](https://github.com/lederniermetre/shortcut/commit/76ab290eb4ca3b822d9ed21d3953af4176d7258c))
+
 ## [1.3.0](https://github.com/lederniermetre/shortcut/compare/v1.2.1...v1.3.0) (2023-11-16)
 
 
