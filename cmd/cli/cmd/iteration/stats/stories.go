@@ -93,6 +93,8 @@ var storiesCmd = &cobra.Command{
 				pterm.Warning.Printfln("Story with no estimate: %s", *story.Name)
 			} else {
 				totalEstimate = totalEstimate + *story.Estimate
+
+				epicsStats[epicID] = shortcut.IncreaseEpicsEstimateCounter(workflowStates[workflowStateID], epicsStats[epicID], int(*story.Estimate))
 			}
 
 			if len(story.PreviousIterationIds) > 0 {
@@ -109,7 +111,7 @@ var storiesCmd = &cobra.Command{
 		slog.Info("Number of stories", slog.Int("count", len(allStories)))
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 
-		pterm.DefaultHeader.WithFullWidth().Println("Epics")
+		pterm.DefaultHeader.WithFullWidth().Println("Epics (by stories)")
 		epicsTableData := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
 
 		for _, v := range epicsStats {
@@ -125,7 +127,26 @@ var storiesCmd = &cobra.Command{
 
 		err := pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsTableData).Render()
 		if err != nil {
-			slog.Error("Rendering epics table", slogor.Err(err))
+			slog.Error("Rendering epics (by stories) table", slogor.Err(err))
+		}
+
+		pterm.DefaultHeader.WithFullWidth().Println("Epics (by estimates)")
+		epicsEstimateTableData := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
+
+		for _, v := range epicsStats {
+			v = shortcut.SummaryEpicStat(v)
+			epicsEstimateTableData = append(epicsEstimateTableData, []string{v.Name, fmt.Sprintf("%d (%d %%)", v.EstimateUnstarted, v.EstimateUnstartedPercent), fmt.Sprintf("%d (%d %%)", v.EstimateStarted, v.EstimateStartedPercent), fmt.Sprintf("%d (%d %%)", v.EstimateDone, v.EstimateDonePercent)})
+
+			for _, wfState := range v.WorkflowID {
+				for wfStateID, stateCount := range wfState {
+					slog.Debug("steps", slog.String("state", workflowStates[wfStateID].Name), slog.Int("count", stateCount.Count))
+				}
+			}
+		}
+
+		err = pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsEstimateTableData).Render()
+		if err != nil {
+			slog.Error("Rendering epics (by estimates) table", slogor.Err(err))
 		}
 
 		pterm.DefaultHeader.WithFullWidth().Println("Postponed stories")

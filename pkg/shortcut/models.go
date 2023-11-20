@@ -16,7 +16,15 @@ type EpicsStats struct {
 	UnstartedPercent int
 	StartedPercent   int
 	DonePercent      int
-	WorkflowID       map[int64]map[int64]WorkflowStats
+
+	EstimateUnstarted        int
+	EstimateStarted          int
+	EstimateDone             int
+	EstimateUnstartedPercent int
+	EstimateStartedPercent   int
+	EstimateDonePercent      int
+
+	WorkflowID map[int64]map[int64]WorkflowStats
 }
 
 type WorkflowStats struct {

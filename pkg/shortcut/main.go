@@ -171,11 +171,39 @@ func IncreaseEpicsCounter(storyWorkflowState WorflowInfo, epicsStats EpicsStats)
 	return epicsStats
 }
 
+func IncreaseEpicsEstimateCounter(storyWorkflowState WorflowInfo, epicsStats EpicsStats, estimate int) EpicsStats {
+	if storyWorkflowState.Type == "started" {
+		epicsStats.EstimateStarted = epicsStats.EstimateStarted + estimate
+		return epicsStats
+	}
+
+	if storyWorkflowState.Type == "unstarted" {
+		epicsStats.EstimateUnstarted = epicsStats.EstimateUnstarted + estimate
+		return epicsStats
+	}
+
+	if storyWorkflowState.Type == "done" {
+		epicsStats.EstimateDone = epicsStats.EstimateDone + estimate
+		return epicsStats
+	}
+
+	slog.Error("Worfklow state type unknown", slog.String("name", storyWorkflowState.Type), slog.String("type", storyWorkflowState.Name))
+
+	return epicsStats
+}
+
 func SummaryEpicStat(epic EpicsStats) EpicsStats {
 	totalEpicsStories := epic.Unstarted + epic.Started + epic.Done
 	epic.DonePercent = epic.Done * 100 / totalEpicsStories
 	epic.UnstartedPercent = epic.Unstarted * 100 / totalEpicsStories
 	epic.StartedPercent = epic.Started * 100 / totalEpicsStories
+
+	totalEpicsEstimateStories := epic.EstimateUnstarted + epic.EstimateStarted + epic.EstimateDone
+	if totalEpicsEstimateStories != 0 {
+		epic.EstimateDonePercent = epic.EstimateDone * 100 / totalEpicsEstimateStories
+		epic.EstimateUnstartedPercent = epic.EstimateUnstarted * 100 / totalEpicsEstimateStories
+		epic.EstimateStartedPercent = epic.EstimateStarted * 100 / totalEpicsEstimateStories
+	}
 
 	return epic
 }
