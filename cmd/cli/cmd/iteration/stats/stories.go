@@ -37,6 +37,10 @@ var storiesCmd = &cobra.Command{
 		var totalEstimate int64 = 0
 
 		for _, story := range allStories {
+			if story.EpicID == nil {
+				pterm.Warning.Printfln("Story with no epics: %s", *story.Name)
+				continue
+			}
 			epicID := *story.EpicID
 			workflowID := *story.WorkflowID
 			workflowStateID := *story.WorkflowStateID
