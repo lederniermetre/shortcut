@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/lederniermetre/shortcut/compare/v1.4.0...v1.4.1) (2023-11-20)
+
+
+### 🐞 Bug Fixes
+
+* **stats/stories:** no epic handling ([0bb495b](https://github.com/lederniermetre/shortcut/commit/0bb495becc1a9e03c846ab2ad520db2fad278ab0))
+
 ## [1.4.0](https://github.com/lederniermetre/shortcut/compare/v1.3.0...v1.4.0) (2023-11-20)
 
 
