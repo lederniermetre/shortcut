@@ -39,8 +39,15 @@ var storiesCmd = &cobra.Command{
 		}
 		workflowStates := map[int64]shortcut.WorflowInfo{}
 		var totalEstimate int64 = 0
+		var totalStoriesSkip int64 = 0
 
 		for _, story := range stories {
+			if story.Archived != nil && *story.Archived {
+				pterm.Info.Printfln("Story %s is archived skipping", *story.Name)
+				totalStoriesSkip++
+				continue
+			}
+
 			var epicID int64 = -1
 			if story.EpicID != nil {
 				epicID = *story.EpicID
@@ -114,6 +121,7 @@ var storiesCmd = &cobra.Command{
 		pterm.DefaultHeader.WithFullWidth().Println("Global iteration stats")
 
 		slog.Info("Stories", slog.Int("count", len(stories)))
+		slog.Info("Stories skipped", slog.Int("count", int(totalStoriesSkip)))
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 
 		globalIterationStats := shortcut.GlobalIterationProgress(epicsStats)
