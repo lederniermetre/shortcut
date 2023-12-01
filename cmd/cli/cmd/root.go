@@ -28,7 +28,7 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initCmd)
-	rootCmd.PersistentFlags().BoolVar(&debugCmd, "debug", false, "Active debug log level")
+	rootCmd.PersistentFlags().BoolVarP(&debugCmd, "debug", "d", false, "Active debug log level")
 
 	rootCmd.AddCommand(iteration.NewCommand())
 }
