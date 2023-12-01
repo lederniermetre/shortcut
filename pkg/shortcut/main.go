@@ -194,9 +194,11 @@ func IncreaseEpicsEstimateCounter(storyWorkflowState WorflowInfo, epicsStats Epi
 
 func SummaryEpicStat(epic EpicsStats) EpicsStats {
 	totalEpicsStories := epic.StoriesUnstarted + epic.StoriesStarted + epic.StoriesDone
-	epic.StoriesDonePercent = epic.StoriesDone * 100 / totalEpicsStories
-	epic.StoriesUnstartedPercent = epic.StoriesUnstarted * 100 / totalEpicsStories
-	epic.StoriesStartedPercent = epic.StoriesStarted * 100 / totalEpicsStories
+	if totalEpicsStories != 0 {
+		epic.StoriesDonePercent = epic.StoriesDone * 100 / totalEpicsStories
+		epic.StoriesUnstartedPercent = epic.StoriesUnstarted * 100 / totalEpicsStories
+		epic.StoriesStartedPercent = epic.StoriesStarted * 100 / totalEpicsStories
+	}
 
 	totalEpicsEstimateStories := epic.EstimateUnstarted + epic.EstimateStarted + epic.EstimateDone
 	if totalEpicsEstimateStories != 0 {

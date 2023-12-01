@@ -9,31 +9,57 @@ import (
 
 func TestSummaryEpicStat(t *testing.T) {
 	epic := EpicsStats{
-		Name:             "Sample Epic",
-		StoriesUnstarted: 10,
-		StoriesStarted:   20,
-		StoriesDone:      30,
-		WorkflowID:       map[int64]map[int64]WorkflowStats{},
+		Name:                     "Epic1",
+		StoriesUnstarted:         2,
+		StoriesStarted:           3,
+		StoriesDone:              5,
+		EstimateUnstarted:        2,
+		EstimateStarted:          3,
+		EstimateDone:             5,
+		StoriesUnstartedPercent:  0,
+		StoriesStartedPercent:    0,
+		StoriesDonePercent:       0,
+		EstimateUnstartedPercent: 0,
+		EstimateStartedPercent:   0,
+		EstimateDonePercent:      0,
 	}
 
-	// Call the function
 	result := SummaryEpicStat(epic)
 
-	// Check if the percentages are calculated correctly
-	expectedDonePercent := 30 * 100 / (10 + 20 + 30)
-	expectedUnstartedPercent := 10 * 100 / (10 + 20 + 30)
-	expectedStartedPercent := 20 * 100 / (10 + 20 + 30)
-
-	if result.StoriesDonePercent != expectedDonePercent {
-		t.Errorf("Expected DonePercent to be %d, but got %d", expectedDonePercent, result.StoriesDonePercent)
+	if result.StoriesUnstartedPercent != 20 ||
+		result.StoriesStartedPercent != 30 ||
+		result.StoriesDonePercent != 50 ||
+		result.EstimateUnstartedPercent != 20 ||
+		result.EstimateStartedPercent != 30 ||
+		result.EstimateDonePercent != 50 {
+		t.Errorf("Percentage calculation error")
 	}
 
-	if result.StoriesUnstartedPercent != expectedUnstartedPercent {
-		t.Errorf("Expected UnstartedPercent to be %d, but got %d", expectedUnstartedPercent, result.StoriesUnstartedPercent)
+	epicZero := EpicsStats{
+		Name:                     "Epic2",
+		StoriesUnstarted:         0,
+		StoriesStarted:           0,
+		StoriesDone:              0,
+		EstimateUnstarted:        0,
+		EstimateStarted:          0,
+		EstimateDone:             0,
+		StoriesUnstartedPercent:  0,
+		StoriesStartedPercent:    0,
+		StoriesDonePercent:       0,
+		EstimateUnstartedPercent: 0,
+		EstimateStartedPercent:   0,
+		EstimateDonePercent:      0,
 	}
 
-	if result.StoriesStartedPercent != expectedStartedPercent {
-		t.Errorf("Expected StartedPercent to be %d, but got %d", expectedStartedPercent, result.StoriesStartedPercent)
+	resultZero := SummaryEpicStat(epicZero)
+
+	if resultZero.StoriesUnstartedPercent != 0 ||
+		resultZero.StoriesStartedPercent != 0 ||
+		resultZero.StoriesDonePercent != 0 ||
+		resultZero.EstimateUnstartedPercent != 0 ||
+		resultZero.EstimateStartedPercent != 0 ||
+		resultZero.EstimateDonePercent != 0 {
+		t.Errorf("Percentage calculation error for zero values")
 	}
 }
 
