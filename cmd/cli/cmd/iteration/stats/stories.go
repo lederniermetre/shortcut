@@ -120,7 +120,7 @@ var storiesCmd = &cobra.Command{
 
 		for _, v := range epicsStats {
 			v = shortcut.SummaryEpicStat(v)
-			epicsTableData = append(epicsTableData, []string{v.Name, fmt.Sprintf("%d (%d %%)", v.Unstarted, v.UnstartedPercent), fmt.Sprintf("%d (%d %%)", v.Started, v.StartedPercent), fmt.Sprintf("%d (%d %%)", v.Done, v.DonePercent)})
+			epicsTableData = append(epicsTableData, []string{v.Name, fmt.Sprintf("%d (%d %%)", v.StoriesUnstarted, v.StoriesUnstartedPercent), fmt.Sprintf("%d (%d %%)", v.StoriesStarted, v.StoriesStartedPercent), fmt.Sprintf("%d (%d %%)", v.StoriesDone, v.StoriesDonePercent)})
 
 			for _, wfState := range v.WorkflowID {
 				for wfStateID, stateCount := range wfState {

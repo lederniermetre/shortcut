@@ -9,19 +9,20 @@ type StoryPostponed struct {
 }
 
 type EpicsStats struct {
-	Name             string
-	Unstarted        int
-	Started          int
-	Done             int
-	UnstartedPercent int
-	StartedPercent   int
-	DonePercent      int
+	Name string
+
+	StoriesUnstarted        int
+	StoriesUnstartedPercent int
+	StoriesStarted          int
+	StoriesStartedPercent   int
+	StoriesDone             int
+	StoriesDonePercent      int
 
 	EstimateUnstarted        int
-	EstimateStarted          int
-	EstimateDone             int
 	EstimateUnstartedPercent int
+	EstimateStarted          int
 	EstimateStartedPercent   int
+	EstimateDone             int
 	EstimateDonePercent      int
 
 	WorkflowID map[int64]map[int64]WorkflowStats

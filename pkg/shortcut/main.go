@@ -152,17 +152,17 @@ func GetEpic(id int64) models.Epic {
 
 func IncreaseEpicsCounter(storyWorkflowState WorflowInfo, epicsStats EpicsStats) EpicsStats {
 	if storyWorkflowState.Type == "started" {
-		epicsStats.Started++
+		epicsStats.StoriesStarted++
 		return epicsStats
 	}
 
 	if storyWorkflowState.Type == "unstarted" {
-		epicsStats.Unstarted++
+		epicsStats.StoriesUnstarted++
 		return epicsStats
 	}
 
 	if storyWorkflowState.Type == "done" {
-		epicsStats.Done++
+		epicsStats.StoriesDone++
 		return epicsStats
 	}
 
@@ -193,10 +193,10 @@ func IncreaseEpicsEstimateCounter(storyWorkflowState WorflowInfo, epicsStats Epi
 }
 
 func SummaryEpicStat(epic EpicsStats) EpicsStats {
-	totalEpicsStories := epic.Unstarted + epic.Started + epic.Done
-	epic.DonePercent = epic.Done * 100 / totalEpicsStories
-	epic.UnstartedPercent = epic.Unstarted * 100 / totalEpicsStories
-	epic.StartedPercent = epic.Started * 100 / totalEpicsStories
+	totalEpicsStories := epic.StoriesUnstarted + epic.StoriesStarted + epic.StoriesDone
+	epic.StoriesDonePercent = epic.StoriesDone * 100 / totalEpicsStories
+	epic.StoriesUnstartedPercent = epic.StoriesUnstarted * 100 / totalEpicsStories
+	epic.StoriesStartedPercent = epic.StoriesStarted * 100 / totalEpicsStories
 
 	totalEpicsEstimateStories := epic.EstimateUnstarted + epic.EstimateStarted + epic.EstimateDone
 	if totalEpicsEstimateStories != 0 {
