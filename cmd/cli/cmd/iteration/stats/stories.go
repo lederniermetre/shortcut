@@ -29,14 +29,14 @@ var storiesCmd = &cobra.Command{
 
 		slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 
-		allStories := shortcut.StoriesByIteration(*iteration.ID)
+		stories := shortcut.StoriesByIteration(*iteration.ID)
 
 		postponedStories := map[string]shortcut.StoryPostponed{}
 		epicsStats := map[int64]shortcut.EpicsStats{}
 		workflowStates := map[int64]shortcut.WorflowInfo{}
 		var totalEstimate int64 = 0
 
-		for _, story := range allStories {
+		for _, story := range stories {
 			if story.EpicID == nil {
 				pterm.Warning.Printfln("Story with no epics: %s", *story.Name)
 				continue
@@ -112,7 +112,7 @@ var storiesCmd = &cobra.Command{
 
 		pterm.DefaultHeader.WithFullWidth().Println("Global iteration stats")
 
-		slog.Info("Number of stories", slog.Int("count", len(allStories)))
+		slog.Info("Number of stories", slog.Int("count", len(stories)))
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 
 		globalIterationStats := shortcut.GlobalIterationProgress(epicsStats)
@@ -124,11 +124,11 @@ var storiesCmd = &cobra.Command{
 		pterm.DefaultHeader.WithFullWidth().Println("Epics (by stories)")
 		epicsTableData := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
 
-		for _, v := range epicsStats {
-			v = shortcut.SummaryEpicStat(v)
-			epicsTableData = append(epicsTableData, []string{v.Name, fmt.Sprintf("%d (%d %%)", v.StoriesUnstarted, v.StoriesUnstartedPercent), fmt.Sprintf("%d (%d %%)", v.StoriesStarted, v.StoriesStartedPercent), fmt.Sprintf("%d (%d %%)", v.StoriesDone, v.StoriesDonePercent)})
+		for _, epicStat := range epicsStats {
+			epicStat = shortcut.SummaryEpicStat(epicStat)
+			epicsTableData = append(epicsTableData, []string{epicStat.Name, fmt.Sprintf("%d (%d %%)", epicStat.StoriesUnstarted, epicStat.StoriesUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.StoriesStarted, epicStat.StoriesStartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.StoriesDone, epicStat.StoriesDonePercent)})
 
-			for _, wfState := range v.WorkflowID {
+			for _, wfState := range epicStat.WorkflowID {
 				for wfStateID, stateCount := range wfState {
 					slog.Debug("steps", slog.String("state", workflowStates[wfStateID].Name), slog.Int("count", stateCount.Count))
 				}
@@ -143,11 +143,11 @@ var storiesCmd = &cobra.Command{
 		pterm.DefaultHeader.WithFullWidth().Println("Epics (by estimates)")
 		epicsEstimateTableData := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
 
-		for _, v := range epicsStats {
-			v = shortcut.SummaryEpicStat(v)
-			epicsEstimateTableData = append(epicsEstimateTableData, []string{v.Name, fmt.Sprintf("%d (%d %%)", v.EstimateUnstarted, v.EstimateUnstartedPercent), fmt.Sprintf("%d (%d %%)", v.EstimateStarted, v.EstimateStartedPercent), fmt.Sprintf("%d (%d %%)", v.EstimateDone, v.EstimateDonePercent)})
+		for _, epicStart := range epicsStats {
+			epicStart = shortcut.SummaryEpicStat(epicStart)
+			epicsEstimateTableData = append(epicsEstimateTableData, []string{epicStart.Name, fmt.Sprintf("%d (%d %%)", epicStart.EstimateUnstarted, epicStart.EstimateUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicStart.EstimateStarted, epicStart.EstimateStartedPercent), fmt.Sprintf("%d (%d %%)", epicStart.EstimateDone, epicStart.EstimateDonePercent)})
 
-			for _, wfState := range v.WorkflowID {
+			for _, wfState := range epicStart.WorkflowID {
 				for wfStateID, stateCount := range wfState {
 					slog.Debug("steps", slog.String("state", workflowStates[wfStateID].Name), slog.Int("count", stateCount.Count))
 				}
@@ -171,8 +171,8 @@ var storiesCmd = &cobra.Command{
 		})
 
 		storiesTableData := pterm.TableData{{"Story Name", "Status", "Nb reported"}}
-		for _, k := range keys {
-			storiesTableData = append(storiesTableData, []string{k, fmt.Sprint(postponedStories[k].Status), fmt.Sprint(postponedStories[k].Count)})
+		for _, key := range keys {
+			storiesTableData = append(storiesTableData, []string{key, fmt.Sprint(postponedStories[key].Status), fmt.Sprint(postponedStories[key].Count)})
 		}
 
 		err = pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(storiesTableData).Render()
