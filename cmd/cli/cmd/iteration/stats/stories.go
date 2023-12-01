@@ -91,7 +91,7 @@ var storiesCmd = &cobra.Command{
 				}
 			}
 
-			epicsStats[epicID] = shortcut.IncreaseEpicsCounter(workflowStates[workflowStateID], epicsStats[epicID])
+			epicsStats[epicID] = shortcut.IncreaseEpicsStoriesCounter(workflowStates[workflowStateID], epicsStats[epicID])
 
 			if story.Estimate == nil {
 				pterm.Warning.Printfln("Story with no estimate: %s", *story.Name)

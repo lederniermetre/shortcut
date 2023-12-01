@@ -87,7 +87,7 @@ func TestIncreaseEpicsCounterMultiType(t *testing.T) {
 	// Iterate over test cases
 	for _, tc := range testCases {
 		// Call the function
-		result := IncreaseEpicsCounter(tc.worflowInfo, epicStats)
+		result := IncreaseEpicsStoriesCounter(tc.worflowInfo, epicStats)
 
 		// Check if the corresponding counter is increased
 		switch tc.worflowInfo.Type {
