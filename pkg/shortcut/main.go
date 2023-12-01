@@ -227,3 +227,14 @@ func OrdererOwnersUUID(ownersUUID map[strfmt.UUID]int64) []OwnerStats {
 
 	return ordererOwnersUUID
 }
+
+func GlobalIterationProgress(epicsStats map[int64]EpicsStats) GlobalIterationStats {
+	globalIterationStats := GlobalIterationStats{}
+	for _, epic := range epicsStats {
+		globalIterationStats.Unstarted += epic.StoriesUnstarted
+		globalIterationStats.Started += epic.StoriesStarted
+		globalIterationStats.Done += epic.StoriesDone
+	}
+
+	return globalIterationStats
+}

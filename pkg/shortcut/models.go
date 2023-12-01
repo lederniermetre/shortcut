@@ -41,3 +41,9 @@ type OwnerStats struct {
 	UUID strfmt.UUID
 	Load int64
 }
+
+type GlobalIterationStats struct {
+	Unstarted int
+	Started   int
+	Done      int
+}
