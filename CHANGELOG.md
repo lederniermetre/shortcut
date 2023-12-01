@@ -1,5 +1,39 @@
 # Changelog
 
+## [1.5.0](https://github.com/lederniermetre/shortcut/compare/v1.4.2...v1.5.0) (2023-12-01)
+
+
+### 🚀 Features
+
+* **cmd/stats/stories:** handle archived stories ([dd774d9](https://github.com/lederniermetre/shortcut/commit/dd774d930f397f33dd21f97ba6a41231a60ca660))
+* **cmd/stats/stories:** handle stories with no epics ([494b006](https://github.com/lederniermetre/shortcut/commit/494b00619c47b47ae73f9cda8d0f9277c89f6fe5))
+* **stats/stories:** handle global stories counter ([bfae084](https://github.com/lederniermetre/shortcut/commit/bfae0847fa90bb49ecba4a8a6eeb473e04439814))
+
+
+### 🐞 Bug Fixes
+
+* **epicstat:** handle no stories ([ea8ee0f](https://github.com/lederniermetre/shortcut/commit/ea8ee0f5ba793e70e91b700fbb848e50beb2afee))
+
+
+### 🛠️ Refactor
+
+* **cmd/stats/stories:** simplify path of init map ([d5a995e](https://github.com/lederniermetre/shortcut/commit/d5a995e33e5e06d4f4be4e9778d753cd10027ce5))
+* **epicstats:** wording on function ([f301e46](https://github.com/lederniermetre/shortcut/commit/f301e4674014f98373fbf8a1eb32abc186029ac7))
+* **flag:** add short debug flag ([875cb61](https://github.com/lederniermetre/shortcut/commit/875cb612e3f6d7a4280c1f832b9bcfae7140fd59))
+* **models/shortcut:** wording on fields ([b5d48fa](https://github.com/lederniermetre/shortcut/commit/b5d48fa9f47d5f467da5b487694507656e492992))
+
+
+### 🧰 Other
+
+* **cmd/stats/stories:** arrange output ([e248a6c](https://github.com/lederniermetre/shortcut/commit/e248a6c220bd4db99af69666007ff82142787a2a))
+* **cmd/stats/stories:** wording ([9f25ced](https://github.com/lederniermetre/shortcut/commit/9f25cedd5c439e56d3d52ab9d37b060c7a6c32f9))
+* **cmd/stats/stories:** wording ([7e43e12](https://github.com/lederniermetre/shortcut/commit/7e43e124aec0128bb478cbd0f83667f41c83575d))
+
+
+### 📚 Documentation
+
+* **README:** massive update on example and usage ([11b8f9c](https://github.com/lederniermetre/shortcut/commit/11b8f9cbf23c1158090bec1b67e29335f7115724))
+
 ## [1.4.2](https://github.com/lederniermetre/shortcut/compare/v1.4.1...v1.4.2) (2023-11-27)
 
 
