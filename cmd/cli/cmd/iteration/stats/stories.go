@@ -71,24 +71,19 @@ var storiesCmd = &cobra.Command{
 					Name:       *epic.Name,
 					WorkflowID: make(map[int64]map[int64]shortcut.WorkflowStats),
 				}
+			}
 
+			if ws, ok := epicsStats[epicID].WorkflowID[workflowID][workflowStateID]; ok {
+				// If the entry exists, update it
+				ws.Count++
+				epicsStats[epicID].WorkflowID[workflowID][workflowStateID] = ws
+			} else {
+				// If the entry doesn't exist, initialize it
 				epicsStats[epicID].WorkflowID[workflowID] = make(map[int64]shortcut.WorkflowStats)
 				ws := shortcut.WorkflowStats{
 					Count: 1,
 				}
 				epicsStats[epicID].WorkflowID[workflowID][workflowStateID] = ws
-			} else {
-				if ws, ok := epicsStats[epicID].WorkflowID[workflowID][workflowStateID]; ok {
-					// If the entry exists, update it
-					ws.Count++
-					epicsStats[epicID].WorkflowID[workflowID][workflowStateID] = ws
-				} else {
-					// If the entry doesn't exist, initialize it
-					ws := shortcut.WorkflowStats{
-						Count: 1,
-					}
-					epicsStats[epicID].WorkflowID[workflowID][workflowStateID] = ws
-				}
 			}
 
 			epicsStats[epicID] = shortcut.IncreaseEpicsStoriesCounter(workflowStates[workflowStateID], epicsStats[epicID])
