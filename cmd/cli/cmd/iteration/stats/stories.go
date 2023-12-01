@@ -33,15 +33,21 @@ var storiesCmd = &cobra.Command{
 
 		postponedStories := map[string]shortcut.StoryPostponed{}
 		epicsStats := map[int64]shortcut.EpicsStats{}
+		epicsStats[-1] = shortcut.EpicsStats{
+			Name:       "No Epic",
+			WorkflowID: make(map[int64]map[int64]shortcut.WorkflowStats),
+		}
 		workflowStates := map[int64]shortcut.WorflowInfo{}
 		var totalEstimate int64 = 0
 
 		for _, story := range stories {
-			if story.EpicID == nil {
+			var epicID int64 = -1
+			if story.EpicID != nil {
+				epicID = *story.EpicID
+			} else {
 				pterm.Warning.Printfln("Story with no epics: %s", *story.Name)
-				continue
 			}
-			epicID := *story.EpicID
+
 			workflowID := *story.WorkflowID
 			workflowStateID := *story.WorkflowStateID
 
