@@ -107,7 +107,7 @@ var storiesCmd = &cobra.Command{
 
 		pterm.DefaultHeader.WithFullWidth().Println("Global iteration stats")
 
-		slog.Info("Number of stories", slog.Int("count", len(stories)))
+		slog.Info("Stories", slog.Int("count", len(stories)))
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 
 		globalIterationStats := shortcut.GlobalIterationProgress(epicsStats)
