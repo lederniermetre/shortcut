@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.5.1](https://github.com/lederniermetre/shortcut/compare/v1.5.0...v1.5.1) (2023-12-11)
+
+
+### 🛠️ Refactor
+
+* **release-please:** handle new version ([0251bf2](https://github.com/lederniermetre/shortcut/commit/0251bf21b7a33910f809f33f530f8454a23635b0))
+* **release-please:** update to new args ([e5392b2](https://github.com/lederniermetre/shortcut/commit/e5392b2c0dea8abeffe6b7a2cd500401674ac808))
+
+
+### 🧰 Other
+
+* bump the deps group with 1 update ([7392aa0](https://github.com/lederniermetre/shortcut/commit/7392aa0fe82ef5064d274e33da2db54d430cd699))
+* bump the deps group with 2 updates ([f937157](https://github.com/lederniermetre/shortcut/commit/f9371579e8b48dceb75620d58017416a588a4a98))
+* **gorelease:** clean comment ([080a9f2](https://github.com/lederniermetre/shortcut/commit/080a9f23857af264a79227c5a00a8bab4b04a848))
+
 ## [1.5.0](https://github.com/lederniermetre/shortcut/compare/v1.4.2...v1.5.0) (2023-12-01)
 
 
