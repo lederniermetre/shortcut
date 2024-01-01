@@ -4,8 +4,8 @@ go 1.21
 
 require (
 	github.com/go-openapi/runtime v0.26.2
-	github.com/go-openapi/strfmt v0.21.10
-	github.com/pterm/pterm v0.12.72
+	github.com/go-openapi/strfmt v0.22.0
+	github.com/pterm/pterm v0.12.73
 	github.com/spf13/cobra v1.8.0
 	gitlab.com/greyxor/slogor v1.2.1
 )
@@ -26,6 +26,7 @@ require (
 	github.com/go-openapi/spec v0.20.11 // indirect
 	github.com/go-openapi/swag v0.22.4 // indirect
 	github.com/go-openapi/validate v0.22.3 // indirect
+	github.com/google/uuid v1.5.0 // indirect
 	github.com/gookit/color v1.5.4 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
