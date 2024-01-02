@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.3](https://github.com/lederniermetre/shortcut/compare/v1.5.2...v1.5.3) (2024-01-02)
+
+
+### 🧰 Other
+
+* bump the deps group with 2 updates ([dc1ef92](https://github.com/lederniermetre/shortcut/commit/dc1ef92c6d24d377a541634295339ed6e90d9453))
+
 ## [1.5.2](https://github.com/lederniermetre/shortcut/compare/v1.5.1...v1.5.2) (2023-12-18)
 
 
