@@ -5,9 +5,9 @@ go 1.21
 require (
 	github.com/go-openapi/runtime v0.26.2
 	github.com/go-openapi/strfmt v0.22.0
-	github.com/pterm/pterm v0.12.73
+	github.com/pterm/pterm v0.12.74
 	github.com/spf13/cobra v1.8.0
-	gitlab.com/greyxor/slogor v1.2.1
+	gitlab.com/greyxor/slogor v1.2.2
 )
 
 require (
@@ -43,7 +43,7 @@ require (
 	go.opentelemetry.io/otel v1.17.0 // indirect
 	go.opentelemetry.io/otel/metric v1.17.0 // indirect
 	go.opentelemetry.io/otel/trace v1.17.0 // indirect
-	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/term v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
