@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/go-openapi/runtime v0.27.1
 	github.com/go-openapi/strfmt v0.22.0
-	github.com/pterm/pterm v0.12.76
+	github.com/pterm/pterm v0.12.78
 	github.com/spf13/cobra v1.8.0
 	gitlab.com/greyxor/slogor v1.2.2
 )
