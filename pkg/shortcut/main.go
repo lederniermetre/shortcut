@@ -173,17 +173,17 @@ func IncreaseEpicsStoriesCounter(storyWorkflowState WorflowInfo, epicsStats Epic
 
 func IncreaseEpicsEstimateCounter(storyWorkflowState WorflowInfo, epicsStats EpicsStats, estimate int) EpicsStats {
 	if storyWorkflowState.Type == "started" {
-		epicsStats.EstimateStarted = epicsStats.EstimateStarted + estimate
+		epicsStats.EstimateStarted += estimate
 		return epicsStats
 	}
 
 	if storyWorkflowState.Type == "unstarted" {
-		epicsStats.EstimateUnstarted = epicsStats.EstimateUnstarted + estimate
+		epicsStats.EstimateUnstarted += estimate
 		return epicsStats
 	}
 
 	if storyWorkflowState.Type == "done" {
-		epicsStats.EstimateDone = epicsStats.EstimateDone + estimate
+		epicsStats.EstimateDone += estimate
 		return epicsStats
 	}
 
