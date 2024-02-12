@@ -128,8 +128,22 @@ var storiesCmd = &cobra.Command{
 		epicsGlobalStats := shortcut.GlobalEpicStats{}
 		epicsTableByEstimates := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
 
-		for _, epicStat := range epicsStats {
-			epicStat = shortcut.SummaryEpicStat(epicStat)
+		type EpicsStatsValuePair struct {
+			Key   int64
+			Value shortcut.EpicsStats
+		}
+
+		var epicsStatsOrdered []EpicsStatsValuePair
+		for key, value := range epicsStats {
+			epicsStatsOrdered = append(epicsStatsOrdered, EpicsStatsValuePair{key, value})
+		}
+
+		sort.Slice(epicsStatsOrdered, func(i, j int) bool {
+			return epicsStatsOrdered[i].Key < epicsStatsOrdered[j].Key
+		})
+
+		for _, pair := range epicsStatsOrdered {
+			epicStat := shortcut.SummaryEpicStat(pair.Value)
 			epicsGlobalStats = shortcut.ComputeEpicGlobalStat(epicsGlobalStats, epicStat)
 			epicsTableByStories = append(epicsTableByStories, []string{epicStat.Name, fmt.Sprintf("%d (%d %%)", epicStat.StoriesUnstarted, epicStat.StoriesUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.StoriesStarted, epicStat.StoriesStartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.StoriesDone, epicStat.StoriesDonePercent)})
 			epicsTableByEstimates = append(epicsTableByEstimates, []string{epicStat.Name, fmt.Sprintf("%d (%d %%)", epicStat.EstimateUnstarted, epicStat.EstimateUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.EstimateStarted, epicStat.EstimateStartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.EstimateDone, epicStat.EstimateDonePercent)})
