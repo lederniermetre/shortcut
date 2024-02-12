@@ -35,10 +35,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: ${{ matrix.language }}
       - name: Setup Golang
         uses: actions/setup-go@v5
         with:
@@ -50,6 +46,10 @@ jobs:
           sudo curl -s -o /usr/local/bin/swagger -L'#' "$download_url"
           sudo chmod +x /usr/local/bin/swagger
           swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
+      - name: Setup CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
       - name: CodeQL
         uses: github/codeql-action/analyze@v3
 
