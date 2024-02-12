@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.6.0](https://github.com/lederniermetre/shortcut/compare/v1.5.4...v1.6.0) (2024-02-12)
+
+
+### 🚀 Features
+
+* **go:** bump to 1.22 ([cc50936](https://github.com/lederniermetre/shortcut/commit/cc50936ba8048a46048722e6292d4d3eaf9deda0))
+* **stats/stories:** add global stats ([98a7980](https://github.com/lederniermetre/shortcut/commit/98a798002aa8090c30c68f0cfc1c4905d4a58bd9))
+* **stats/stories:** force order of epic by ID ([d47f924](https://github.com/lederniermetre/shortcut/commit/d47f9244424677783c14dfd3ea0dafcdd8644bb4))
+
+
+### 🛠️ Refactor
+
+* **codeql:** update workflow ([2054926](https://github.com/lederniermetre/shortcut/commit/2054926181b25ec50e90be1fca02d7d5eaa7817d))
+* **go:** bump version ([1ec1147](https://github.com/lederniermetre/shortcut/commit/1ec11472debcd54a668bf7ad499bdc1510a93dd9))
+* **stats/stories:** remove duplcate informations ([c28b41e](https://github.com/lederniermetre/shortcut/commit/c28b41ef71ce8548dd26e1dd4591e0b99af305db))
+* **stats/stories:** remove duplicate loop ([d7ab3b0](https://github.com/lederniermetre/shortcut/commit/d7ab3b0f94ee6afebe25dcab56cbcd6db2db9c8a))
+* **stats/stories:** renaming ([765d596](https://github.com/lederniermetre/shortcut/commit/765d596a591bebb31080721619623072a59cc17c))
+
+
+### 🧰 Other
+
+* bump the deps group with 1 update ([969d778](https://github.com/lederniermetre/shortcut/commit/969d7785b866841a677e322904ce21fb73c98099))
+* bump the deps group with 1 update ([68fbd67](https://github.com/lederniermetre/shortcut/commit/68fbd67b07fbb05c88bdc07f558ca29b43f8f63f))
+* bump the deps group with 2 updates ([d87d129](https://github.com/lederniermetre/shortcut/commit/d87d129bed6a746235fb31b2fdb45a2884b3b6a1))
+* bump the deps group with 2 updates ([710a381](https://github.com/lederniermetre/shortcut/commit/710a3814d3953bc2a0c0322f8be482130dcb7e0f))
+* **shortcut:** use sugar syntax ([f8e49ab](https://github.com/lederniermetre/shortcut/commit/f8e49ab401a446b44bd43b91c34633d8f91a83aa))
+
 ## [1.5.4](https://github.com/lederniermetre/shortcut/compare/v1.5.3...v1.5.4) (2024-01-08)
 
 
