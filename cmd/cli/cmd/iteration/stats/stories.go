@@ -130,10 +130,12 @@ var storiesCmd = &cobra.Command{
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 
 		epicsTableByStories := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
+		epicsGlobalStats := shortcut.GlobalEpicStats{}
 		epicsTableByEstimates := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
 
 		for _, epicStat := range epicsStats {
 			epicStat = shortcut.SummaryEpicStat(epicStat)
+			epicsGlobalStats = shortcut.ComputeEpicGlobalStat(epicsGlobalStats, epicStat)
 			epicsTableByStories = append(epicsTableByStories, []string{epicStat.Name, fmt.Sprintf("%d (%d %%)", epicStat.StoriesUnstarted, epicStat.StoriesUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.StoriesStarted, epicStat.StoriesStartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.StoriesDone, epicStat.StoriesDonePercent)})
 			epicsTableByEstimates = append(epicsTableByEstimates, []string{epicStat.Name, fmt.Sprintf("%d (%d %%)", epicStat.EstimateUnstarted, epicStat.EstimateUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.EstimateStarted, epicStat.EstimateStartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.EstimateDone, epicStat.EstimateDonePercent)})
 
@@ -143,6 +145,11 @@ var storiesCmd = &cobra.Command{
 				}
 			}
 		}
+
+		epicsTableByStories = append(epicsTableByStories, []string{" "})
+		epicsTableByStories = append(epicsTableByStories, []string{pterm.FgYellow.Sprint("Total"), fmt.Sprintf("%d (%d %%)", epicsGlobalStats.StoriesUnstarted, epicsGlobalStats.StoriesUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicsGlobalStats.StoriesStarted, epicsGlobalStats.StoriesStartedPercent), fmt.Sprintf("%d (%d %%)", epicsGlobalStats.StoriesDone, epicsGlobalStats.StoriesDonePercent)})
+		epicsTableByEstimates = append(epicsTableByEstimates, []string{" "})
+		epicsTableByEstimates = append(epicsTableByEstimates, []string{pterm.FgYellow.Sprint("Total"), fmt.Sprintf("%d (%d %%)", epicsGlobalStats.EstimateUnstarted, epicsGlobalStats.EstimateUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicsGlobalStats.EstimateStarted, epicsGlobalStats.EstimateStartedPercent), fmt.Sprintf("%d (%d %%)", epicsGlobalStats.EstimateDone, epicsGlobalStats.EstimateDonePercent)})
 
 		pterm.DefaultHeader.WithFullWidth().Println("Epics (by stories)")
 		err := pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsTableByStories).Render()

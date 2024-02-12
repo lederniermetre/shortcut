@@ -238,3 +238,29 @@ func GlobalIterationProgress(epicsStats map[int64]EpicsStats) GlobalIterationSta
 
 	return globalIterationStats
 }
+
+func ComputeEpicGlobalStat(global GlobalEpicStats, epic EpicsStats) GlobalEpicStats {
+	global.EstimateUnstarted += epic.EstimateUnstarted
+	global.EstimateStarted += epic.EstimateStarted
+	global.EstimateDone += epic.EstimateDone
+
+	global.StoriesUnstarted += epic.StoriesUnstarted
+	global.StoriesStarted += epic.StoriesStarted
+	global.StoriesDone += epic.StoriesDone
+
+	totalEpicsStories := global.StoriesUnstarted + global.StoriesStarted + global.StoriesDone
+	if totalEpicsStories != 0 {
+		global.StoriesDonePercent = global.StoriesDone * 100 / totalEpicsStories
+		global.StoriesUnstartedPercent = global.StoriesUnstarted * 100 / totalEpicsStories
+		global.StoriesStartedPercent = global.StoriesStarted * 100 / totalEpicsStories
+	}
+
+	totalEpicsEstimateStories := global.EstimateUnstarted + global.EstimateStarted + global.EstimateDone
+	if totalEpicsEstimateStories != 0 {
+		global.EstimateDonePercent = global.EstimateDone * 100 / totalEpicsEstimateStories
+		global.EstimateUnstartedPercent = global.EstimateUnstarted * 100 / totalEpicsEstimateStories
+		global.EstimateStartedPercent = global.EstimateStarted * 100 / totalEpicsEstimateStories
+	}
+
+	return global
+}

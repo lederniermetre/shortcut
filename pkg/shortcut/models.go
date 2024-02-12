@@ -47,3 +47,19 @@ type GlobalIterationStats struct {
 	Started   int
 	Done      int
 }
+
+type GlobalEpicStats struct {
+	StoriesUnstarted        int
+	StoriesUnstartedPercent int
+	StoriesStarted          int
+	StoriesStartedPercent   int
+	StoriesDone             int
+	StoriesDonePercent      int
+
+	EstimateUnstarted        int
+	EstimateUnstartedPercent int
+	EstimateStarted          int
+	EstimateStartedPercent   int
+	EstimateDone             int
+	EstimateDonePercent      int
+}
