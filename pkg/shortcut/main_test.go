@@ -165,3 +165,79 @@ func TestGlobalIterationProgress(t *testing.T) {
 		t.Errorf("Global iteration stats calculation error for empty input")
 	}
 }
+
+func TestComputeEpicGlobalStat(t *testing.T) {
+	global := GlobalEpicStats{}
+
+	epicEmpty := EpicsStats{
+		StoriesUnstarted:  0,
+		StoriesStarted:    0,
+		StoriesDone:       0,
+		EstimateUnstarted: 0,
+		EstimateStarted:   0,
+		EstimateDone:      0,
+	}
+
+	expectedResultEmpty := GlobalEpicStats{
+		StoriesUnstarted:         0,
+		StoriesStarted:           0,
+		StoriesDone:              0,
+		EstimateUnstarted:        0,
+		EstimateStarted:          0,
+		EstimateDone:             0,
+		StoriesUnstartedPercent:  0,
+		StoriesStartedPercent:    0,
+		StoriesDonePercent:       0,
+		EstimateUnstartedPercent: 0,
+		EstimateStartedPercent:   0,
+		EstimateDonePercent:      0,
+	}
+
+	global = ComputeEpicGlobalStat(global, epicEmpty)
+
+	if global != expectedResultEmpty {
+		t.Errorf("Expected %+v, but got %+v", expectedResultEmpty, global)
+	}
+
+	epics := []EpicsStats{
+		{
+			StoriesUnstarted:  2,
+			StoriesStarted:    3,
+			StoriesDone:       4,
+			EstimateUnstarted: 5,
+			EstimateStarted:   6,
+			EstimateDone:      7,
+		},
+		{
+			StoriesUnstarted:  4,
+			StoriesStarted:    1,
+			StoriesDone:       2,
+			EstimateUnstarted: 1,
+			EstimateStarted:   2,
+			EstimateDone:      8,
+		},
+	}
+
+	expectedResult := GlobalEpicStats{
+		StoriesUnstarted:         6,
+		StoriesStarted:           4,
+		StoriesDone:              6,
+		EstimateUnstarted:        6,
+		EstimateStarted:          8,
+		EstimateDone:             15,
+		StoriesUnstartedPercent:  37,
+		StoriesStartedPercent:    25,
+		StoriesDonePercent:       37,
+		EstimateUnstartedPercent: 20,
+		EstimateStartedPercent:   27,
+		EstimateDonePercent:      51,
+	}
+
+	for _, epic := range epics {
+		global = ComputeEpicGlobalStat(global, epic)
+	}
+
+	if global != expectedResult {
+		t.Errorf("Expected %+v, but got %+v", expectedResult, global)
+	}
+}
