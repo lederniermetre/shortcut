@@ -129,12 +129,13 @@ var storiesCmd = &cobra.Command{
 		slog.Info("Stories Done", slog.Int("count", int(globalIterationStats.Done)))
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 
-		pterm.DefaultHeader.WithFullWidth().Println("Epics (by stories)")
 		epicsTableData := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
+		epicsEstimateTableData := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
 
 		for _, epicStat := range epicsStats {
 			epicStat = shortcut.SummaryEpicStat(epicStat)
 			epicsTableData = append(epicsTableData, []string{epicStat.Name, fmt.Sprintf("%d (%d %%)", epicStat.StoriesUnstarted, epicStat.StoriesUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.StoriesStarted, epicStat.StoriesStartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.StoriesDone, epicStat.StoriesDonePercent)})
+			epicsEstimateTableData = append(epicsEstimateTableData, []string{epicStat.Name, fmt.Sprintf("%d (%d %%)", epicStat.EstimateUnstarted, epicStat.EstimateUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.EstimateStarted, epicStat.EstimateStartedPercent), fmt.Sprintf("%d (%d %%)", epicStat.EstimateDone, epicStat.EstimateDonePercent)})
 
 			for _, wfState := range epicStat.WorkflowID {
 				for wfStateID, stateCount := range wfState {
@@ -143,25 +144,13 @@ var storiesCmd = &cobra.Command{
 			}
 		}
 
+		pterm.DefaultHeader.WithFullWidth().Println("Epics (by stories)")
 		err := pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsTableData).Render()
 		if err != nil {
 			slog.Error("Rendering epics (by stories) table", slogor.Err(err))
 		}
 
 		pterm.DefaultHeader.WithFullWidth().Println("Epics (by estimates)")
-		epicsEstimateTableData := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
-
-		for _, epicStart := range epicsStats {
-			epicStart = shortcut.SummaryEpicStat(epicStart)
-			epicsEstimateTableData = append(epicsEstimateTableData, []string{epicStart.Name, fmt.Sprintf("%d (%d %%)", epicStart.EstimateUnstarted, epicStart.EstimateUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicStart.EstimateStarted, epicStart.EstimateStartedPercent), fmt.Sprintf("%d (%d %%)", epicStart.EstimateDone, epicStart.EstimateDonePercent)})
-
-			for _, wfState := range epicStart.WorkflowID {
-				for wfStateID, stateCount := range wfState {
-					slog.Debug("steps", slog.String("state", workflowStates[wfStateID].Name), slog.Int("count", stateCount.Count))
-				}
-			}
-		}
-
 		err = pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsEstimateTableData).Render()
 		if err != nil {
 			slog.Error("Rendering epics (by estimates) table", slogor.Err(err))
