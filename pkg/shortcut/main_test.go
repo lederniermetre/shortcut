@@ -112,6 +112,56 @@ func TestIncreaseEpicsCounterMultiType(t *testing.T) {
 	}
 }
 
+func TestIncreaseEpicsEstimateCounterMultiType(t *testing.T) {
+	// Create a sample EpicsStats instance
+	epicStats := EpicsStats{
+		Name:              "Sample Epic",
+		EstimateUnstarted: 10,
+		EstimateStarted:   20,
+		EstimateDone:      30,
+		WorkflowID:        map[int64]map[int64]WorkflowStats{},
+	}
+
+	// Define test cases with different types
+	testCases := []struct {
+		worflowInfo WorflowInfo
+		expected    int
+		estimate    int
+	}{
+		{WorflowInfo{Name: "Workflow1", Type: "started"}, epicStats.EstimateStarted + 10, 10},
+		{WorflowInfo{Name: "Workflow2", Type: "unstarted"}, epicStats.EstimateUnstarted + 11, 11},
+		{WorflowInfo{Name: "Workflow3", Type: "done"}, epicStats.EstimateDone + 31, 31},
+		{WorflowInfo{Name: "UnknownWorkflow", Type: "unknown"}, epicStats.EstimateDone, 30},
+	}
+
+	// Iterate over test cases
+	for _, tc := range testCases {
+		// Call the function
+		result := IncreaseEpicsEstimateCounter(tc.worflowInfo, epicStats, tc.estimate)
+
+		// Check if the corresponding counter is increased
+		switch tc.worflowInfo.Type {
+		case "started":
+			if result.EstimateStarted != tc.expected {
+				t.Errorf("For %s, Expected Started counter to be %d, but got %d", tc.worflowInfo.Type, tc.expected, result.EstimateStarted)
+			}
+		case "unstarted":
+			if result.EstimateUnstarted != tc.expected {
+				t.Errorf("For %s, Expected Unstarted counter to be %d, but got %d", tc.worflowInfo.Type, tc.expected, result.EstimateUnstarted)
+			}
+		case "done":
+			if result.EstimateDone != tc.expected {
+				t.Errorf("For %s, Expected Done counter to be %d, but got %d", tc.worflowInfo.Type, tc.expected, result.EstimateDone)
+			}
+		default:
+			// No change expected for unknown type
+			if result.EstimateDone != epicStats.EstimateDone || result.EstimateUnstarted != epicStats.EstimateUnstarted || result.EstimateStarted != epicStats.EstimateStarted {
+				t.Errorf("For %s, Expected no change, but got %+v", tc.worflowInfo.Type, result)
+			}
+		}
+	}
+}
+
 func TestOrdererOwnersUUID(t *testing.T) {
 	ownersUUID := map[strfmt.UUID]int64{
 		strfmt.UUID("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"): 5,
