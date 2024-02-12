@@ -120,13 +120,8 @@ var storiesCmd = &cobra.Command{
 
 		pterm.DefaultHeader.WithFullWidth().Println("Global iteration stats")
 
-		globalIterationStats := shortcut.GlobalIterationProgress(epicsStats)
-
 		slog.Info("Stories", slog.Int("count", len(stories)))
 		slog.Info("Stories skipped", slog.Int("count", int(totalStoriesSkip)))
-		slog.Info("Stories Unstarted", slog.Int("count", int(globalIterationStats.Unstarted)))
-		slog.Info("Stories Started", slog.Int("count", int(globalIterationStats.Started)))
-		slog.Info("Stories Done", slog.Int("count", int(globalIterationStats.Done)))
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 
 		epicsTableByStories := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}

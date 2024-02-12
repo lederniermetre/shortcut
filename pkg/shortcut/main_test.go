@@ -133,39 +133,6 @@ func TestOrdererOwnersUUID(t *testing.T) {
 	}
 }
 
-func TestGlobalIterationProgress(t *testing.T) {
-	// Test case 1: Test with non-zero values
-	epicsStats := map[int64]EpicsStats{
-		1: {
-			StoriesUnstarted: 2,
-			StoriesStarted:   3,
-			StoriesDone:      5,
-		},
-		2: {
-			StoriesUnstarted: 1,
-			StoriesStarted:   2,
-			StoriesDone:      3,
-		},
-	}
-
-	result := GlobalIterationProgress(epicsStats)
-
-	// Check if global iteration stats are updated correctly
-	if result.Unstarted != 3 || result.Started != 5 || result.Done != 8 {
-		t.Errorf("Global iteration stats calculation error")
-	}
-
-	// Test case 2: Test with zero values
-	emptyStats := map[int64]EpicsStats{}
-
-	emptyResult := GlobalIterationProgress(emptyStats)
-
-	// Check if global iteration stats remain zero for empty input
-	if emptyResult.Unstarted != 0 || emptyResult.Started != 0 || emptyResult.Done != 0 {
-		t.Errorf("Global iteration stats calculation error for empty input")
-	}
-}
-
 func TestComputeEpicGlobalStat(t *testing.T) {
 	global := GlobalEpicStats{}
 

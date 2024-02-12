@@ -42,12 +42,6 @@ type OwnerStats struct {
 	Load int64
 }
 
-type GlobalIterationStats struct {
-	Unstarted int
-	Started   int
-	Done      int
-}
-
 type GlobalEpicStats struct {
 	StoriesUnstarted        int
 	StoriesUnstartedPercent int
