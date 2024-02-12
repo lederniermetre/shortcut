@@ -2,11 +2,10 @@ package shortcut
 
 import (
 	"context"
+	"log/slog"
 	"os"
 	"sort"
 	"time"
-
-	"log/slog"
 
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"

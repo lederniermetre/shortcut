@@ -3,9 +3,9 @@ package shortcut
 import "github.com/go-openapi/strfmt"
 
 type StoryPostponed struct {
-	Count  int
 	Url    string
 	Status string
+	Count  int
 }
 
 type EpicsStats struct {

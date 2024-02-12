@@ -129,13 +129,13 @@ var storiesCmd = &cobra.Command{
 		epicsTableByEstimates := pterm.TableData{{"Epic Name", "Unstarted", "Started", "Done"}}
 
 		type EpicsStatsValuePair struct {
-			Key   int64
 			Value shortcut.EpicsStats
+			Key   int64
 		}
 
 		var epicsStatsOrdered []EpicsStatsValuePair
 		for key, value := range epicsStats {
-			epicsStatsOrdered = append(epicsStatsOrdered, EpicsStatsValuePair{key, value})
+			epicsStatsOrdered = append(epicsStatsOrdered, EpicsStatsValuePair{Key: key, Value: value})
 		}
 
 		sort.Slice(epicsStatsOrdered, func(i, j int) bool {
