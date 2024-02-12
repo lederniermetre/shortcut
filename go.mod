@@ -1,13 +1,12 @@
 module github.com/lederniermetre/shortcut
 
 go 1.21
-
 require (
 	github.com/go-openapi/runtime v0.27.1
 	github.com/go-openapi/strfmt v0.22.0
-	github.com/pterm/pterm v0.12.78
+	github.com/pterm/pterm v0.12.79
 	github.com/spf13/cobra v1.8.0
-	gitlab.com/greyxor/slogor v1.2.2
+	gitlab.com/greyxor/slogor v1.2.3
 )
 
 require (
@@ -44,7 +43,7 @@ require (
 	go.opentelemetry.io/otel/metric v1.17.0 // indirect
 	go.opentelemetry.io/otel/trace v1.17.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/term v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
