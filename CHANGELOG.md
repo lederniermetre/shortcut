@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.6.2](https://github.com/lederniermetre/shortcut/compare/v1.6.1...v1.6.2) (2024-03-11)
+
+
+### 🐞 Bug Fixes
+
+* **stats/owners:** handle archived story ([555458c](https://github.com/lederniermetre/shortcut/commit/555458c062a5bdca8833cc9572ca19e211c01f54))
+
+
+### 🧰 Other
+
+* **goreleaser:** clean comment ([2357ea5](https://github.com/lederniermetre/shortcut/commit/2357ea540d03703abbaa2fcf8bd1ce493856c39b))
+
 ## [1.6.1](https://github.com/lederniermetre/shortcut/compare/v1.6.0...v1.6.1) (2024-02-26)
 
 
