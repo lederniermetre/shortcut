@@ -37,6 +37,11 @@ Estimate is divided by number of owners when multi-tenancy`,
 
 		ownersUUID := map[strfmt.UUID]int64{}
 		for _, story := range allStories {
+			if story.Archived != nil && *story.Archived {
+				pterm.Info.Printfln("Story %s is archived skipping", *story.Name)
+				continue
+			}
+
 			if story.Estimate == nil {
 				pterm.Warning.Printfln("Story assign but not estimated: %s", *story.Name)
 				continue
