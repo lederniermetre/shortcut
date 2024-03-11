@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/lederniermetre/shortcut/compare/v1.6.0...v1.6.1) (2024-02-26)
+
+
+### 🧰 Other
+
+* **tooling:** update code style ([f11a7ba](https://github.com/lederniermetre/shortcut/commit/f11a7ba0bc80a670128a5e4f20abe36676fe640b))
+
 ## [1.6.0](https://github.com/lederniermetre/shortcut/compare/v1.5.4...v1.6.0) (2024-02-12)
 
 
