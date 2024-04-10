@@ -19,7 +19,7 @@ func SetLogger(debug bool) {
 		showSource = true
 	}
 
-	slog.SetDefault(slog.New(slogor.NewHandler(os.Stderr, &slogor.Options{
+	slog.SetDefault(slog.New(slogor.NewHandler(os.Stderr, slogor.Options{
 		TimeFormat: time.Stamp,
 		Level:      logLevel,
 		ShowSource: showSource,
