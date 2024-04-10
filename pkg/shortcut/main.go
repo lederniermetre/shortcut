@@ -44,20 +44,14 @@ func GetAuth() runtime.ClientAuthInfoWriter {
 }
 
 func RetrieveIteration(name string) models.IterationSlim {
-	searchIterationsParams := &operations.SearchIterationsParams{}
-	search := &models.Search{
-		Detail:   "slim",
-		Query:    &name,
-		PageSize: 1,
-	}
+	searchDetail := "slim"
+	pageSize := int64(1)
 
-	err := search.Validate(strfmt.Default)
-	if err != nil {
-		slog.Error("Search is invalid", slogor.Err(err))
-		os.Exit(1)
+	searchIterationsParams := &operations.SearchIterationsParams{
+		Detail:   &searchDetail,
+		Query:    name,
+		PageSize: &pageSize,
 	}
-
-	searchIterationsParams.Search = search
 
 	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
