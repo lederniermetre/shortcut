@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.6.3](https://github.com/lederniermetre/shortcut/compare/v1.6.2...v1.6.3) (2024-04-10)
+
+
+### 🐞 Bug Fixes
+
+* **log:** parameter handler ([9a7d3fa](https://github.com/lederniermetre/shortcut/commit/9a7d3fa3f0e368cc1a7a541528ecbaae93276f41))
+
+
+### 🛠️ Refactor
+
+* **search:** update to new version ([7bf701a](https://github.com/lederniermetre/shortcut/commit/7bf701af59ba6c45a8e7c58ba4a8eeb4b85aa99a))
+
+
+### 🧰 Other
+
+* bump the deps group with 6 updates ([0ebe37c](https://github.com/lederniermetre/shortcut/commit/0ebe37c66fec13cf773555e4aac299c3472c1ec2))
+* go mod tidy ([86eeee8](https://github.com/lederniermetre/shortcut/commit/86eeee8c67f37c11d4a32fb13713250943219e37))
+
 ## [1.6.2](https://github.com/lederniermetre/shortcut/compare/v1.6.1...v1.6.2) (2024-03-11)
 
 
