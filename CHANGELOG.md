@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.0](https://github.com/lederniermetre/shortcut/compare/v1.6.4...v1.7.0) (2024-06-03)
+
+
+### 🚀 Features
+
+* **shortcut:** handle backlog state ([2d93ed4](https://github.com/lederniermetre/shortcut/commit/2d93ed448f2262ed1ae685b70f65675117b87ba2))
+
+
+### 🧰 Other
+
+* betteralign ([d95f788](https://github.com/lederniermetre/shortcut/commit/d95f78849e1603db7b4078ab3c1b994cfc3d1102))
+* human readable ([65d4678](https://github.com/lederniermetre/shortcut/commit/65d4678462d8c7bdce80163a932bb058296d1c44))
+* update deps ([b54e44e](https://github.com/lederniermetre/shortcut/commit/b54e44e6734d6c4dc542e56365dc6302abb7dc4a))
+
 ## [1.6.4](https://github.com/lederniermetre/shortcut/compare/v1.6.3...v1.6.4) (2024-05-13)
 
 
