@@ -17,6 +17,8 @@ type EpicsStats struct {
 	StoriesStartedPercent   int
 	StoriesDone             int
 	StoriesDonePercent      int
+	StoriesBacklog          int
+	StoriesBacklogPercent   int
 
 	EstimateUnstarted        int
 	EstimateUnstartedPercent int
@@ -24,6 +26,8 @@ type EpicsStats struct {
 	EstimateStartedPercent   int
 	EstimateDone             int
 	EstimateDonePercent      int
+	EstimateBacklog          int
+	EstimateBacklogPercent   int
 
 	WorkflowID map[int64]map[int64]WorkflowStats
 }
@@ -49,6 +53,8 @@ type GlobalEpicStats struct {
 	StoriesStartedPercent   int
 	StoriesDone             int
 	StoriesDonePercent      int
+	StoriesBacklog          int
+	StoriesBacklogPercent   int
 
 	EstimateUnstarted        int
 	EstimateUnstartedPercent int
@@ -56,4 +62,6 @@ type GlobalEpicStats struct {
 	EstimateStartedPercent   int
 	EstimateDone             int
 	EstimateDonePercent      int
+	EstimateBacklog          int
+	EstimateBacklogPercent   int
 }

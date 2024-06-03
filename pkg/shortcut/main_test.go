@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/go-openapi/strfmt"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSummaryEpicStat(t *testing.T) {
@@ -15,52 +16,86 @@ func TestSummaryEpicStat(t *testing.T) {
 		StoriesDone:              5,
 		EstimateUnstarted:        2,
 		EstimateStarted:          3,
+		StoriesBacklog:           1,
 		EstimateDone:             5,
 		StoriesUnstartedPercent:  0,
 		StoriesStartedPercent:    0,
 		StoriesDonePercent:       0,
+		StoriesBacklogPercent:    0,
 		EstimateUnstartedPercent: 0,
 		EstimateStartedPercent:   0,
 		EstimateDonePercent:      0,
+		EstimateBacklog:          2,
+		EstimateBacklogPercent:   0,
 	}
 
 	result := SummaryEpicStat(epic)
 
-	if result.StoriesUnstartedPercent != 20 ||
-		result.StoriesStartedPercent != 30 ||
-		result.StoriesDonePercent != 50 ||
-		result.EstimateUnstartedPercent != 20 ||
-		result.EstimateStartedPercent != 30 ||
-		result.EstimateDonePercent != 50 {
-		t.Errorf("Percentage calculation error")
+	expectedEpicStats := EpicsStats{
+		Name:                     "Epic1",
+		StoriesUnstarted:         2,
+		StoriesStarted:           3,
+		StoriesDone:              5,
+		EstimateUnstarted:        2,
+		EstimateStarted:          3,
+		StoriesBacklog:           1,
+		EstimateDone:             5,
+		StoriesUnstartedPercent:  18,
+		StoriesStartedPercent:    27,
+		StoriesDonePercent:       45,
+		StoriesBacklogPercent:    9,
+		EstimateUnstartedPercent: 16,
+		EstimateStartedPercent:   25,
+		EstimateDonePercent:      41,
+		EstimateBacklog:          2,
+		EstimateBacklogPercent:   16,
 	}
+
+	assert.EqualValuesf(t, expectedEpicStats, result, "%v failed")
 
 	epicZero := EpicsStats{
 		Name:                     "Epic2",
 		StoriesUnstarted:         0,
 		StoriesStarted:           0,
 		StoriesDone:              0,
+		StoriesBacklog:           0,
 		EstimateUnstarted:        0,
 		EstimateStarted:          0,
 		EstimateDone:             0,
+		StoriesBacklogPercent:    0,
 		StoriesUnstartedPercent:  0,
 		StoriesStartedPercent:    0,
 		StoriesDonePercent:       0,
 		EstimateUnstartedPercent: 0,
 		EstimateStartedPercent:   0,
 		EstimateDonePercent:      0,
+		EstimateBacklog:          0,
+		EstimateBacklogPercent:   0,
 	}
 
 	resultZero := SummaryEpicStat(epicZero)
 
-	if resultZero.StoriesUnstartedPercent != 0 ||
-		resultZero.StoriesStartedPercent != 0 ||
-		resultZero.StoriesDonePercent != 0 ||
-		resultZero.EstimateUnstartedPercent != 0 ||
-		resultZero.EstimateStartedPercent != 0 ||
-		resultZero.EstimateDonePercent != 0 {
-		t.Errorf("Percentage calculation error for zero values")
+	expectedResultZero := EpicsStats{
+		Name:                     "Epic2",
+		StoriesUnstarted:         0,
+		StoriesStarted:           0,
+		StoriesDone:              0,
+		EstimateUnstarted:        0,
+		EstimateStarted:          0,
+		StoriesBacklog:           0,
+		EstimateDone:             0,
+		StoriesUnstartedPercent:  0,
+		StoriesStartedPercent:    0,
+		StoriesDonePercent:       0,
+		StoriesBacklogPercent:    0,
+		EstimateUnstartedPercent: 0,
+		EstimateStartedPercent:   0,
+		EstimateDonePercent:      0,
+		EstimateBacklog:          0,
+		EstimateBacklogPercent:   0,
 	}
+
+	assert.EqualValuesf(t, expectedResultZero, resultZero, "%v failed")
 }
 
 func TestIncreaseEpicsCounterMultiType(t *testing.T) {
@@ -221,17 +256,21 @@ func TestComputeEpicGlobalStat(t *testing.T) {
 			StoriesUnstarted:  2,
 			StoriesStarted:    3,
 			StoriesDone:       4,
+			StoriesBacklog:    1,
 			EstimateUnstarted: 5,
 			EstimateStarted:   6,
 			EstimateDone:      7,
+			EstimateBacklog:   1,
 		},
 		{
 			StoriesUnstarted:  4,
 			StoriesStarted:    1,
 			StoriesDone:       2,
+			StoriesBacklog:    1,
 			EstimateUnstarted: 1,
 			EstimateStarted:   2,
 			EstimateDone:      8,
+			EstimateBacklog:   1,
 		},
 	}
 
@@ -239,22 +278,24 @@ func TestComputeEpicGlobalStat(t *testing.T) {
 		StoriesUnstarted:         6,
 		StoriesStarted:           4,
 		StoriesDone:              6,
+		StoriesBacklog:           2,
 		EstimateUnstarted:        6,
 		EstimateStarted:          8,
 		EstimateDone:             15,
-		StoriesUnstartedPercent:  37,
-		StoriesStartedPercent:    25,
-		StoriesDonePercent:       37,
-		EstimateUnstartedPercent: 20,
-		EstimateStartedPercent:   27,
-		EstimateDonePercent:      51,
+		EstimateBacklog:          2,
+		StoriesUnstartedPercent:  33,
+		StoriesStartedPercent:    22,
+		StoriesDonePercent:       33,
+		EstimateUnstartedPercent: 19,
+		EstimateStartedPercent:   25,
+		EstimateDonePercent:      48,
+		EstimateBacklogPercent:   6,
+		StoriesBacklogPercent:    11,
 	}
 
 	for _, epic := range epics {
 		global = ComputeEpicGlobalStat(global, epic)
 	}
 
-	if global != expectedResult {
-		t.Errorf("Expected %+v, but got %+v", expectedResult, global)
-	}
+	assert.EqualValuesf(t, expectedResult, global, "%v failed")
 }
