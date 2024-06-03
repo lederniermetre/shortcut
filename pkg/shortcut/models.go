@@ -9,7 +9,8 @@ type StoryPostponed struct {
 }
 
 type EpicsStats struct {
-	Name string
+	WorkflowID map[int64]map[int64]WorkflowStats
+	Name       string
 
 	StoriesUnstarted        int
 	StoriesUnstartedPercent int
@@ -28,8 +29,6 @@ type EpicsStats struct {
 	EstimateDonePercent      int
 	EstimateBacklog          int
 	EstimateBacklogPercent   int
-
-	WorkflowID map[int64]map[int64]WorkflowStats
 }
 
 type WorkflowStats struct {
