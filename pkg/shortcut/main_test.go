@@ -9,93 +9,99 @@ import (
 )
 
 func TestSummaryEpicStat(t *testing.T) {
-	epic := EpicsStats{
-		Name:                     "Epic1",
-		StoriesUnstarted:         2,
-		StoriesStarted:           3,
-		StoriesDone:              5,
-		EstimateUnstarted:        2,
-		EstimateStarted:          3,
-		StoriesBacklog:           1,
-		EstimateDone:             5,
-		StoriesUnstartedPercent:  0,
-		StoriesStartedPercent:    0,
-		StoriesDonePercent:       0,
-		StoriesBacklogPercent:    0,
-		EstimateUnstartedPercent: 0,
-		EstimateStartedPercent:   0,
-		EstimateDonePercent:      0,
-		EstimateBacklog:          2,
-		EstimateBacklogPercent:   0,
+	testCases := []struct {
+		name     string
+		actual   EpicsStats
+		expected EpicsStats
+	}{
+		{
+			name: "Stardard case",
+			actual: EpicsStats{
+				Name:                     "Epic1",
+				StoriesUnstarted:         2,
+				StoriesStarted:           3,
+				StoriesDone:              5,
+				EstimateUnstarted:        2,
+				EstimateStarted:          3,
+				StoriesBacklog:           1,
+				EstimateDone:             5,
+				StoriesUnstartedPercent:  0,
+				StoriesStartedPercent:    0,
+				StoriesDonePercent:       0,
+				StoriesBacklogPercent:    0,
+				EstimateUnstartedPercent: 0,
+				EstimateStartedPercent:   0,
+				EstimateDonePercent:      0,
+				EstimateBacklog:          2,
+				EstimateBacklogPercent:   0,
+			},
+			expected: EpicsStats{
+				Name:                     "Epic1",
+				StoriesUnstarted:         2,
+				StoriesStarted:           3,
+				StoriesDone:              5,
+				EstimateUnstarted:        2,
+				EstimateStarted:          3,
+				StoriesBacklog:           1,
+				EstimateDone:             5,
+				StoriesUnstartedPercent:  18,
+				StoriesStartedPercent:    27,
+				StoriesDonePercent:       45,
+				StoriesBacklogPercent:    9,
+				EstimateUnstartedPercent: 16,
+				EstimateStartedPercent:   25,
+				EstimateDonePercent:      41,
+				EstimateBacklog:          2,
+				EstimateBacklogPercent:   16,
+			},
+		},
+		{
+			name: "Empty Epic",
+			actual: EpicsStats{
+				Name:                     "Epic2",
+				StoriesUnstarted:         0,
+				StoriesStarted:           0,
+				StoriesDone:              0,
+				StoriesBacklog:           0,
+				EstimateUnstarted:        0,
+				EstimateStarted:          0,
+				EstimateDone:             0,
+				StoriesBacklogPercent:    0,
+				StoriesUnstartedPercent:  0,
+				StoriesStartedPercent:    0,
+				StoriesDonePercent:       0,
+				EstimateUnstartedPercent: 0,
+				EstimateStartedPercent:   0,
+				EstimateDonePercent:      0,
+				EstimateBacklog:          0,
+				EstimateBacklogPercent:   0,
+			},
+			expected: EpicsStats{
+				Name:                     "Epic2",
+				StoriesUnstarted:         0,
+				StoriesStarted:           0,
+				StoriesDone:              0,
+				EstimateUnstarted:        0,
+				EstimateStarted:          0,
+				StoriesBacklog:           0,
+				EstimateDone:             0,
+				StoriesUnstartedPercent:  0,
+				StoriesStartedPercent:    0,
+				StoriesDonePercent:       0,
+				StoriesBacklogPercent:    0,
+				EstimateUnstartedPercent: 0,
+				EstimateStartedPercent:   0,
+				EstimateDonePercent:      0,
+				EstimateBacklog:          0,
+				EstimateBacklogPercent:   0,
+			},
+		},
 	}
 
-	result := SummaryEpicStat(epic)
-
-	expectedEpicStats := EpicsStats{
-		Name:                     "Epic1",
-		StoriesUnstarted:         2,
-		StoriesStarted:           3,
-		StoriesDone:              5,
-		EstimateUnstarted:        2,
-		EstimateStarted:          3,
-		StoriesBacklog:           1,
-		EstimateDone:             5,
-		StoriesUnstartedPercent:  18,
-		StoriesStartedPercent:    27,
-		StoriesDonePercent:       45,
-		StoriesBacklogPercent:    9,
-		EstimateUnstartedPercent: 16,
-		EstimateStartedPercent:   25,
-		EstimateDonePercent:      41,
-		EstimateBacklog:          2,
-		EstimateBacklogPercent:   16,
+	for _, tc := range testCases {
+		result := SummaryEpicStat(tc.actual)
+		assert.EqualValuesf(t, tc.expected, result, "Case '%s' failed", tc.name)
 	}
-
-	assert.EqualValuesf(t, expectedEpicStats, result, "%v failed")
-
-	epicZero := EpicsStats{
-		Name:                     "Epic2",
-		StoriesUnstarted:         0,
-		StoriesStarted:           0,
-		StoriesDone:              0,
-		StoriesBacklog:           0,
-		EstimateUnstarted:        0,
-		EstimateStarted:          0,
-		EstimateDone:             0,
-		StoriesBacklogPercent:    0,
-		StoriesUnstartedPercent:  0,
-		StoriesStartedPercent:    0,
-		StoriesDonePercent:       0,
-		EstimateUnstartedPercent: 0,
-		EstimateStartedPercent:   0,
-		EstimateDonePercent:      0,
-		EstimateBacklog:          0,
-		EstimateBacklogPercent:   0,
-	}
-
-	resultZero := SummaryEpicStat(epicZero)
-
-	expectedResultZero := EpicsStats{
-		Name:                     "Epic2",
-		StoriesUnstarted:         0,
-		StoriesStarted:           0,
-		StoriesDone:              0,
-		EstimateUnstarted:        0,
-		EstimateStarted:          0,
-		StoriesBacklog:           0,
-		EstimateDone:             0,
-		StoriesUnstartedPercent:  0,
-		StoriesStartedPercent:    0,
-		StoriesDonePercent:       0,
-		StoriesBacklogPercent:    0,
-		EstimateUnstartedPercent: 0,
-		EstimateStartedPercent:   0,
-		EstimateDonePercent:      0,
-		EstimateBacklog:          0,
-		EstimateBacklogPercent:   0,
-	}
-
-	assert.EqualValuesf(t, expectedResultZero, resultZero, "%v failed")
 }
 
 func TestIncreaseEpicsCounterMultiType(t *testing.T) {
