@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.7.1](https://github.com/lederniermetre/shortcut/compare/v1.7.0...v1.7.1) (2024-06-10)
+
+
+### 🐞 Bug Fixes
+
+* **goreleaser:** update to v2 ([9c513a8](https://github.com/lederniermetre/shortcut/commit/9c513a8c1400b821b7a48628001dbeba9984f921))
+* **release-please:** typo ([8f513e5](https://github.com/lederniermetre/shortcut/commit/8f513e5b057dd3839256251129d5faf28a8d0087))
+
+
+### 🛠️ Refactor
+
+* **release-please:** migrate to new version ([427fffd](https://github.com/lederniermetre/shortcut/commit/427fffdf1a0055f86b913e2f761be54198eedb63))
+* **release-please:** update workflow ([522be07](https://github.com/lederniermetre/shortcut/commit/522be07ad3544b56351228841adfa9f5e68db006))
+
+
+### 🧰 Other
+
+* bump gitlab.com/greyxor/slogor in the deps group ([1335a82](https://github.com/lederniermetre/shortcut/commit/1335a828b9dced0b053cf52cc6fcb721866722ae))
+* **main:** release 1.7.1 ([270a0b8](https://github.com/lederniermetre/shortcut/commit/270a0b82c33aff490074497f292051ed9a66c480))
+
+
+### 📚 Documentation
+
+* **README:** add new line ([acde8e4](https://github.com/lederniermetre/shortcut/commit/acde8e46bdd5dfaadaed27320ad80a6ba66e4440))
+
 ## [1.7.0](https://github.com/lederniermetre/shortcut/compare/v1.6.4...v1.7.0) (2024-06-03)
 
 
