@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.0.0](https://github.com/lederniermetre/shortcut/compare/v1.7.1...v2.0.0) (2024-06-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **iteration:** flag --iteration do not working anymore, prefer --query
+
+### 🚀 Features
+
+* **limit:** add flag to increase number of iterations fetch ([2cc7389](https://github.com/lederniermetre/shortcut/commit/2cc738979e24b6c2188d0c415493106877c303ce))
+* **stats/iteration:** handle all iterations retrieved ([c12b61d](https://github.com/lederniermetre/shortcut/commit/c12b61deb1023efd439364e829c22e522536ed1a))
+
+
+### 🛠️ Refactor
+
+* **cmd/stats:** query flag is stats oriented ([93375f3](https://github.com/lederniermetre/shortcut/commit/93375f3ffbf36fbfb9d62084c1b843bd53aaaab6))
+* **iteration:** rename as query ([4d8c339](https://github.com/lederniermetre/shortcut/commit/4d8c3392c82d6717f1d2e5f05489a1c0bbd60b04))
+
+
+### 🧰 Other
+
+* bump github.com/spf13/cobra from 1.8.0 to 1.8.1 in the deps group ([2791fe3](https://github.com/lederniermetre/shortcut/commit/2791fe31a5ac4947e9a85df092d1eabb89962295))
+* **iteration:** add warning when reach limit ([e3af1e9](https://github.com/lederniermetre/shortcut/commit/e3af1e9c4903d79127814c1a5b748671dc0ccecf))
+
 ## [1.7.1](https://github.com/lederniermetre/shortcut/compare/v1.7.0...v1.7.1) (2024-06-10)
 
 
