@@ -3,6 +3,7 @@ package shortcut
 import (
 	"context"
 	"log/slog"
+	"net/url"
 	"os"
 	"sort"
 	"time"
@@ -43,21 +44,14 @@ func GetAuth() runtime.ClientAuthInfoWriter {
 	return httptransport.APIKeyAuth("Shortcut-Token", "header", os.Getenv("SHORTCUT_API_TOKEN"))
 }
 
-func RetrieveIteration(query string, pageLimit int) []*models.IterationSlim {
-	searchDetail := "slim"
-	pageSize := int64(pageLimit)
-
-	searchIterationsParams := &operations.SearchIterationsParams{
-		Detail:   &searchDetail,
-		Query:    query,
-		PageSize: &pageSize,
-	}
+func getIterationData(params *operations.SearchIterationsParams, query string) []*models.IterationSlim {
+	var data []*models.IterationSlim
 
 	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
-	searchIterationsParams.SetContext(ctx)
+	params.SetContext(ctx)
 
-	searchResult, err := GetClient().Operations.SearchIterations(searchIterationsParams, GetAuth())
+	searchResult, err := GetClient().Operations.SearchIterations(params, GetAuth())
 	if err != nil {
 		slog.Error("Can not retrieve search", slogor.Err(err), slog.String("query", query))
 		os.Exit(1)
@@ -68,15 +62,41 @@ func RetrieveIteration(query string, pageLimit int) []*models.IterationSlim {
 		os.Exit(1)
 	}
 
-	if *searchResult.GetPayload().Total > 25 && pageLimit == 25 {
-		slog.Warn("=====================")
-		slog.Warn("There is more than 25 results in your query, results will be truncated")
-		slog.Warn("=====================")
+	data = searchResult.Payload.Data
+
+	if *searchResult.GetPayload().Total > *params.PageSize && searchResult.GetPayload().Next != nil {
+		slog.Debug("Continu on next page", slog.String("url", *searchResult.GetPayload().Next))
+		data = append(data, RetrieveIterations(query, int(*params.PageSize), *searchResult.GetPayload().Next)...)
 	}
 
-	slog.Debug("Number of iterations found", slog.Int("count", len(searchResult.Payload.Data)))
+	return data
+}
 
-	return searchResult.Payload.Data
+func RetrieveIterations(query string, pageLimit int, nextURL string) []*models.IterationSlim {
+	searchDetail := "slim"
+	pageSize := int64(pageLimit)
+	var data []*models.IterationSlim
+	var nextToken string
+
+	if nextURL != "" {
+		u, err := url.Parse(nextURL)
+		if err != nil {
+			slog.Error("Can not parse url", slog.String("url", nextURL), slogor.Err(err))
+		}
+
+		nextToken = u.Query().Get("next")
+	}
+
+	searchIterationsParams := &operations.SearchIterationsParams{
+		Detail:   &searchDetail,
+		Query:    query,
+		PageSize: &pageSize,
+		Next:     &nextToken,
+	}
+
+	data = getIterationData(searchIterationsParams, query)
+
+	return data
 }
 
 func StoriesByIteration(iterationID int64) []*models.StorySlim {

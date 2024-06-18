@@ -34,7 +34,7 @@ Estimate is divided by number of owners when multi-tenancy`,
 		shortcutQuery := queryFlag.Value.String()
 		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iterations := shortcut.RetrieveIteration(shortcutQuery, limitFlag)
+		iterations := shortcut.RetrieveIterations(shortcutQuery, limitFlag, "")
 
 		ownersUUID := map[strfmt.UUID]int64{}
 		for _, iteration := range iterations {

@@ -30,7 +30,7 @@ var storiesCmd = &cobra.Command{
 		shortcutQuery := queryFlag.Value.String()
 		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iterations := shortcut.RetrieveIteration(shortcutQuery, limitFlag)
+		iterations := shortcut.RetrieveIterations(shortcutQuery, limitFlag, "")
 
 		postponedStories := map[string]shortcut.StoryPostponed{}
 		epicsStats := map[int64]shortcut.EpicsStats{}
