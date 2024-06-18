@@ -23,7 +23,7 @@ shortcut help
 
 Parameters
 
-- `--iteration|-i` is a search pattern.
+- `--query|-q` is a search pattern.
 - `--debug|-d` set Debug level on logger
 - `SHORTCUT_API_TOKEN` environment variable
 

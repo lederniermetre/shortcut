@@ -29,5 +29,5 @@ func NewCommand() *cobra.Command {
 
 func init() {
 	iterationCmd.AddCommand(stats.NewCommand())
-	iterationCmd.PersistentFlags().StringP("iteration", "i", "Ops", "Iteration title you are looking for")
+	iterationCmd.PersistentFlags().StringP("query", "q", "Ops", "Search query")
 }

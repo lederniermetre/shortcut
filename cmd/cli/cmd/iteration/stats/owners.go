@@ -20,16 +20,16 @@ var ownersCmd = &cobra.Command{
 The load is the sum of each story assign to an owner.
 Estimate is divided by number of owners when multi-tenancy`,
 	Run: func(cmd *cobra.Command, args []string) {
-		iterationFlag := cmd.Parent().Parent().PersistentFlags().Lookup("iteration")
-		if iterationFlag == nil {
+		queryFlag := cmd.Parent().Parent().PersistentFlags().Lookup("query")
+		if queryFlag == nil {
 			slog.Error("Can not retrieved iteration flag")
 			os.Exit(1)
 		}
 
-		iterationName := iterationFlag.Value.String()
-		slog.Debug("Working on iteration", slog.String("name", iterationName))
+		shortcutQuery := queryFlag.Value.String()
+		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iteration := shortcut.RetrieveIteration(iterationName)
+		iteration := shortcut.RetrieveIteration(shortcutQuery)
 
 		slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 

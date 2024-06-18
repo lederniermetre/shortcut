@@ -16,16 +16,16 @@ var storiesCmd = &cobra.Command{
 	Use:   "stories",
 	Short: "Display statistics about stories",
 	Run: func(cmd *cobra.Command, args []string) {
-		iterationFlag := cmd.Parent().Parent().PersistentFlags().Lookup("iteration")
-		if iterationFlag == nil {
-			slog.Error("Can not retrieved iteration flag")
+		queryFlag := cmd.Parent().Parent().PersistentFlags().Lookup("query")
+		if queryFlag == nil {
+			slog.Error("Can not retrieved query flag")
 			os.Exit(1)
 		}
 
-		iterationName := iterationFlag.Value.String()
-		slog.Debug("Search iteration", slog.String("name", iterationName))
+		shortcutQuery := queryFlag.Value.String()
+		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iteration := shortcut.RetrieveIteration(iterationName)
+		iteration := shortcut.RetrieveIteration(shortcutQuery)
 
 		slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 
