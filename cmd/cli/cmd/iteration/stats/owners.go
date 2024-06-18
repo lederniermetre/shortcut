@@ -20,7 +20,7 @@ var ownersCmd = &cobra.Command{
 The load is the sum of each story assign to an owner.
 Estimate is divided by number of owners when multi-tenancy`,
 	Run: func(cmd *cobra.Command, args []string) {
-		queryFlag := cmd.Parent().Parent().PersistentFlags().Lookup("query")
+		queryFlag := cmd.Parent().PersistentFlags().Lookup("query")
 		if queryFlag == nil {
 			slog.Error("Can not retrieved iteration flag")
 			os.Exit(1)

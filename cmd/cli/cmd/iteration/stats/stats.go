@@ -25,4 +25,5 @@ func NewCommand() *cobra.Command {
 func init() {
 	statsCmd.AddCommand(newOwnersCommand())
 	statsCmd.AddCommand(newStoriesCommand())
+	statsCmd.PersistentFlags().StringP("query", "q", "Ops", "Search query")
 }

@@ -16,7 +16,7 @@ var storiesCmd = &cobra.Command{
 	Use:   "stories",
 	Short: "Display statistics about stories",
 	Run: func(cmd *cobra.Command, args []string) {
-		queryFlag := cmd.Parent().Parent().PersistentFlags().Lookup("query")
+		queryFlag := cmd.Parent().PersistentFlags().Lookup("query")
 		if queryFlag == nil {
 			slog.Error("Can not retrieved query flag")
 			os.Exit(1)
