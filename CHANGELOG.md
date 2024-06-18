@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/lederniermetre/shortcut/compare/v2.0.0...v2.1.0) (2024-06-18)
+
+
+### 🚀 Features
+
+* **iteration:** handle pagination ([4a267cd](https://github.com/lederniermetre/shortcut/commit/4a267cd9697dcf66277badbed4a486620bb8f44f))
+
 ## [2.0.0](https://github.com/lederniermetre/shortcut/compare/v1.7.1...v2.0.0) (2024-06-18)
 
 
