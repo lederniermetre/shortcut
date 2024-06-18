@@ -21,11 +21,16 @@ var storiesCmd = &cobra.Command{
 			slog.Error("Can not retrieved query flag")
 			os.Exit(1)
 		}
+		limitFlag, err := cmd.Parent().Flags().GetInt("limit")
+		if err != nil {
+			slog.Error("Can not retrieved limit flag", slogor.Err(err))
+			os.Exit(1)
+		}
 
 		shortcutQuery := queryFlag.Value.String()
 		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iteration := shortcut.RetrieveIteration(shortcutQuery)
+		iteration := shortcut.RetrieveIteration(shortcutQuery, limitFlag)
 
 		slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 
@@ -161,7 +166,7 @@ var storiesCmd = &cobra.Command{
 		epicsTableByEstimates = append(epicsTableByEstimates, []string{pterm.FgYellow.Sprint("Total"), fmt.Sprintf("%d (%d %%)", epicsGlobalStats.EstimateUnstarted, epicsGlobalStats.EstimateUnstartedPercent), fmt.Sprintf("%d (%d %%)", epicsGlobalStats.EstimateStarted, epicsGlobalStats.EstimateStartedPercent), fmt.Sprintf("%d (%d %%)", epicsGlobalStats.EstimateDone, epicsGlobalStats.EstimateDonePercent)})
 
 		pterm.DefaultHeader.WithFullWidth().Println("Epics (by stories)")
-		err := pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsTableByStories).Render()
+		err = pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsTableByStories).Render()
 		if err != nil {
 			slog.Error("Rendering epics (by stories) table", slogor.Err(err))
 		}

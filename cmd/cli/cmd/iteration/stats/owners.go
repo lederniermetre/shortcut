@@ -25,11 +25,16 @@ Estimate is divided by number of owners when multi-tenancy`,
 			slog.Error("Can not retrieved iteration flag")
 			os.Exit(1)
 		}
+		limitFlag, err := cmd.Parent().Flags().GetInt("limit")
+		if err != nil {
+			slog.Error("Can not retrieved limit flag", slogor.Err(err))
+			os.Exit(1)
+		}
 
 		shortcutQuery := queryFlag.Value.String()
 		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iteration := shortcut.RetrieveIteration(shortcutQuery)
+		iteration := shortcut.RetrieveIteration(shortcutQuery, limitFlag)
 
 		slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 
@@ -86,7 +91,7 @@ Estimate is divided by number of owners when multi-tenancy`,
 			ptermBar = append(ptermBar, pterm.Bar{Label: memberName, Value: int(owner.Load)})
 		}
 
-		err := pterm.DefaultBarChart.WithHorizontal().WithBars(ptermBar).WithWidth(15).WithShowValue().Render()
+		err = pterm.DefaultBarChart.WithHorizontal().WithBars(ptermBar).WithWidth(15).WithShowValue().Render()
 		if err != nil {
 			slog.Error("Rendering epics table", slogor.Err(err))
 		}

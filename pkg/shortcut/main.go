@@ -43,9 +43,9 @@ func GetAuth() runtime.ClientAuthInfoWriter {
 	return httptransport.APIKeyAuth("Shortcut-Token", "header", os.Getenv("SHORTCUT_API_TOKEN"))
 }
 
-func RetrieveIteration(query string) models.IterationSlim {
+func RetrieveIteration(query string, pageLimit int) models.IterationSlim {
 	searchDetail := "slim"
-	pageSize := int64(1)
+	pageSize := int64(pageLimit)
 
 	searchIterationsParams := &operations.SearchIterationsParams{
 		Detail:   &searchDetail,
@@ -67,6 +67,8 @@ func RetrieveIteration(query string) models.IterationSlim {
 		slog.Error("Search has retrieve no result", slog.String("query", query))
 		os.Exit(1)
 	}
+
+	slog.Debug("Number of iterations found", slog.Int("count", len(searchResult.Payload.Data)))
 
 	return *searchResult.Payload.Data[0]
 }
