@@ -30,11 +30,7 @@ var storiesCmd = &cobra.Command{
 		shortcutQuery := queryFlag.Value.String()
 		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iteration := shortcut.RetrieveIteration(shortcutQuery, limitFlag)
-
-		slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
-
-		stories := shortcut.StoriesByIteration(*iteration.ID)
+		iterations := shortcut.RetrieveIteration(shortcutQuery, limitFlag)
 
 		postponedStories := map[string]shortcut.StoryPostponed{}
 		epicsStats := map[int64]shortcut.EpicsStats{}
@@ -45,87 +41,95 @@ var storiesCmd = &cobra.Command{
 		workflowStates := map[int64]shortcut.WorflowInfo{}
 		var totalEstimate int64 = 0
 		var totalStoriesSkip int64 = 0
+		var totalStories int = 0
 
-		for _, story := range stories {
-			if story.Archived != nil && *story.Archived {
-				pterm.Info.Printfln("Story %s is archived skipping", *story.Name)
-				totalStoriesSkip++
-				continue
-			}
+		for _, iteration := range iterations {
+			slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 
-			var epicID int64 = -1
-			if story.EpicID != nil {
-				epicID = *story.EpicID
-			} else {
-				pterm.Warning.Printfln("Story with no epics: %s", *story.Name)
-			}
+			stories := shortcut.StoriesByIteration(*iteration.ID)
+			totalStories = totalStories + len(stories)
 
-			workflowID := *story.WorkflowID
-			workflowStateID := *story.WorkflowStateID
+			for _, story := range stories {
+				if story.Archived != nil && *story.Archived {
+					pterm.Info.Printfln("Story %s is archived skipping", *story.Name)
+					totalStoriesSkip++
+					continue
+				}
 
-			slog.Debug(
-				"Compute story",
-				slog.String("name", *story.Name),
-				slog.Int64("EpicID", epicID),
-			)
+				var epicID int64 = -1
+				if story.EpicID != nil {
+					epicID = *story.EpicID
+				} else {
+					pterm.Warning.Printfln("Story with no epics: %s", *story.Name)
+				}
 
-			if _, ok := workflowStates[workflowStateID]; !ok {
-				workflow := shortcut.GetWorkflow(workflowID)
+				workflowID := *story.WorkflowID
+				workflowStateID := *story.WorkflowStateID
 
-				for _, wfStates := range workflow.States {
-					if *wfStates.ID == workflowStateID {
-						slog.Debug("Worflow states", slog.String("worfklow", *workflow.Name), slog.String("name", *wfStates.Type))
-						workflowStates[workflowStateID] = shortcut.WorflowInfo{Name: *wfStates.Name, Type: *wfStates.Type}
+				slog.Debug(
+					"Compute story",
+					slog.String("name", *story.Name),
+					slog.Int64("EpicID", epicID),
+				)
+
+				if _, ok := workflowStates[workflowStateID]; !ok {
+					workflow := shortcut.GetWorkflow(workflowID)
+
+					for _, wfStates := range workflow.States {
+						if *wfStates.ID == workflowStateID {
+							slog.Debug("Worflow states", slog.String("worfklow", *workflow.Name), slog.String("name", *wfStates.Type))
+							workflowStates[workflowStateID] = shortcut.WorflowInfo{Name: *wfStates.Name, Type: *wfStates.Type}
+						}
 					}
 				}
-			}
 
-			if _, ok := epicsStats[epicID]; !ok {
-				slog.Debug("Epic stats does not exists", slog.Int64("epicID", epicID))
+				if _, ok := epicsStats[epicID]; !ok {
+					slog.Debug("Epic stats does not exists", slog.Int64("epicID", epicID))
 
-				epic := shortcut.GetEpic(epicID)
+					epic := shortcut.GetEpic(epicID)
 
-				epicsStats[epicID] = shortcut.EpicsStats{
-					Name:       *epic.Name,
-					WorkflowID: make(map[int64]map[int64]shortcut.WorkflowStats),
+					epicsStats[epicID] = shortcut.EpicsStats{
+						Name:       *epic.Name,
+						WorkflowID: make(map[int64]map[int64]shortcut.WorkflowStats),
+					}
 				}
-			}
 
-			if ws, ok := epicsStats[epicID].WorkflowID[workflowID][workflowStateID]; ok {
-				// If the entry exists, update it
-				ws.Count++
-				epicsStats[epicID].WorkflowID[workflowID][workflowStateID] = ws
-			} else {
-				// If the entry doesn't exist, initialize it
-				epicsStats[epicID].WorkflowID[workflowID] = make(map[int64]shortcut.WorkflowStats)
-				ws := shortcut.WorkflowStats{
-					Count: 1,
+				if ws, ok := epicsStats[epicID].WorkflowID[workflowID][workflowStateID]; ok {
+					// If the entry exists, update it
+					ws.Count++
+					epicsStats[epicID].WorkflowID[workflowID][workflowStateID] = ws
+				} else {
+					// If the entry doesn't exist, initialize it
+					epicsStats[epicID].WorkflowID[workflowID] = make(map[int64]shortcut.WorkflowStats)
+					ws := shortcut.WorkflowStats{
+						Count: 1,
+					}
+					epicsStats[epicID].WorkflowID[workflowID][workflowStateID] = ws
 				}
-				epicsStats[epicID].WorkflowID[workflowID][workflowStateID] = ws
-			}
 
-			epicsStats[epicID] = shortcut.IncreaseEpicsStoriesCounter(workflowStates[workflowStateID], epicsStats[epicID])
+				epicsStats[epicID] = shortcut.IncreaseEpicsStoriesCounter(workflowStates[workflowStateID], epicsStats[epicID])
 
-			if story.Estimate == nil {
-				pterm.Warning.Printfln("Story with no estimate: %s", *story.Name)
-			} else {
-				totalEstimate = totalEstimate + *story.Estimate
+				if story.Estimate == nil {
+					pterm.Warning.Printfln("Story with no estimate: %s", *story.Name)
+				} else {
+					totalEstimate = totalEstimate + *story.Estimate
 
-				epicsStats[epicID] = shortcut.IncreaseEpicsEstimateCounter(workflowStates[workflowStateID], epicsStats[epicID], int(*story.Estimate))
-			}
+					epicsStats[epicID] = shortcut.IncreaseEpicsEstimateCounter(workflowStates[workflowStateID], epicsStats[epicID], int(*story.Estimate))
+				}
 
-			if len(story.PreviousIterationIds) > 0 {
-				postponedStories[*story.Name] = shortcut.StoryPostponed{
-					Count:  len(story.PreviousIterationIds),
-					Url:    *story.AppURL,
-					Status: workflowStates[workflowStateID].Name,
+				if len(story.PreviousIterationIds) > 0 {
+					postponedStories[*story.Name] = shortcut.StoryPostponed{
+						Count:  len(story.PreviousIterationIds),
+						Url:    *story.AppURL,
+						Status: workflowStates[workflowStateID].Name,
+					}
 				}
 			}
 		}
 
 		pterm.DefaultHeader.WithFullWidth().Println("Global iteration stats")
 
-		slog.Info("Stories", slog.Int("count", len(stories)))
+		slog.Info("Stories", slog.Int("count", totalStories))
 		slog.Info("Stories skipped", slog.Int("count", int(totalStoriesSkip)))
 		slog.Info("Estimate total", slog.Int("count", int(totalEstimate)))
 

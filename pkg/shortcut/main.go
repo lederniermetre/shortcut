@@ -43,7 +43,7 @@ func GetAuth() runtime.ClientAuthInfoWriter {
 	return httptransport.APIKeyAuth("Shortcut-Token", "header", os.Getenv("SHORTCUT_API_TOKEN"))
 }
 
-func RetrieveIteration(query string, pageLimit int) models.IterationSlim {
+func RetrieveIteration(query string, pageLimit int) []*models.IterationSlim {
 	searchDetail := "slim"
 	pageSize := int64(pageLimit)
 
@@ -70,7 +70,7 @@ func RetrieveIteration(query string, pageLimit int) models.IterationSlim {
 
 	slog.Debug("Number of iterations found", slog.Int("count", len(searchResult.Payload.Data)))
 
-	return *searchResult.Payload.Data[0]
+	return searchResult.Payload.Data
 }
 
 func StoriesByIteration(iterationID int64) []*models.StorySlim {

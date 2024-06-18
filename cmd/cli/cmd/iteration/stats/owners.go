@@ -34,48 +34,50 @@ Estimate is divided by number of owners when multi-tenancy`,
 		shortcutQuery := queryFlag.Value.String()
 		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iteration := shortcut.RetrieveIteration(shortcutQuery, limitFlag)
-
-		slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
-
-		allStories := shortcut.StoriesByIteration(*iteration.ID)
+		iterations := shortcut.RetrieveIteration(shortcutQuery, limitFlag)
 
 		ownersUUID := map[strfmt.UUID]int64{}
-		for _, story := range allStories {
-			if story.Archived != nil && *story.Archived {
-				pterm.Info.Printfln("Story %s is archived skipping", *story.Name)
-				continue
-			}
+		for _, iteration := range iterations {
+			slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 
-			if story.Estimate == nil {
-				pterm.Warning.Printfln("Story assign but not estimated: %s", *story.Name)
-				continue
-			}
+			allStories := shortcut.StoriesByIteration(*iteration.ID)
 
-			slog.Debug(
-				"Compute story",
-				slog.String("name", *story.Name),
-				slog.Int("owners", len(story.OwnerIds)),
-				slog.Int64("estimate", *story.Estimate),
-			)
+			for _, story := range allStories {
+				if story.Archived != nil && *story.Archived {
+					pterm.Info.Printfln("Story %s is archived skipping", *story.Name)
+					continue
+				}
 
-			if len(story.OwnerIds) == 0 {
-				pterm.Warning.Printfln("Story has no owners: %s", *story.Name)
-				continue
-			}
+				if story.Estimate == nil {
+					pterm.Warning.Printfln("Story assign but not estimated: %s", *story.Name)
+					continue
+				}
 
-			estimate := *story.Estimate
-			if len(story.OwnerIds) > 1 {
-				slog.Debug("Story shared, split estimate", slog.String("name", *story.Name))
-				estimate = estimate / int64(len(story.OwnerIds))
-			}
+				slog.Debug(
+					"Compute story",
+					slog.String("name", *story.Name),
+					slog.Int("owners", len(story.OwnerIds)),
+					slog.Int64("estimate", *story.Estimate),
+				)
 
-			for _, ownedId := range story.OwnerIds {
-				val, init := ownersUUID[ownedId]
-				if init {
-					ownersUUID[ownedId] = val + estimate
-				} else {
-					ownersUUID[ownedId] = estimate
+				if len(story.OwnerIds) == 0 {
+					pterm.Warning.Printfln("Story has no owners: %s", *story.Name)
+					continue
+				}
+
+				estimate := *story.Estimate
+				if len(story.OwnerIds) > 1 {
+					slog.Debug("Story shared, split estimate", slog.String("name", *story.Name))
+					estimate = estimate / int64(len(story.OwnerIds))
+				}
+
+				for _, ownedId := range story.OwnerIds {
+					val, init := ownersUUID[ownedId]
+					if init {
+						ownersUUID[ownedId] = val + estimate
+					} else {
+						ownersUUID[ownedId] = estimate
+					}
 				}
 			}
 		}
