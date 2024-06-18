@@ -68,6 +68,12 @@ func RetrieveIteration(query string, pageLimit int) []*models.IterationSlim {
 		os.Exit(1)
 	}
 
+	if *searchResult.GetPayload().Total > 25 && pageLimit == 25 {
+		slog.Warn("=====================")
+		slog.Warn("There is more than 25 results in your query, results will be truncated")
+		slog.Warn("=====================")
+	}
+
 	slog.Debug("Number of iterations found", slog.Int("count", len(searchResult.Payload.Data)))
 
 	return searchResult.Payload.Data
