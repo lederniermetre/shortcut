@@ -41,6 +41,16 @@ Pierre Gasly ███████████████  1
 Carlos Sainz ███████████████  1
 ```
 
+You can make advanced query like this
+
+```bash
+shortcut iteration stats stories -q "created:2023-12-31..2024-06-01 team:Alpine"
+
+...
+```
+
+This allows computing statistics on multiple iterations for a specific team.
+
 ## Development
 
 ### Requirements
