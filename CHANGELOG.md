@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/lederniermetre/shortcut/compare/v2.1.0...v2.1.1) (2024-07-01)
+
+
+### 📚 Documentation
+
+* **README:** complete usage ([04ca18e](https://github.com/lederniermetre/shortcut/commit/04ca18e42a4fa029c3c97548b9c0a6371d501fda))
+
 ## [2.1.0](https://github.com/lederniermetre/shortcut/compare/v2.0.0...v2.1.0) (2024-06-18)
 
 
