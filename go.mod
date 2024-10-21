@@ -8,7 +8,7 @@ require (
 	github.com/pterm/pterm v0.12.79
 	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.9.0
-	gitlab.com/greyxor/slogor v1.4.0
+	gitlab.com/greyxor/slogor v1.4.1
 )
 
 require (
