@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.5](https://github.com/lederniermetre/shortcut/compare/v2.1.4...v2.1.5) (2024-10-21)
+
+
+### 🧰 Other
+
+* bump gitlab.com/greyxor/slogor in the deps group ([4db8941](https://github.com/lederniermetre/shortcut/commit/4db894190e3b94dc6d34b0903d4523264e108842))
+
 ## [2.1.4](https://github.com/lederniermetre/shortcut/compare/v2.1.3...v2.1.4) (2024-10-14)
 
 
