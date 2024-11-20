@@ -14,7 +14,6 @@ import (
 	apiclient "github.com/lederniermetre/shortcut/pkg/shortcut/gen/client"
 	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/client/operations"
 	"github.com/lederniermetre/shortcut/pkg/shortcut/gen/models"
-	"gitlab.com/greyxor/slogor"
 )
 
 const CTX_TIMEOUT = 5000 * time.Millisecond
@@ -53,7 +52,7 @@ func getIterationData(params *operations.SearchIterationsParams, query string) [
 
 	searchResult, err := GetClient().Operations.SearchIterations(params, GetAuth())
 	if err != nil {
-		slog.Error("Can not retrieve search", slogor.Err(err), slog.String("query", query))
+		slog.Error("Can not retrieve search", slog.Any("error", err), slog.String("query", query))
 		os.Exit(1)
 	}
 
@@ -81,7 +80,7 @@ func RetrieveIterations(query string, pageLimit int, nextURL string) []*models.I
 	if nextURL != "" {
 		u, err := url.Parse(nextURL)
 		if err != nil {
-			slog.Error("Can not parse url", slog.String("url", nextURL), slogor.Err(err))
+			slog.Error("Can not parse url", slog.String("url", nextURL), slog.Any("error", err))
 		}
 
 		nextToken = u.Query().Get("next")
@@ -110,7 +109,7 @@ func StoriesByIteration(iterationID int64) []*models.StorySlim {
 
 	allStories, err := GetClient().Operations.ListIterationStories(listIterationStoriesParams, GetAuth())
 	if err != nil {
-		slog.Error("Can not retrieve iteration", slogor.Err(err))
+		slog.Error("Can not retrieve iteration", slog.Any("error", err))
 		os.Exit(1)
 	}
 
@@ -146,7 +145,7 @@ func GetWorkflow(id int64) models.Workflow {
 
 	workflow, err := GetClient().Operations.GetWorkflow(getWorkflowParams, GetAuth())
 	if err != nil {
-		slog.Error("Can not retrieve workflow", slogor.Err(err))
+		slog.Error("Can not retrieve workflow", slog.Any("error", err))
 		os.Exit(1)
 	}
 
@@ -164,7 +163,7 @@ func GetEpic(id int64) models.Epic {
 
 	epic, err := GetClient().Operations.GetEpic(getEpicParams, GetAuth())
 	if err != nil {
-		slog.Error("Can not retrieve epic", slogor.Err(err))
+		slog.Error("Can not retrieve epic", slog.Any("error", err))
 		os.Exit(1)
 	}
 

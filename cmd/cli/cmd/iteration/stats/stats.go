@@ -4,7 +4,6 @@ import (
 	"log/slog"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/greyxor/slogor"
 )
 
 var statsCmd = &cobra.Command{
@@ -15,7 +14,7 @@ var statsCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		err := cmd.Usage()
 		if err != nil {
-			slog.Error("Can not display usage", slogor.Err(err))
+			slog.Error("Can not display usage", slog.Any("error", err))
 		}
 	},
 }

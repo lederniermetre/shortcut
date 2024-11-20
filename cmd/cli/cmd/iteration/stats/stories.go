@@ -9,7 +9,6 @@ import (
 	"github.com/lederniermetre/shortcut/pkg/shortcut"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
-	"gitlab.com/greyxor/slogor"
 )
 
 var storiesCmd = &cobra.Command{
@@ -23,7 +22,7 @@ var storiesCmd = &cobra.Command{
 		}
 		limitFlag, err := cmd.Parent().Flags().GetInt("limit")
 		if err != nil {
-			slog.Error("Can not retrieved limit flag", slogor.Err(err))
+			slog.Error("Can not retrieved limit flag", slog.Any("error", err))
 			os.Exit(1)
 		}
 
@@ -172,13 +171,13 @@ var storiesCmd = &cobra.Command{
 		pterm.DefaultHeader.WithFullWidth().Println("Epics (by stories)")
 		err = pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsTableByStories).Render()
 		if err != nil {
-			slog.Error("Rendering epics (by stories) table", slogor.Err(err))
+			slog.Error("Rendering epics (by stories) table", slog.Any("error", err))
 		}
 
 		pterm.DefaultHeader.WithFullWidth().Println("Epics (by estimates)")
 		err = pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(epicsTableByEstimates).Render()
 		if err != nil {
-			slog.Error("Rendering epics (by estimates) table", slogor.Err(err))
+			slog.Error("Rendering epics (by estimates) table", slog.Any("error", err))
 		}
 
 		pterm.DefaultHeader.WithFullWidth().Println("Postponed stories")
@@ -199,7 +198,7 @@ var storiesCmd = &cobra.Command{
 
 		err = pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(storiesTableData).Render()
 		if err != nil {
-			slog.Error("Rendering stories table", slogor.Err(err))
+			slog.Error("Rendering stories table", slog.Any("error", err))
 		}
 	},
 }

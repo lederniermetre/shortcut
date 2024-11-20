@@ -8,7 +8,6 @@ import (
 
 	"github.com/lederniermetre/shortcut/cmd/cli/cmd/iteration/stats"
 	"github.com/spf13/cobra"
-	"gitlab.com/greyxor/slogor"
 )
 
 // iterationCmd represents the iteration command
@@ -18,7 +17,7 @@ var iterationCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		err := cmd.Usage()
 		if err != nil {
-			slog.Error("Can not display usage", slogor.Err(err))
+			slog.Error("Can not display usage", slog.Any("error", err))
 		}
 	},
 }

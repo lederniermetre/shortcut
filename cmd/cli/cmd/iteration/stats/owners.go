@@ -9,7 +9,6 @@ import (
 	"github.com/lederniermetre/shortcut/pkg/shortcut"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
-	"gitlab.com/greyxor/slogor"
 )
 
 var ownersCmd = &cobra.Command{
@@ -27,7 +26,7 @@ Estimate is divided by number of owners when multi-tenancy`,
 		}
 		limitFlag, err := cmd.Parent().Flags().GetInt("limit")
 		if err != nil {
-			slog.Error("Can not retrieved limit flag", slogor.Err(err))
+			slog.Error("Can not retrieved limit flag", slog.Any("error", err))
 			os.Exit(1)
 		}
 
@@ -95,7 +94,7 @@ Estimate is divided by number of owners when multi-tenancy`,
 
 		err = pterm.DefaultBarChart.WithHorizontal().WithBars(ptermBar).WithWidth(15).WithShowValue().Render()
 		if err != nil {
-			slog.Error("Rendering epics table", slogor.Err(err))
+			slog.Error("Rendering epics table", slog.Any("error", err))
 		}
 	},
 }

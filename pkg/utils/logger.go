@@ -3,25 +3,21 @@ package utils
 import (
 	"log/slog"
 	"os"
-	"time"
-
-	"gitlab.com/greyxor/slogor"
 )
 
 func SetLogger(debug bool) {
-	logLevel := slog.LevelInfo
-	showSource := false
+	opts := &slog.HandlerOptions{
+		Level:     slog.LevelInfo,
+		AddSource: false,
+	}
+
 	if debug {
-		logLevel = slog.LevelDebug
+		opts.Level = slog.LevelDebug
 	}
 
 	if os.Getenv("SC_DEBUG_SRC") == "true" {
-		showSource = true
+		opts.AddSource = true
 	}
 
-	slog.SetDefault(slog.New(slogor.NewHandler(os.Stderr, slogor.Options{
-		TimeFormat: time.Stamp,
-		Level:      logLevel,
-		ShowSource: showSource,
-	})))
+	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, opts)))
 }
