@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.6](https://github.com/lederniermetre/shortcut/compare/v2.1.5...v2.1.6) (2024-11-20)
+
+
+### 🛠️ Refactor
+
+* **log:** remove slogor since always breaking change ([445cad3](https://github.com/lederniermetre/shortcut/commit/445cad3c649e0cd04e85181ee396bedc92cc283d))
+
 ## [2.1.5](https://github.com/lederniermetre/shortcut/compare/v2.1.4...v2.1.5) (2024-10-21)
 
 
