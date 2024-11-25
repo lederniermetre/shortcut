@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.7](https://github.com/lederniermetre/shortcut/compare/v2.1.6...v2.1.7) (2024-11-25)
+
+
+### 🧰 Other
+
+* bump github.com/stretchr/testify in the deps group ([6f7ede0](https://github.com/lederniermetre/shortcut/commit/6f7ede0d1b88597952898bb4589fd403aaec2090))
+
 ## [2.1.6](https://github.com/lederniermetre/shortcut/compare/v2.1.5...v2.1.6) (2024-11-20)
 
 
