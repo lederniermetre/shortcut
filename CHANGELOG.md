@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.9](https://github.com/lederniermetre/shortcut/compare/v2.1.8...v2.1.9) (2025-02-17)
+
+
+### 🧰 Other
+
+* bump github.com/spf13/cobra from 1.8.1 to 1.9.1 in the deps group ([418a0d2](https://github.com/lederniermetre/shortcut/commit/418a0d2bd454762a048915e77c8be3f16cc4c409))
+
 ## [2.1.8](https://github.com/lederniermetre/shortcut/compare/v2.1.7...v2.1.8) (2024-12-02)
 
 
