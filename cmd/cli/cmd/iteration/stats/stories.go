@@ -40,7 +40,7 @@ var storiesCmd = &cobra.Command{
 		workflowStates := map[int64]shortcut.WorflowInfo{}
 		var totalEstimate int64 = 0
 		var totalStoriesSkip int64 = 0
-		var totalStories int = 0
+		var totalStories = 0
 
 		for _, iteration := range iterations {
 			slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
