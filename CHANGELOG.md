@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.10](https://github.com/lederniermetre/shortcut/compare/v2.1.9...v2.1.10) (2025-04-22)
+
+
+### 🧰 Other
+
+* please the linter ([d0b6194](https://github.com/lederniermetre/shortcut/commit/d0b6194055f5e9edc241567abab198d590276bc6))
+
 ## [2.1.9](https://github.com/lederniermetre/shortcut/compare/v2.1.8...v2.1.9) (2025-02-17)
 
 
