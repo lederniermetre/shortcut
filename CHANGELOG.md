@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.11](https://github.com/lederniermetre/shortcut/compare/v2.1.10...v2.1.11) (2025-06-10)
+
+
+### 🧰 Other
+
+* bump github.com/pterm/pterm from 0.12.80 to 0.12.81 in the deps group ([ae753f2](https://github.com/lederniermetre/shortcut/commit/ae753f239318e1bc69ba316e8cee04b5c7407fb3))
+* bump github.com/pterm/pterm in the deps group ([7871c83](https://github.com/lederniermetre/shortcut/commit/7871c83f36891d31a7f82c24ce478d19bb362a48))
+
 ## [2.1.10](https://github.com/lederniermetre/shortcut/compare/v2.1.9...v2.1.10) (2025-04-22)
 
 
