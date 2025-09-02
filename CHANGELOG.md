@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.2.0](https://github.com/lederniermetre/shortcut/compare/v2.1.12...v2.2.0) (2025-09-02)
+
+
+### 🚀 Features
+
+* bump to golang 1.25 ([6ef01c2](https://github.com/lederniermetre/shortcut/commit/6ef01c20abf521db1629585577bc4d554b2092b5))
+
+
+### 🧰 Other
+
+* bump github.com/stretchr/testify from 1.11.0 to 1.11.1 in the deps group ([cc8fae2](https://github.com/lederniermetre/shortcut/commit/cc8fae2a92bc30be3011a031880aada15d520c4e))
+* bump github.com/stretchr/testify in the deps group ([65ffc9a](https://github.com/lederniermetre/shortcut/commit/65ffc9a565b1af61921b35a3be61e02dbdbe073f))
+* go mod tidy ([7d6a8cd](https://github.com/lederniermetre/shortcut/commit/7d6a8cd7566dbf50f90724ed5253fd525eb466fd))
+
 ## [2.1.12](https://github.com/lederniermetre/shortcut/compare/v2.1.11...v2.1.12) (2025-08-26)
 
 
