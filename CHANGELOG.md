@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.1](https://github.com/lederniermetre/shortcut/compare/v2.2.0...v2.2.1) (2025-09-08)
+
+
+### 🧰 Other
+
+* bump the deps group with 3 updates ([7b212b2](https://github.com/lederniermetre/shortcut/commit/7b212b209672c2d7a52e69f05198096220557e50))
+* bump the deps group with 3 updates ([17d1cf4](https://github.com/lederniermetre/shortcut/commit/17d1cf4b2c63006dcc1f980ac55e00b8b4f85633))
+
 ## [2.2.0](https://github.com/lederniermetre/shortcut/compare/v2.1.12...v2.2.0) (2025-09-02)
 
 
