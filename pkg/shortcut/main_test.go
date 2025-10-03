@@ -117,6 +117,7 @@ func TestIncreaseEpicsCounterMultiType(t *testing.T) {
 		{WorkflowInfo{Name: "Workflow1", Type: "started"}, epicStats.StoriesStarted + 1},
 		{WorkflowInfo{Name: "Workflow2", Type: "unstarted"}, epicStats.StoriesUnstarted + 1},
 		{WorkflowInfo{Name: "Workflow3", Type: "done"}, epicStats.StoriesDone + 1},
+		{WorkflowInfo{Name: "Workflow4", Type: "backlog"}, epicStats.StoriesBacklog + 1},
 		{WorkflowInfo{Name: "UnknownWorkflow", Type: "unknown"}, epicStats.StoriesDone}, // No change for unknown type
 	}
 
@@ -138,6 +139,10 @@ func TestIncreaseEpicsCounterMultiType(t *testing.T) {
 		case "done":
 			if result.StoriesDone != tc.expected {
 				t.Errorf("For %s, Expected Done counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.StoriesDone)
+			}
+		case "backlog":
+			if result.StoriesBacklog != tc.expected {
+				t.Errorf("For %s, Expected Backlog counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.StoriesBacklog)
 			}
 		default:
 			// No change expected for unknown type
@@ -167,6 +172,7 @@ func TestIncreaseEpicsEstimateCounterMultiType(t *testing.T) {
 		{WorkflowInfo{Name: "Workflow1", Type: "started"}, epicStats.EstimateStarted + 10, 10},
 		{WorkflowInfo{Name: "Workflow2", Type: "unstarted"}, epicStats.EstimateUnstarted + 11, 11},
 		{WorkflowInfo{Name: "Workflow3", Type: "done"}, epicStats.EstimateDone + 31, 31},
+		{WorkflowInfo{Name: "Workflow4", Type: "backlog"}, epicStats.EstimateBacklog + 5, 5},
 		{WorkflowInfo{Name: "UnknownWorkflow", Type: "unknown"}, epicStats.EstimateDone, 30},
 	}
 
@@ -188,6 +194,10 @@ func TestIncreaseEpicsEstimateCounterMultiType(t *testing.T) {
 		case "done":
 			if result.EstimateDone != tc.expected {
 				t.Errorf("For %s, Expected Done counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.EstimateDone)
+			}
+		case "backlog":
+			if result.EstimateBacklog != tc.expected {
+				t.Errorf("For %s, Expected Backlog counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.EstimateBacklog)
 			}
 		default:
 			// No change expected for unknown type
