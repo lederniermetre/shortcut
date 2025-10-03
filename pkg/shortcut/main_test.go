@@ -111,38 +111,38 @@ func TestIncreaseEpicsCounterMultiType(t *testing.T) {
 
 	// Define test cases with different types
 	testCases := []struct {
-		worflowInfo WorflowInfo
+		workflowInfo WorkflowInfo
 		expected    int // Expected value for the corresponding counter after calling IncreaseEpicsCounter
 	}{
-		{WorflowInfo{Name: "Workflow1", Type: "started"}, epicStats.StoriesStarted + 1},
-		{WorflowInfo{Name: "Workflow2", Type: "unstarted"}, epicStats.StoriesUnstarted + 1},
-		{WorflowInfo{Name: "Workflow3", Type: "done"}, epicStats.StoriesDone + 1},
-		{WorflowInfo{Name: "UnknownWorkflow", Type: "unknown"}, epicStats.StoriesDone}, // No change for unknown type
+		{WorkflowInfo{Name: "Workflow1", Type: "started"}, epicStats.StoriesStarted + 1},
+		{WorkflowInfo{Name: "Workflow2", Type: "unstarted"}, epicStats.StoriesUnstarted + 1},
+		{WorkflowInfo{Name: "Workflow3", Type: "done"}, epicStats.StoriesDone + 1},
+		{WorkflowInfo{Name: "UnknownWorkflow", Type: "unknown"}, epicStats.StoriesDone}, // No change for unknown type
 	}
 
 	// Iterate over test cases
 	for _, tc := range testCases {
 		// Call the function
-		result := IncreaseEpicsStoriesCounter(tc.worflowInfo, epicStats)
+		result := IncreaseEpicsStoriesCounter(tc.workflowInfo, epicStats)
 
 		// Check if the corresponding counter is increased
-		switch tc.worflowInfo.Type {
+		switch tc.workflowInfo.Type {
 		case "started":
 			if result.StoriesStarted != tc.expected {
-				t.Errorf("For %s, Expected Started counter to be %d, but got %d", tc.worflowInfo.Type, tc.expected, result.StoriesStarted)
+				t.Errorf("For %s, Expected Started counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.StoriesStarted)
 			}
 		case "unstarted":
 			if result.StoriesUnstarted != tc.expected {
-				t.Errorf("For %s, Expected Unstarted counter to be %d, but got %d", tc.worflowInfo.Type, tc.expected, result.StoriesUnstarted)
+				t.Errorf("For %s, Expected Unstarted counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.StoriesUnstarted)
 			}
 		case "done":
 			if result.StoriesDone != tc.expected {
-				t.Errorf("For %s, Expected Done counter to be %d, but got %d", tc.worflowInfo.Type, tc.expected, result.StoriesDone)
+				t.Errorf("For %s, Expected Done counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.StoriesDone)
 			}
 		default:
 			// No change expected for unknown type
 			if result.StoriesDone != epicStats.StoriesDone || result.StoriesUnstarted != epicStats.StoriesUnstarted || result.StoriesStarted != epicStats.StoriesStarted {
-				t.Errorf("For %s, Expected no change, but got %+v", tc.worflowInfo.Type, result)
+				t.Errorf("For %s, Expected no change, but got %+v", tc.workflowInfo.Type, result)
 			}
 		}
 	}
@@ -160,39 +160,39 @@ func TestIncreaseEpicsEstimateCounterMultiType(t *testing.T) {
 
 	// Define test cases with different types
 	testCases := []struct {
-		worflowInfo WorflowInfo
-		expected    int
-		estimate    int
+		workflowInfo WorkflowInfo
+		expected     int
+		estimate     int
 	}{
-		{WorflowInfo{Name: "Workflow1", Type: "started"}, epicStats.EstimateStarted + 10, 10},
-		{WorflowInfo{Name: "Workflow2", Type: "unstarted"}, epicStats.EstimateUnstarted + 11, 11},
-		{WorflowInfo{Name: "Workflow3", Type: "done"}, epicStats.EstimateDone + 31, 31},
-		{WorflowInfo{Name: "UnknownWorkflow", Type: "unknown"}, epicStats.EstimateDone, 30},
+		{WorkflowInfo{Name: "Workflow1", Type: "started"}, epicStats.EstimateStarted + 10, 10},
+		{WorkflowInfo{Name: "Workflow2", Type: "unstarted"}, epicStats.EstimateUnstarted + 11, 11},
+		{WorkflowInfo{Name: "Workflow3", Type: "done"}, epicStats.EstimateDone + 31, 31},
+		{WorkflowInfo{Name: "UnknownWorkflow", Type: "unknown"}, epicStats.EstimateDone, 30},
 	}
 
 	// Iterate over test cases
 	for _, tc := range testCases {
 		// Call the function
-		result := IncreaseEpicsEstimateCounter(tc.worflowInfo, epicStats, tc.estimate)
+		result := IncreaseEpicsEstimateCounter(tc.workflowInfo, epicStats, tc.estimate)
 
 		// Check if the corresponding counter is increased
-		switch tc.worflowInfo.Type {
+		switch tc.workflowInfo.Type {
 		case "started":
 			if result.EstimateStarted != tc.expected {
-				t.Errorf("For %s, Expected Started counter to be %d, but got %d", tc.worflowInfo.Type, tc.expected, result.EstimateStarted)
+				t.Errorf("For %s, Expected Started counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.EstimateStarted)
 			}
 		case "unstarted":
 			if result.EstimateUnstarted != tc.expected {
-				t.Errorf("For %s, Expected Unstarted counter to be %d, but got %d", tc.worflowInfo.Type, tc.expected, result.EstimateUnstarted)
+				t.Errorf("For %s, Expected Unstarted counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.EstimateUnstarted)
 			}
 		case "done":
 			if result.EstimateDone != tc.expected {
-				t.Errorf("For %s, Expected Done counter to be %d, but got %d", tc.worflowInfo.Type, tc.expected, result.EstimateDone)
+				t.Errorf("For %s, Expected Done counter to be %d, but got %d", tc.workflowInfo.Type, tc.expected, result.EstimateDone)
 			}
 		default:
 			// No change expected for unknown type
 			if result.EstimateDone != epicStats.EstimateDone || result.EstimateUnstarted != epicStats.EstimateUnstarted || result.EstimateStarted != epicStats.EstimateStarted {
-				t.Errorf("For %s, Expected no change, but got %+v", tc.worflowInfo.Type, result)
+				t.Errorf("For %s, Expected no change, but got %+v", tc.workflowInfo.Type, result)
 			}
 		}
 	}

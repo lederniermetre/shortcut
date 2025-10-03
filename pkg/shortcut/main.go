@@ -170,7 +170,7 @@ func GetEpic(id int64) models.Epic {
 	return *epic.Payload
 }
 
-func IncreaseEpicsStoriesCounter(storyWorkflowState WorflowInfo, epicsStats EpicsStats) EpicsStats {
+func IncreaseEpicsStoriesCounter(storyWorkflowState WorkflowInfo, epicsStats EpicsStats) EpicsStats {
 	if storyWorkflowState.Type == "started" {
 		epicsStats.StoriesStarted++
 		return epicsStats
@@ -197,7 +197,7 @@ func IncreaseEpicsStoriesCounter(storyWorkflowState WorflowInfo, epicsStats Epic
 	return epicsStats
 }
 
-func IncreaseEpicsEstimateCounter(storyWorkflowState WorflowInfo, epicsStats EpicsStats, estimate int) EpicsStats {
+func IncreaseEpicsEstimateCounter(storyWorkflowState WorkflowInfo, epicsStats EpicsStats, estimate int) EpicsStats {
 	if storyWorkflowState.Type == "started" {
 		epicsStats.EstimateStarted += estimate
 		return epicsStats

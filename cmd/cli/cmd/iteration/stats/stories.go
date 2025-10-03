@@ -37,7 +37,7 @@ var storiesCmd = &cobra.Command{
 			Name:       "No Epic",
 			WorkflowID: make(map[int64]map[int64]shortcut.WorkflowStats),
 		}
-		workflowStates := map[int64]shortcut.WorflowInfo{}
+		workflowStates := map[int64]shortcut.WorkflowInfo{}
 		var totalEstimate int64 = 0
 		var totalStoriesSkip int64 = 0
 		var totalStories = 0
@@ -76,8 +76,8 @@ var storiesCmd = &cobra.Command{
 
 					for _, wfStates := range workflow.States {
 						if *wfStates.ID == workflowStateID {
-							slog.Debug("Worflow states", slog.String("worfklow", *workflow.Name), slog.String("name", *wfStates.Type))
-							workflowStates[workflowStateID] = shortcut.WorflowInfo{Name: *wfStates.Name, Type: *wfStates.Type}
+							slog.Debug("Workflow states", slog.String("workflow", *workflow.Name), slog.String("name", *wfStates.Type))
+							workflowStates[workflowStateID] = shortcut.WorkflowInfo{Name: *wfStates.Name, Type: *wfStates.Type}
 						}
 					}
 				}

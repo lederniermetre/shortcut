@@ -35,7 +35,7 @@ type WorkflowStats struct {
 	Count int
 }
 
-type WorflowInfo struct {
+type WorkflowInfo struct {
 	Name string
 	Type string
 }
