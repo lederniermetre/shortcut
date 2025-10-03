@@ -57,16 +57,16 @@ This allows computing statistics on multiple iterations for a specific team.
 
 - [Swagger cli](https://goswagger.io/install.html)
 - Golang
-- [task](https://taskfile.dev/installation/)
+- [just](https://github.com/casey/just#installation)
 
 ## Help
 
 ```bash
-task --list-all
+just --list
 ```
 
-You can pass arguments to task:
+You can pass arguments to just:
 
 ```bash
-task dev -- iteration stats owners
+just dev iteration stats owners
 ```
