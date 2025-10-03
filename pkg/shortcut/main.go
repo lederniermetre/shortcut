@@ -2,6 +2,7 @@ package shortcut
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"net/url"
 	"os"
@@ -34,53 +35,59 @@ func GetClient() *apiclient.ShortcutAPI {
 	return clientSC
 }
 
-func GetAuth() runtime.ClientAuthInfoWriter {
-	if os.Getenv("SHORTCUT_API_TOKEN") == "" {
-		slog.Error("SHORTCUT_API_TOKEN is empty")
-		os.Exit(1)
+func GetAuth() (runtime.ClientAuthInfoWriter, error) {
+	token := os.Getenv("SHORTCUT_API_TOKEN")
+	if token == "" {
+		return nil, fmt.Errorf("SHORTCUT_API_TOKEN environment variable is required")
 	}
 
-	return httptransport.APIKeyAuth("Shortcut-Token", "header", os.Getenv("SHORTCUT_API_TOKEN"))
+	return httptransport.APIKeyAuth("Shortcut-Token", "header", token), nil
 }
 
-func getIterationData(params *operations.SearchIterationsParams, query string) []*models.IterationSlim {
+func getIterationData(params *operations.SearchIterationsParams, query string) ([]*models.IterationSlim, error) {
 	var data []*models.IterationSlim
 
 	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
 	params.SetContext(ctx)
 
-	searchResult, err := GetClient().Operations.SearchIterations(params, GetAuth())
+	auth, err := GetAuth()
 	if err != nil {
-		slog.Error("Can not retrieve search", slog.Any("error", err), slog.String("query", query))
-		os.Exit(1)
+		return nil, fmt.Errorf("authentication failed: %w", err)
+	}
+
+	searchResult, err := GetClient().Operations.SearchIterations(params, auth)
+	if err != nil {
+		return nil, fmt.Errorf("cannot retrieve search for query %q: %w", query, err)
 	}
 
 	if len(searchResult.Payload.Data) < 1 {
-		slog.Error("Search has retrieve no result", slog.String("query", query))
-		os.Exit(1)
+		return nil, fmt.Errorf("search returned no results for query %q", query)
 	}
 
 	data = searchResult.Payload.Data
 
 	if *searchResult.GetPayload().Total > *params.PageSize && searchResult.GetPayload().Next != nil {
 		slog.Debug("Continu on next page", slog.String("url", *searchResult.GetPayload().Next))
-		data = append(data, RetrieveIterations(query, int(*params.PageSize), *searchResult.GetPayload().Next)...)
+		nextData, err := RetrieveIterations(query, int(*params.PageSize), *searchResult.GetPayload().Next)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, nextData...)
 	}
 
-	return data
+	return data, nil
 }
 
-func RetrieveIterations(query string, pageLimit int, nextURL string) []*models.IterationSlim {
+func RetrieveIterations(query string, pageLimit int, nextURL string) ([]*models.IterationSlim, error) {
 	searchDetail := "slim"
 	pageSize := int64(pageLimit)
-	var data []*models.IterationSlim
 	var nextToken string
 
 	if nextURL != "" {
 		u, err := url.Parse(nextURL)
 		if err != nil {
-			slog.Error("Can not parse url", slog.String("url", nextURL), slog.Any("error", err))
+			return nil, fmt.Errorf("cannot parse URL %q: %w", nextURL, err)
 		}
 
 		nextToken = u.Query().Get("next")
@@ -93,12 +100,15 @@ func RetrieveIterations(query string, pageLimit int, nextURL string) []*models.I
 		Next:     &nextToken,
 	}
 
-	data = getIterationData(searchIterationsParams, query)
+	data, err := getIterationData(searchIterationsParams, query)
+	if err != nil {
+		return nil, err
+	}
 
-	return data
+	return data, nil
 }
 
-func StoriesByIteration(iterationID int64) []*models.StorySlim {
+func StoriesByIteration(iterationID int64) ([]*models.StorySlim, error) {
 	listIterationStoriesParams := &operations.ListIterationStoriesParams{
 		IterationPublicID: iterationID,
 	}
@@ -107,16 +117,20 @@ func StoriesByIteration(iterationID int64) []*models.StorySlim {
 	defer cancel()
 	listIterationStoriesParams.SetContext(ctx)
 
-	allStories, err := GetClient().Operations.ListIterationStories(listIterationStoriesParams, GetAuth())
+	auth, err := GetAuth()
 	if err != nil {
-		slog.Error("Can not retrieve iteration", slog.Any("error", err))
-		os.Exit(1)
+		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	return allStories.Payload
+	allStories, err := GetClient().Operations.ListIterationStories(listIterationStoriesParams, auth)
+	if err != nil {
+		return nil, fmt.Errorf("cannot retrieve stories for iteration %d: %w", iterationID, err)
+	}
+
+	return allStories.Payload, nil
 }
 
-func GetMember(uuid strfmt.UUID) models.Member {
+func GetMember(uuid strfmt.UUID) (*models.Member, error) {
 	getMemberParams := &operations.GetMemberParams{
 		MemberPublicID: uuid,
 	}
@@ -125,16 +139,20 @@ func GetMember(uuid strfmt.UUID) models.Member {
 	defer cancel()
 	getMemberParams.SetContext(ctx)
 
-	ownerInfo, err := GetClient().Operations.GetMember(getMemberParams, GetAuth())
+	auth, err := GetAuth()
 	if err != nil {
-		slog.Error("can not retrieve iteration", "detail", err.Error())
-		os.Exit(1)
+		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	return *ownerInfo.Payload
+	ownerInfo, err := GetClient().Operations.GetMember(getMemberParams, auth)
+	if err != nil {
+		return nil, fmt.Errorf("cannot retrieve member %s: %w", uuid, err)
+	}
+
+	return ownerInfo.Payload, nil
 }
 
-func GetWorkflow(id int64) models.Workflow {
+func GetWorkflow(id int64) (*models.Workflow, error) {
 	getWorkflowParams := &operations.GetWorkflowParams{
 		WorkflowPublicID: id,
 	}
@@ -143,16 +161,20 @@ func GetWorkflow(id int64) models.Workflow {
 	defer cancel()
 	getWorkflowParams.SetContext(ctx)
 
-	workflow, err := GetClient().Operations.GetWorkflow(getWorkflowParams, GetAuth())
+	auth, err := GetAuth()
 	if err != nil {
-		slog.Error("Can not retrieve workflow", slog.Any("error", err))
-		os.Exit(1)
+		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	return *workflow.Payload
+	workflow, err := GetClient().Operations.GetWorkflow(getWorkflowParams, auth)
+	if err != nil {
+		return nil, fmt.Errorf("cannot retrieve workflow %d: %w", id, err)
+	}
+
+	return workflow.Payload, nil
 }
 
-func GetEpic(id int64) models.Epic {
+func GetEpic(id int64) (*models.Epic, error) {
 	getEpicParams := &operations.GetEpicParams{
 		EpicPublicID: id,
 	}
@@ -161,13 +183,17 @@ func GetEpic(id int64) models.Epic {
 	defer cancel()
 	getEpicParams.SetContext(ctx)
 
-	epic, err := GetClient().Operations.GetEpic(getEpicParams, GetAuth())
+	auth, err := GetAuth()
 	if err != nil {
-		slog.Error("Can not retrieve epic", slog.Any("error", err))
-		os.Exit(1)
+		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	return *epic.Payload
+	epic, err := GetClient().Operations.GetEpic(getEpicParams, auth)
+	if err != nil {
+		return nil, fmt.Errorf("cannot retrieve epic %d: %w", id, err)
+	}
+
+	return epic.Payload, nil
 }
 
 func IncreaseEpicsStoriesCounter(storyWorkflowState WorkflowInfo, epicsStats EpicsStats) EpicsStats {

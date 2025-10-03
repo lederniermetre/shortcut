@@ -29,7 +29,11 @@ var storiesCmd = &cobra.Command{
 		shortcutQuery := queryFlag.Value.String()
 		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iterations := shortcut.RetrieveIterations(shortcutQuery, limitFlag, "")
+		iterations, err := shortcut.RetrieveIterations(shortcutQuery, limitFlag, "")
+		if err != nil {
+			slog.Error("Cannot retrieve iterations", slog.Any("error", err))
+			os.Exit(1)
+		}
 
 		postponedStories := map[string]shortcut.StoryPostponed{}
 		epicsStats := map[int64]shortcut.EpicsStats{}
@@ -45,7 +49,11 @@ var storiesCmd = &cobra.Command{
 		for _, iteration := range iterations {
 			slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 
-			stories := shortcut.StoriesByIteration(*iteration.ID)
+			stories, err := shortcut.StoriesByIteration(*iteration.ID)
+			if err != nil {
+				slog.Error("Cannot retrieve stories", slog.Any("error", err))
+				os.Exit(1)
+			}
 			totalStories = totalStories + len(stories)
 
 			for _, story := range stories {
@@ -72,7 +80,11 @@ var storiesCmd = &cobra.Command{
 				)
 
 				if _, ok := workflowStates[workflowStateID]; !ok {
-					workflow := shortcut.GetWorkflow(workflowID)
+					workflow, err := shortcut.GetWorkflow(workflowID)
+					if err != nil {
+						slog.Error("Cannot retrieve workflow", slog.Any("error", err))
+						os.Exit(1)
+					}
 
 					for _, wfStates := range workflow.States {
 						if *wfStates.ID == workflowStateID {
@@ -85,7 +97,11 @@ var storiesCmd = &cobra.Command{
 				if _, ok := epicsStats[epicID]; !ok {
 					slog.Debug("Epic stats does not exists", slog.Int64("epicID", epicID))
 
-					epic := shortcut.GetEpic(epicID)
+					epic, err := shortcut.GetEpic(epicID)
+					if err != nil {
+						slog.Error("Cannot retrieve epic", slog.Any("error", err))
+						os.Exit(1)
+					}
 
 					epicsStats[epicID] = shortcut.EpicsStats{
 						Name:       *epic.Name,

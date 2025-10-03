@@ -33,13 +33,21 @@ Estimate is divided by number of owners when multi-tenancy`,
 		shortcutQuery := queryFlag.Value.String()
 		slog.Debug("Search", slog.String("name", shortcutQuery))
 
-		iterations := shortcut.RetrieveIterations(shortcutQuery, limitFlag, "")
+		iterations, err := shortcut.RetrieveIterations(shortcutQuery, limitFlag, "")
+		if err != nil {
+			slog.Error("Cannot retrieve iterations", slog.Any("error", err))
+			os.Exit(1)
+		}
 
 		ownersUUID := map[strfmt.UUID]int64{}
 		for _, iteration := range iterations {
 			slog.Info("Iteration retrieved", slog.String("name", *iteration.Name))
 
-			allStories := shortcut.StoriesByIteration(*iteration.ID)
+			allStories, err := shortcut.StoriesByIteration(*iteration.ID)
+			if err != nil {
+				slog.Error("Cannot retrieve stories", slog.Any("error", err))
+				os.Exit(1)
+			}
 
 			for _, story := range allStories {
 				if story.Archived != nil && *story.Archived {
@@ -87,7 +95,12 @@ Estimate is divided by number of owners when multi-tenancy`,
 		var ptermBar []pterm.Bar
 
 		for _, owner := range ordererOwnersUUID {
-			memberName := *shortcut.GetMember(owner.UUID).Profile.Name
+			member, err := shortcut.GetMember(owner.UUID)
+			if err != nil {
+				slog.Error("Cannot retrieve member", slog.Any("error", err))
+				os.Exit(1)
+			}
+			memberName := *member.Profile.Name
 			slog.Debug(fmt.Sprintf("%s has %d of load", memberName, owner.Load))
 			ptermBar = append(ptermBar, pterm.Bar{Label: memberName, Value: int(owner.Load)})
 		}
