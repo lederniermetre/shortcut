@@ -12,10 +12,10 @@ import (
 func TestGetMemberWithoutAuth(t *testing.T) {
 	// Save and unset token
 	originalToken := os.Getenv("SHORTCUT_API_TOKEN")
-	os.Unsetenv("SHORTCUT_API_TOKEN")
+	_ = os.Unsetenv("SHORTCUT_API_TOKEN")
 	defer func() {
 		if originalToken != "" {
-			os.Setenv("SHORTCUT_API_TOKEN", originalToken)
+			_ = os.Setenv("SHORTCUT_API_TOKEN", originalToken)
 		}
 	}()
 
@@ -30,10 +30,10 @@ func TestGetMemberWithoutAuth(t *testing.T) {
 func TestGetWorkflowWithoutAuth(t *testing.T) {
 	// Save and unset token
 	originalToken := os.Getenv("SHORTCUT_API_TOKEN")
-	os.Unsetenv("SHORTCUT_API_TOKEN")
+	_ = os.Unsetenv("SHORTCUT_API_TOKEN")
 	defer func() {
 		if originalToken != "" {
-			os.Setenv("SHORTCUT_API_TOKEN", originalToken)
+			_ = os.Setenv("SHORTCUT_API_TOKEN", originalToken)
 		}
 	}()
 
@@ -47,10 +47,10 @@ func TestGetWorkflowWithoutAuth(t *testing.T) {
 func TestGetEpicWithoutAuth(t *testing.T) {
 	// Save and unset token
 	originalToken := os.Getenv("SHORTCUT_API_TOKEN")
-	os.Unsetenv("SHORTCUT_API_TOKEN")
+	_ = os.Unsetenv("SHORTCUT_API_TOKEN")
 	defer func() {
 		if originalToken != "" {
-			os.Setenv("SHORTCUT_API_TOKEN", originalToken)
+			_ = os.Setenv("SHORTCUT_API_TOKEN", originalToken)
 		}
 	}()
 
@@ -64,10 +64,10 @@ func TestGetEpicWithoutAuth(t *testing.T) {
 func TestStoriesByIterationWithoutAuth(t *testing.T) {
 	// Save and unset token
 	originalToken := os.Getenv("SHORTCUT_API_TOKEN")
-	os.Unsetenv("SHORTCUT_API_TOKEN")
+	_ = os.Unsetenv("SHORTCUT_API_TOKEN")
 	defer func() {
 		if originalToken != "" {
-			os.Setenv("SHORTCUT_API_TOKEN", originalToken)
+			_ = os.Setenv("SHORTCUT_API_TOKEN", originalToken)
 		}
 	}()
 
@@ -81,10 +81,10 @@ func TestStoriesByIterationWithoutAuth(t *testing.T) {
 func TestRetrieveIterationsWithoutAuth(t *testing.T) {
 	// Save and unset token
 	originalToken := os.Getenv("SHORTCUT_API_TOKEN")
-	os.Unsetenv("SHORTCUT_API_TOKEN")
+	_ = os.Unsetenv("SHORTCUT_API_TOKEN")
 	defer func() {
 		if originalToken != "" {
-			os.Setenv("SHORTCUT_API_TOKEN", originalToken)
+			_ = os.Setenv("SHORTCUT_API_TOKEN", originalToken)
 		}
 	}()
 
@@ -98,12 +98,12 @@ func TestRetrieveIterationsWithoutAuth(t *testing.T) {
 func TestRetrieveIterationsWithInvalidURL(t *testing.T) {
 	// Save and set token
 	originalToken := os.Getenv("SHORTCUT_API_TOKEN")
-	os.Setenv("SHORTCUT_API_TOKEN", "test-token")
+	_ = os.Setenv("SHORTCUT_API_TOKEN", "test-token")
 	defer func() {
 		if originalToken != "" {
-			os.Setenv("SHORTCUT_API_TOKEN", originalToken)
+			_ = os.Setenv("SHORTCUT_API_TOKEN", originalToken)
 		} else {
-			os.Unsetenv("SHORTCUT_API_TOKEN")
+			_ = os.Unsetenv("SHORTCUT_API_TOKEN")
 		}
 	}()
 

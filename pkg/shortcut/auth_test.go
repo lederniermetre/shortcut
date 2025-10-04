@@ -12,12 +12,12 @@ func TestGetAuth_MissingToken(t *testing.T) {
 	originalToken := os.Getenv("SHORTCUT_API_TOKEN")
 	defer func() {
 		if originalToken != "" {
-			os.Setenv("SHORTCUT_API_TOKEN", originalToken)
+			_ = os.Setenv("SHORTCUT_API_TOKEN", originalToken)
 		}
 	}()
 
 	// Unset token
-	os.Unsetenv("SHORTCUT_API_TOKEN")
+	_ = os.Unsetenv("SHORTCUT_API_TOKEN")
 
 	// Test that GetAuth returns an error when token is missing
 	auth, err := GetAuth()
@@ -31,14 +31,14 @@ func TestGetAuth_WithToken(t *testing.T) {
 	originalToken := os.Getenv("SHORTCUT_API_TOKEN")
 	defer func() {
 		if originalToken != "" {
-			os.Setenv("SHORTCUT_API_TOKEN", originalToken)
+			_ = os.Setenv("SHORTCUT_API_TOKEN", originalToken)
 		} else {
-			os.Unsetenv("SHORTCUT_API_TOKEN")
+			_ = os.Unsetenv("SHORTCUT_API_TOKEN")
 		}
 	}()
 
 	// Set a test token
-	os.Setenv("SHORTCUT_API_TOKEN", "test-token-123")
+	_ = os.Setenv("SHORTCUT_API_TOKEN", "test-token-123")
 
 	// Test that GetAuth returns auth without error
 	auth, err := GetAuth()

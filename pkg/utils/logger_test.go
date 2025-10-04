@@ -20,9 +20,9 @@ func TestSetLogger(t *testing.T) {
 	assert.NotNil(t, logger)
 
 	// Test with SC_DEBUG_SRC
-	os.Setenv("SC_DEBUG_SRC", "true")
+	_ = os.Setenv("SC_DEBUG_SRC", "true")
 	SetLogger(true)
 	logger = slog.Default()
 	assert.NotNil(t, logger)
-	os.Unsetenv("SC_DEBUG_SRC")
+	_ = os.Unsetenv("SC_DEBUG_SRC")
 }
