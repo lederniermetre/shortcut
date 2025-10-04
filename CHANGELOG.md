@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.2.2](https://github.com/lederniermetre/shortcut/compare/v2.2.1...v2.2.2) (2025-10-04)
+
+
+### 🐞 Bug Fixes
+
+* handle errors from os.Setenv and os.Unsetenv in tests ([9ee7b17](https://github.com/lederniermetre/shortcut/commit/9ee7b171c0a6e1066200f9c33d4616fa6b5aa59f))
+* rename WorflowInfo to WorkflowInfo ([b47f36b](https://github.com/lederniermetre/shortcut/commit/b47f36b5ebe628e8cf74e0c8c18c1e8a78bf565c))
+
+
+### 🛠️ Refactor
+
+* migrate from Taskfile to Justfile ([cf98138](https://github.com/lederniermetre/shortcut/commit/cf981385483c2f9b467c4255b4caf45abce36bb2))
+* return errors instead of calling os.Exit in pkg layer ([fae825d](https://github.com/lederniermetre/shortcut/commit/fae825dcd7b5d51b257e4f92688a789edb6d8e9d))
+
+
+### 🧪 Tests
+
+* increase test coverage to 80.3% ([b5816ec](https://github.com/lederniermetre/shortcut/commit/b5816ec9b71c267b12822d58f0cc6ba866f27d0a))
+
 ## [2.2.1](https://github.com/lederniermetre/shortcut/compare/v2.2.0...v2.2.1) (2025-09-08)
 
 
