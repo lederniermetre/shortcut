@@ -34,7 +34,7 @@ jobs:
           sudo chmod +x /usr/local/bin/swagger
           swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
       - name: Install Just
-        uses: extractions/setup-just@v2
+        uses: extractions/setup-just@v3
       - name: Tests
         run: |
           just tests
