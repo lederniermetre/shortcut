@@ -1,5 +1,32 @@
 # Changelog
 
+## [2.2.2](https://github.com/lederniermetre/shortcut/compare/v2.2.1...v2.2.2) (2025-10-07)
+
+
+### 🐞 Bug Fixes
+
+* handle errors from os.Setenv and os.Unsetenv in tests ([9ee7b17](https://github.com/lederniermetre/shortcut/commit/9ee7b171c0a6e1066200f9c33d4616fa6b5aa59f))
+* rename WorflowInfo to WorkflowInfo ([b47f36b](https://github.com/lederniermetre/shortcut/commit/b47f36b5ebe628e8cf74e0c8c18c1e8a78bf565c))
+
+
+### 🛠️ Refactor
+
+* **go.mod:** run with latest swagger ([c9802da](https://github.com/lederniermetre/shortcut/commit/c9802da79fa3d87393aaff7943af9528119a6674))
+* **go.mod:** update github.com/go-openapi/swag ([3e3cb43](https://github.com/lederniermetre/shortcut/commit/3e3cb432bcd850ad1396b2f9a02c8b937a4d7948))
+* migrate from Taskfile to Justfile ([cf98138](https://github.com/lederniermetre/shortcut/commit/cf981385483c2f9b467c4255b4caf45abce36bb2))
+* return errors instead of calling os.Exit in pkg layer ([fae825d](https://github.com/lederniermetre/shortcut/commit/fae825dcd7b5d51b257e4f92688a789edb6d8e9d))
+
+
+### 🧰 Other
+
+* bump the deps group across 1 directory with 3 updates ([0554c57](https://github.com/lederniermetre/shortcut/commit/0554c573c37fc646612e5e9b6fbbf2b97b3a7591))
+* bump the deps group across 1 directory with 3 updates ([1371327](https://github.com/lederniermetre/shortcut/commit/1371327fd76e6c23757b76f3fa3870c1f801f1b0))
+
+
+### 🧪 Tests
+
+* increase test coverage to 80.3% ([b5816ec](https://github.com/lederniermetre/shortcut/commit/b5816ec9b71c267b12822d58f0cc6ba866f27d0a))
+
 ## [2.2.1](https://github.com/lederniermetre/shortcut/compare/v2.2.0...v2.2.1) (2025-09-08)
 
 
