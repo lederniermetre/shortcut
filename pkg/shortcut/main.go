@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"sort"
+	"sync"
 	"time"
 
 	"github.com/go-openapi/runtime"
@@ -19,19 +20,21 @@ import (
 
 const CTX_TIMEOUT = 5000 * time.Millisecond
 
-var clientSC *apiclient.ShortcutAPI
+var (
+	clientSC   *apiclient.ShortcutAPI
+	clientOnce sync.Once
+)
 
 func GetClient() *apiclient.ShortcutAPI {
-	if clientSC != nil {
-		return clientSC
-	}
+	clientOnce.Do(func() {
+		// Hack to parse end_date "2023-01-19"
+		strfmt.DateTimeFormats = append(strfmt.DateTimeFormats, time.DateOnly)
 
-	// Hack to parse end_date "2023-01-19"
-	strfmt.DateTimeFormats = append(strfmt.DateTimeFormats, time.DateOnly)
+		// create the transport
+		transport := httptransport.New("api.app.shortcut.com", "", nil)
+		clientSC = apiclient.New(transport, strfmt.Default)
+	})
 
-	// create the transport
-	transport := httptransport.New("api.app.shortcut.com", "", nil)
-	clientSC = apiclient.New(transport, strfmt.Default)
 	return clientSC
 }
 
