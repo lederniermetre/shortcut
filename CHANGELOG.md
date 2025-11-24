@@ -1,5 +1,38 @@
 # Changelog
 
+## [2.2.2](https://github.com/lederniermetre/shortcut/compare/v2.2.1...v2.2.2) (2025-11-24)
+
+
+### 🐞 Bug Fixes
+
+* handle errors from os.Setenv and os.Unsetenv in tests ([9ee7b17](https://github.com/lederniermetre/shortcut/commit/9ee7b171c0a6e1066200f9c33d4616fa6b5aa59f))
+* rename WorflowInfo to WorkflowInfo ([b47f36b](https://github.com/lederniermetre/shortcut/commit/b47f36b5ebe628e8cf74e0c8c18c1e8a78bf565c))
+* **swagger:** add deps ([f50fe20](https://github.com/lederniermetre/shortcut/commit/f50fe204044d37cf1b51ea8adfa0e77d3fb9ff22))
+
+
+### 🛠️ Refactor
+
+* **go.mod:** run with latest swagger ([c9802da](https://github.com/lederniermetre/shortcut/commit/c9802da79fa3d87393aaff7943af9528119a6674))
+* **go.mod:** update github.com/go-openapi/swag ([3e3cb43](https://github.com/lederniermetre/shortcut/commit/3e3cb432bcd850ad1396b2f9a02c8b937a4d7948))
+* improve thread safety and test cleanup ([c6255ca](https://github.com/lederniermetre/shortcut/commit/c6255ca27802c887230af6fad6ca75b488abce80))
+* migrate from Taskfile to Justfile ([cf98138](https://github.com/lederniermetre/shortcut/commit/cf981385483c2f9b467c4255b4caf45abce36bb2))
+* return errors instead of calling os.Exit in pkg layer ([fae825d](https://github.com/lederniermetre/shortcut/commit/fae825dcd7b5d51b257e4f92688a789edb6d8e9d))
+
+
+### 🧰 Other
+
+* bump the deps group across 1 directory with 3 updates ([0554c57](https://github.com/lederniermetre/shortcut/commit/0554c573c37fc646612e5e9b6fbbf2b97b3a7591))
+* bump the deps group across 1 directory with 3 updates ([1371327](https://github.com/lederniermetre/shortcut/commit/1371327fd76e6c23757b76f3fa3870c1f801f1b0))
+* bump the deps group across 1 directory with 4 updates ([cae4d84](https://github.com/lederniermetre/shortcut/commit/cae4d84fceef0c76603871dc0a9c5fe15656fbab))
+* bump the deps group across 1 directory with 4 updates ([7cfc189](https://github.com/lederniermetre/shortcut/commit/7cfc189c955c79996b0b23d56afd0b5b1d05b0ce))
+* **git:** add .env ignore ([f1efba6](https://github.com/lederniermetre/shortcut/commit/f1efba6879e172e5c9590f0ac5c9c2252359349c))
+* update goreleaser config to use formats instead of format ([8257b30](https://github.com/lederniermetre/shortcut/commit/8257b301762da1cd492a94ff7088fc97621c2cac))
+
+
+### 🧪 Tests
+
+* increase test coverage to 80.3% ([b5816ec](https://github.com/lederniermetre/shortcut/commit/b5816ec9b71c267b12822d58f0cc6ba866f27d0a))
+
 ## [2.2.1](https://github.com/lederniermetre/shortcut/compare/v2.2.0...v2.2.1) (2025-09-08)
 
 
