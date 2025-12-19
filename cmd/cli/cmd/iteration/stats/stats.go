@@ -26,6 +26,7 @@ func NewCommand() *cobra.Command {
 func init() {
 	statsCmd.AddCommand(newOwnersCommand())
 	statsCmd.AddCommand(newStoriesCommand())
+	statsCmd.AddCommand(newPointsCommand())
 	statsCmd.PersistentFlags().StringP("query", "q", "Ops", "Search query")
 	statsCmd.PersistentFlags().IntP("limit", "l", 1, "Limit the number of iterations computed (maximum 25)")
 }
