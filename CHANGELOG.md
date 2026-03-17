@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.3.0](https://github.com/lederniermetre/shortcut/compare/v2.2.2...v2.3.0) (2026-03-17)
+
+
+### 🚀 Features
+
+* add iteration stats points command ([089ffd1](https://github.com/lederniermetre/shortcut/commit/089ffd1e0b25325c6b472c8a9b7093f10fa1e7e1))
+* **internal:** force swag lib ([a5a0daa](https://github.com/lederniermetre/shortcut/commit/a5a0daaca5c6a000a432861997275a36da44926e))
+
+
+### 🧰 Other
+
+* bump the deps group across 1 directory with 6 updates ([feaa4a8](https://github.com/lederniermetre/shortcut/commit/feaa4a8f014adfb4b21a324953d8deba16a60714))
+* bump the deps group across 1 directory with 6 updates ([5b90114](https://github.com/lederniermetre/shortcut/commit/5b90114c8c50745c6a91ff4735b0a9c73cf12afb))
+
 ## [2.2.2](https://github.com/lederniermetre/shortcut/compare/v2.2.1...v2.2.2) (2025-11-24)
 
 
