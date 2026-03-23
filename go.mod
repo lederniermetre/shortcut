@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/go-openapi/runtime v0.29.3
-	github.com/go-openapi/strfmt v0.26.0
+	github.com/go-openapi/strfmt v0.26.1
 	github.com/go-openapi/swag v0.25.5
 	github.com/pterm/pterm v0.12.83
 	github.com/spf13/cobra v1.10.2
