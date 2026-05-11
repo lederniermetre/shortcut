@@ -3,7 +3,7 @@ module github.com/lederniermetre/shortcut
 go 1.25.0
 
 require (
-	github.com/go-openapi/runtime v0.29.4
+	github.com/go-openapi/runtime v0.29.5
 	github.com/go-openapi/strfmt v0.26.2
 	github.com/go-openapi/swag v0.26.0
 	github.com/pterm/pterm v0.12.83
