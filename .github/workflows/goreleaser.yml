@@ -23,10 +23,15 @@ jobs:
           go-version-file: "go.mod"
       - name: Prepare
         run: |
-          download_url=$(curl -s https://api.github.com/repos/go-swagger/go-swagger/releases/latest | \
-            jq -r '.assets[] | select(.name | contains("'"$(uname | tr '[:upper:]' '[:lower:]')"'_amd64")) | .browser_download_url')
-          sudo curl -o /usr/local/bin/swagger -L'#' "$download_url"
-          sudo chmod +x /usr/local/bin/swagger
+          dir=$(mktemp -d)
+          download_url=$(\
+            curl -s https://api.github.com/repos/go-swagger/go-swagger/releases/latest | \
+            jq -r --arg arch "$(arch)" --arg os "$(uname -o | cut -d'/' -f 2)" '.assets[] | select(.name | test($os+"_"+$arch+"\\.tar\\.gz$")) | .browser_download_url' \
+          )
+          curl -o "$dir"/swagger.tar.gz -L'#' "$download_url"
+          (cd "$dir" && tar xvf swagger.tar.gz swagger)
+          sudo install "$dir"/swagger /usr/local/bin
+          /usr/local/bin/swagger version
           swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
       - name: Install Task
         uses: arduino/setup-task@v2

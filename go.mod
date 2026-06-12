@@ -3,9 +3,11 @@ module github.com/lederniermetre/shortcut
 go 1.25.0
 
 require (
+	github.com/go-openapi/errors v0.22.7
 	github.com/go-openapi/runtime v0.32.2
 	github.com/go-openapi/strfmt v0.26.3
 	github.com/go-openapi/swag v0.26.0
+	github.com/go-openapi/validate v0.25.2
 	github.com/pterm/pterm v0.12.83
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
@@ -22,7 +24,6 @@ require (
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/analysis v0.25.0 // indirect
-	github.com/go-openapi/errors v0.22.7 // indirect
 	github.com/go-openapi/jsonpointer v0.23.1 // indirect
 	github.com/go-openapi/jsonreference v0.21.5 // indirect
 	github.com/go-openapi/loads v0.23.3 // indirect
@@ -39,7 +40,6 @@ require (
 	github.com/go-openapi/swag/stringutils v0.26.0 // indirect
 	github.com/go-openapi/swag/typeutils v0.26.0 // indirect
 	github.com/go-openapi/swag/yamlutils v0.26.0 // indirect
-	github.com/go-openapi/validate v0.25.2 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gookit/color v1.6.0 // indirect
