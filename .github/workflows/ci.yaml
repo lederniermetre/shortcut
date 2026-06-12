@@ -26,18 +26,10 @@ jobs:
         uses: actions/setup-go@v6
         with:
           go-version-file: "go.mod"
-      - name: Prepare
-        run: |
-          dir=$(mktemp -d)
-          download_url=$(\
-            curl -s https://api.github.com/repos/go-swagger/go-swagger/releases/latest | \
-            jq -r --arg arch "$(arch)" --arg os "$(uname -o | cut -d'/' -f 2)" '.assets[] | select(.name | test($os+"_"+$arch+"\\.tar\\.gz$")) | .browser_download_url' \
-          )
-          curl -o "$dir"/swagger.tar.gz -L'#' "$download_url"
-          (cd "$dir" && tar xvf swagger.tar.gz swagger)
-          sudo install "$dir"/swagger /usr/local/bin
-          /usr/local/bin/swagger version
-          swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
+      - name: Setup go-swagger
+        uses: ./.github/actions/setup-swagger
+      - name: Generate client
+        run: swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
       - name: Install Just
         uses: extractions/setup-just@v4
       - name: Tests

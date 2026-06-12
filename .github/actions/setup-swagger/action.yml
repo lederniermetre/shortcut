@@ -1,0 +1,32 @@
+---
+name: Setup go-swagger
+description: Install the go-swagger CLI from GitHub releases.
+
+inputs:
+  version:
+    description: go-swagger release tag (e.g. v0.34.1) or "latest".
+    required: false
+    default: latest
+
+runs:
+  using: composite
+  steps:
+    - name: Install go-swagger
+      shell: bash
+      env:
+        SWAGGER_VERSION: ${{ inputs.version }}
+      run: |
+        dir=$(mktemp -d)
+        if [ "$SWAGGER_VERSION" = "latest" ]; then
+          api_url="https://api.github.com/repos/go-swagger/go-swagger/releases/latest"
+        else
+          api_url="https://api.github.com/repos/go-swagger/go-swagger/releases/tags/${SWAGGER_VERSION}"
+        fi
+        download_url=$(\
+          curl -s "$api_url" | \
+          jq -r --arg arch "$(arch)" --arg os "$(uname -o | cut -d'/' -f 2)" '.assets[] | select(.name | test($os+"_"+$arch+"\\.tar\\.gz$")) | .browser_download_url' \
+        )
+        curl -o "$dir"/swagger.tar.gz -L'#' "$download_url"
+        (cd "$dir" && tar xvf swagger.tar.gz swagger)
+        sudo install "$dir"/swagger /usr/local/bin
+        /usr/local/bin/swagger version
