@@ -58,7 +58,7 @@ func getIterationData(params *operations.SearchIterationsParams, query string) (
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	searchResult, err := GetClient().Operations.SearchIterations(params.WithContext(ctx), auth)
+	searchResult, err := GetClient().Operations.SearchIterationsContext(ctx, params, auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve search for query %q: %w", query, err)
 	}
@@ -123,7 +123,7 @@ func StoriesByIteration(iterationID int64) ([]*models.StorySlim, error) {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	allStories, err := GetClient().Operations.ListIterationStories(listIterationStoriesParams.WithContext(ctx), auth)
+	allStories, err := GetClient().Operations.ListIterationStoriesContext(ctx, listIterationStoriesParams, auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve stories for iteration %d: %w", iterationID, err)
 	}
@@ -144,7 +144,7 @@ func GetMember(uuid strfmt.UUID) (*models.Member, error) {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	ownerInfo, err := GetClient().Operations.GetMember(getMemberParams.WithContext(ctx), auth)
+	ownerInfo, err := GetClient().Operations.GetMemberContext(ctx, getMemberParams, auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve member %s: %w", uuid, err)
 	}
@@ -165,7 +165,7 @@ func GetWorkflow(id int64) (*models.Workflow, error) {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	workflow, err := GetClient().Operations.GetWorkflow(getWorkflowParams.WithContext(ctx), auth)
+	workflow, err := GetClient().Operations.GetWorkflowContext(ctx, getWorkflowParams, auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve workflow %d: %w", id, err)
 	}
@@ -186,7 +186,7 @@ func GetEpic(id int64) (*models.Epic, error) {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	epic, err := GetClient().Operations.GetEpic(getEpicParams.WithContext(ctx), auth)
+	epic, err := GetClient().Operations.GetEpicContext(ctx, getEpicParams, auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve epic %d: %w", id, err)
 	}
