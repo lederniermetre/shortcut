@@ -52,14 +52,13 @@ func getIterationData(params *operations.SearchIterationsParams, query string) (
 
 	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
-	params.SetContext(ctx)
 
 	auth, err := GetAuth()
 	if err != nil {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	searchResult, err := GetClient().Operations.SearchIterations(params, auth)
+	searchResult, err := GetClient().Operations.SearchIterations(params.WithContext(ctx), auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve search for query %q: %w", query, err)
 	}
@@ -118,14 +117,13 @@ func StoriesByIteration(iterationID int64) ([]*models.StorySlim, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
-	listIterationStoriesParams.SetContext(ctx)
 
 	auth, err := GetAuth()
 	if err != nil {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	allStories, err := GetClient().Operations.ListIterationStories(listIterationStoriesParams, auth)
+	allStories, err := GetClient().Operations.ListIterationStories(listIterationStoriesParams.WithContext(ctx), auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve stories for iteration %d: %w", iterationID, err)
 	}
@@ -140,14 +138,13 @@ func GetMember(uuid strfmt.UUID) (*models.Member, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
-	getMemberParams.SetContext(ctx)
 
 	auth, err := GetAuth()
 	if err != nil {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	ownerInfo, err := GetClient().Operations.GetMember(getMemberParams, auth)
+	ownerInfo, err := GetClient().Operations.GetMember(getMemberParams.WithContext(ctx), auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve member %s: %w", uuid, err)
 	}
@@ -162,14 +159,13 @@ func GetWorkflow(id int64) (*models.Workflow, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
-	getWorkflowParams.SetContext(ctx)
 
 	auth, err := GetAuth()
 	if err != nil {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	workflow, err := GetClient().Operations.GetWorkflow(getWorkflowParams, auth)
+	workflow, err := GetClient().Operations.GetWorkflow(getWorkflowParams.WithContext(ctx), auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve workflow %d: %w", id, err)
 	}
@@ -184,14 +180,13 @@ func GetEpic(id int64) (*models.Epic, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), CTX_TIMEOUT)
 	defer cancel()
-	getEpicParams.SetContext(ctx)
 
 	auth, err := GetAuth()
 	if err != nil {
 		return nil, fmt.Errorf("authentication failed: %w", err)
 	}
 
-	epic, err := GetClient().Operations.GetEpic(getEpicParams, auth)
+	epic, err := GetClient().Operations.GetEpic(getEpicParams.WithContext(ctx), auth)
 	if err != nil {
 		return nil, fmt.Errorf("cannot retrieve epic %d: %w", id, err)
 	}
