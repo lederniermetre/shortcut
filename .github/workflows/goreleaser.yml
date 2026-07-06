@@ -26,7 +26,7 @@ jobs:
       - name: Generate client
         run: swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
       - name: Install Task
-        uses: arduino/setup-task@v2
+        uses: arduino/setup-task@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Tests
