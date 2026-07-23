@@ -1,5 +1,40 @@
 # Changelog
 
+## [2.3.0](https://github.com/lederniermetre/shortcut/compare/v2.2.2...v2.3.0) (2026-07-23)
+
+
+### 🚀 Features
+
+* add iteration stats points command ([089ffd1](https://github.com/lederniermetre/shortcut/commit/089ffd1e0b25325c6b472c8a9b7093f10fa1e7e1))
+* **internal:** force swag lib ([a5a0daa](https://github.com/lederniermetre/shortcut/commit/a5a0daaca5c6a000a432861997275a36da44926e))
+
+
+### 🐞 Bug Fixes
+
+* **ci:** swagger install ([5417bd5](https://github.com/lederniermetre/shortcut/commit/5417bd59aa5b845d7406c373d6f71eb6f06ebd95))
+* **shortcut/client:** move from deprecated ([62907ae](https://github.com/lederniermetre/shortcut/commit/62907ae335fce074323fc41c746c6746abec0910))
+* **shortcut/client:** new params call ([cd53e50](https://github.com/lederniermetre/shortcut/commit/cd53e504610f5e336b5204a73e55d911f61d9ec6))
+
+
+### 🛠️ Refactor
+
+* **github:** migrate to module ([d47dbab](https://github.com/lederniermetre/shortcut/commit/d47dbab0230ecb7d48d3bfd5f3e29fe41a30d904))
+
+
+### 🧰 Other
+
+* bump github.com/go-openapi/strfmt from 0.26.0 to 0.26.1 in the deps group ([669ece1](https://github.com/lederniermetre/shortcut/commit/669ece1925b2640f6ddc9080b888ade8d454a70f))
+* bump github.com/go-openapi/strfmt from 0.26.1 to 0.26.2 in the deps group ([4deae3e](https://github.com/lederniermetre/shortcut/commit/4deae3e69303f4c3b0d8f3ddce6af425f22834ba))
+* bump github.com/go-openapi/strfmt in the deps group ([6bb8a85](https://github.com/lederniermetre/shortcut/commit/6bb8a854bd60329e4a5231e2aead94e976306656))
+* bump github.com/go-openapi/strfmt in the deps group ([f8f2dcd](https://github.com/lederniermetre/shortcut/commit/f8f2dcdc4f0eb26dc0bb4359d62e30f5e6515c02))
+* bump the deps group across 1 directory with 2 updates ([5a50e99](https://github.com/lederniermetre/shortcut/commit/5a50e99e551437c0df742cc2e410b093bbd12906))
+* bump the deps group across 1 directory with 2 updates ([679717f](https://github.com/lederniermetre/shortcut/commit/679717f8b74b6624e72ad62b44bbc4b5deca006d))
+* bump the deps group across 1 directory with 6 updates ([feaa4a8](https://github.com/lederniermetre/shortcut/commit/feaa4a8f014adfb4b21a324953d8deba16a60714))
+* bump the deps group across 1 directory with 6 updates ([5b90114](https://github.com/lederniermetre/shortcut/commit/5b90114c8c50745c6a91ff4735b0a9c73cf12afb))
+* bump the deps group with 2 updates ([ef53277](https://github.com/lederniermetre/shortcut/commit/ef532772aeaff1d1c48b6ed7b73d96e7307e640f))
+* bump the deps group with 2 updates ([009b113](https://github.com/lederniermetre/shortcut/commit/009b113600983113859b625fdbca4dfe84e90a12))
+* go mod tidy ([622a9cd](https://github.com/lederniermetre/shortcut/commit/622a9cd719957b845925ba321205cc9ac6a58c29))
+
 ## [2.2.2](https://github.com/lederniermetre/shortcut/compare/v2.2.1...v2.2.2) (2025-11-24)
 
 
