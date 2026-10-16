@@ -11,7 +11,7 @@ default:
 
 # Initialize requirements
 init:
-    swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
+    go tool swagger generate client -f https://developer.shortcut.com/api/rest/v3/shortcut.swagger.json --target pkg/shortcut/gen/
     go mod download
 
 # Build in production mode
