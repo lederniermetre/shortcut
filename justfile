@@ -5,6 +5,9 @@ export PACKAGES := "./..."
 # Load .env file if it exists
 set dotenv-load
 
+# Use 1Password only if SHORTCUT_API_TOKEN is a secret reference (op://...)
+op := if env("SHORTCUT_API_TOKEN", "") =~ '^op://' { "op run --no-masking --" } else { "" }
+
 # Default recipe to display help
 default:
     @just --list
@@ -28,17 +31,17 @@ lint:
 
 # Execute application code with optional arguments
 dev *args:
-    go run cmd/cli/main.go {{args}}
+    {{op}} go run cmd/cli/main.go {{args}}
 
 # Launch tests with coverage
 tests:
-    go test -cover $PACKAGES
+    {{op}} go test -cover $PACKAGES
 
 # Run tests with verbose output
 test-verbose:
-    go test -v -cover $PACKAGES
+    {{op}} go test -v -cover $PACKAGES
 
 # Run tests and generate coverage report
 test-coverage:
-    go test -coverprofile=coverage.out $PACKAGES
+    {{op}} go test -coverprofile=coverage.out $PACKAGES
     go tool cover -html=coverage.out
